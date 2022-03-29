@@ -64,7 +64,7 @@ namespace Mythical {
             {
                 outfitInfo = new OutfitInfo();
                 outfitInfo.name = "Suit MK "+ i;
-                outfitInfo.outfit = new global::Outfit("Mythical::Suit"+i, 30, new List<global::OutfitModStat>
+                outfitInfo.outfit = new global::Outfit("Mythical::Suit"+i, i, new List<global::OutfitModStat>
                 {
                 }, true, false);
                 outfitInfo.customDesc = ((bool b) => "Custom Palette, No Buffs! ID: "+i);
