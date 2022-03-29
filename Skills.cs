@@ -5,6 +5,8 @@ using System.Text;
 using BepInEx;
 using LegendAPI;
 using On;
+using UnityEngine;
+
 namespace Mythical
 {
     public static class Skills
@@ -25,6 +27,7 @@ namespace Mythical
             orig(self, newName, fsm, parentPlayer);
             if (skillsDict.ContainsKey(self.skillID))
             {
+                Debug.Log("Constructing modded skill");
                 SkillInfo info = skillsDict[self.skillID];
                 self.InitChargeSkillSettings(info.startingCharges, info.chargeCooldown, self.skillData, self);
             }
@@ -36,6 +39,7 @@ namespace Mythical
 
             if (skillsDict.ContainsKey(self.skillID))
             {
+                Debug.Log("Modding charges of skill");
                 SkillInfo info = skillsDict[self.skillID];
                 
                 self.cooldownRef.chargeCount = info.startingCharges ;
@@ -50,6 +54,7 @@ namespace Mythical
                 string str = ((Player.SkillState)newState).skillID;
                 if (skillsDict.ContainsKey(str))
                 {
+                    Debug.Log("Added state");
                     SkillInfo info = skillsDict[str];
 
                     //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
@@ -67,7 +72,7 @@ namespace Mythical
 
             if (skillsDict.ContainsKey(newSkillID))
             {
-
+                Debug.Log("Attack info tweaks");
                 AttackInfo newAttackInfo = skillsDict[newSkillID].attackInfo;
                 if (newAttackInfo == null)
                 {
