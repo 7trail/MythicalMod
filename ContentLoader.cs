@@ -40,6 +40,8 @@ namespace Mythical {
         // This Awake() function will run at the very start when the mod is initialized
         void Awake() {
 
+            Skills.Awake();
+
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
             Debug.Log("Loading Outfits");
             OutfitInfo outfitInfo = new OutfitInfo();
@@ -61,9 +63,9 @@ namespace Mythical {
             });
 
             Outfits.Register(outfitInfo);
-
+            /*
             ItemInfo monsterTooth = new ItemInfo();
-            monsterTooth.name = "Monster Tooth";
+            monsterTooth.name = "MonsterTooth";
             monsterTooth.item = new MonsterTooth();
             monsterTooth.tier = 1;
 
@@ -79,7 +81,7 @@ namespace Mythical {
             monsterTooth.icon = (spr!=null?spr:default(ItemInfo).icon);
 
             Items.Register(monsterTooth);
-
+            */
         }
 
         // This Update() function will run every frame

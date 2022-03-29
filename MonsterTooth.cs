@@ -8,12 +8,11 @@ namespace Mythical
     class MonsterTooth : Item
     {
         public int healthGained = 3;
-        public static string staticID = "Monster Tooth";
+        public static string staticID = "MonsterTooth";
         public MonsterTooth()
         {
             this.category = Category.Offense;
             this.ID = staticID;    
-            
         }
 
         public override void Activate()

@@ -36,11 +36,13 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AirChannelDashGood.cs" />
+    <Compile Include="SampleSkillLoader.cs" />
+    <Compile Include="Skills.cs" />
     <Compile Include="ImgHandler.cs" />
     <Compile Include="MonsterTooth.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
@@ -84,6 +86,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="tooth.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AttackInfo1.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
