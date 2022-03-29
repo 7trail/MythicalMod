@@ -65,7 +65,7 @@ namespace Mythical
 
             AttackInfo oldAttackInfo = orig(self, newSkillCat, newSkillID, newSkillLevel, newIsUltimate);
 
-            if (newSkillID == "AirChannelDash")
+            if (skillsDict.ContainsKey(newSkillID))
             {
 
                 AttackInfo newAttackInfo = skillsDict[newSkillID].attackInfo;
