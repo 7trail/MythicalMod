@@ -65,14 +65,18 @@ namespace Mythical {
             ItemInfo monsterTooth = new ItemInfo();
             monsterTooth.name = "Monster Tooth";
             monsterTooth.item = new MonsterTooth();
+            monsterTooth.tier = 1;
 
             TextManager.ItemInfo itemInfo = new TextManager.ItemInfo();
             itemInfo.displayName = "Monster Tooth";
             itemInfo.description = "Gain health when killing an enemy!";
             itemInfo.itemID = MonsterTooth.staticID;
 
+            Sprite spr = ImgHandler.LoadSprite("tooth");
+            if (spr != null) { Debug.Log(spr.name); } else { Debug.Log("No sprite"); }
+
             monsterTooth.text = itemInfo;
-            monsterTooth.icon = ImgHandler.LoadSprite("tooth");
+            monsterTooth.icon = (spr!=null?spr:default(ItemInfo).icon);
 
             Items.Register(monsterTooth);
 
