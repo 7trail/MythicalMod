@@ -36,6 +36,8 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ImgHandler.cs" />
+    <Compile Include="MonsterTooth.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +71,7 @@
     <Reference Include="MMHOOK_Assembly-CSharp">
       <HintPath>lib\MMHOOK_Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="UnityEngine">
       <HintPath>lib\UnityEngine.dll</HintPath>
     </Reference>
@@ -78,6 +81,9 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>lib\UnityEngine.UI.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tooth.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

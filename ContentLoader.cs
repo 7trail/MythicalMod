@@ -3,6 +3,8 @@ using BepInEx.Configuration;
 using LegendAPI;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Resources;
 using UnityEngine;
 
 namespace Mythical {
@@ -34,7 +36,7 @@ namespace Mythical {
 
         // now, close these two Notes regions so the script looks little nicer to work with 
         #endregion
-
+        
         // This Awake() function will run at the very start when the mod is initialized
         void Awake() {
 
@@ -60,16 +62,20 @@ namespace Mythical {
 
             Outfits.Register(outfitInfo);
 
-            for (int i = -1; i >= -20; i--)
-            {
-                outfitInfo = new OutfitInfo();
-                outfitInfo.name = "Suit MK "+ i;
-                outfitInfo.outfit = new global::Outfit("Mythical::Suit"+i, i, new List<global::OutfitModStat>
-                {
-                }, true, false);
-                outfitInfo.customDesc = ((bool b) => "Custom Palette, No Buffs! ID: "+i);
-                Outfits.Register(outfitInfo);
-            }
+            ItemInfo monsterTooth = new ItemInfo();
+            monsterTooth.name = "Monster Tooth";
+            monsterTooth.item = new MonsterTooth();
+
+            TextManager.ItemInfo itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Monster Tooth";
+            itemInfo.description = "Gain health when killing an enemy!";
+            itemInfo.itemID = MonsterTooth.staticID;
+
+            monsterTooth.text = itemInfo;
+            monsterTooth.icon = ImgHandler.LoadSprite("tooth");
+
+            Items.Register(monsterTooth);
+
         }
 
         // This Update() function will run every frame
