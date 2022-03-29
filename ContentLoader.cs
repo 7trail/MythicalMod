@@ -42,7 +42,7 @@ namespace Mythical {
             Debug.Log("Loading Outfits");
             OutfitInfo outfitInfo = new OutfitInfo();
             outfitInfo.name = "Showman";
-            outfitInfo.outfit = new global::Outfit("Mythical::Showman", -1, new List<global::OutfitModStat>
+            outfitInfo.outfit = new global::Outfit("Mythical::Showman", 30, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(global::OutfitModStat.OutfitModType.Damage, 0f, 0.1f, 0f, false),
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
@@ -60,7 +60,7 @@ namespace Mythical {
 
             Outfits.Register(outfitInfo);
 
-            for (int i = 20; i <= 50; i++)
+            for (int i = -1; i >= -20; i--)
             {
                 outfitInfo = new OutfitInfo();
                 outfitInfo.name = "Suit MK "+ i;
