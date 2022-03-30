@@ -164,6 +164,19 @@ namespace Mythical
             {
                 TextManager.skillInfoDict[info.ID] = skillText;
             }
+
+            if (true)
+            {
+                if (info.isNewSkill)
+                {
+                    IconManager.skillIcons.Add(info.ID,info.skillIcon);
+                }
+                else
+                {
+                    IconManager.skillIcons[info.ID] = info.skillIcon;
+                }
+            }
+
         }
 
 
