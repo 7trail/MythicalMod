@@ -61,13 +61,13 @@ namespace Mythical
 		}
 
 		// Token: 0x06000019 RID: 25
-		public bool ExplosionDamage(On.Health.orig_TakeDamage orig, global::Health self, global::AttackInfo attackInfo, global::Entity attackEntity)
+		public bool ExplosionDamage(On.Health.orig_TakeDamage orig, global::Health self, global::AttackInfo attackInfo, global::Entity attackEntity,bool crit)
 		{
 			if (UnityEngine.Random.value < 0.25f)
 			{
 				this.CreateExplosion(global::FlameBurst.burnSkillID, self.transform.position);
 			}
-			return orig(self, attackInfo, attackEntity);
+			return orig(self, attackInfo, attackEntity,crit);
 		}
 
 		// Token: 0x06000058 RID: 88

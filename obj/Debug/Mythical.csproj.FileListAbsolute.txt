@@ -56,8 +56,6 @@ C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\UnityEngine.dll
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\UnityEngine.Networking.dll
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\UnityEngine.UI.dll
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\Mono.Cecil.dll
-C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\MonoMod.Utils.dll
-C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\MonoMod.RuntimeDetour.dll
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.AssemblyReference.cache
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.CoreCompileInputs.cache
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.CopyComplete
