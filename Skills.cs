@@ -80,12 +80,15 @@ namespace Mythical
             if (!hasLoadedNewSpells)
             {
                 hasLoadedNewSpells = true;
-                foreach (SkillInfo skill in skillsDict.Values)
+                foreach(SkillInfo skill in skillsDict.Values)
                 {
                     if (skill.isNewSkill)
                     {
-                        newState = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
-                        self.AddState((IState)newState);
+                        Debug.Log("Pre State2 thing");
+                        IState newState2 = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
+                        Debug.Log("Post State2 thing");
+                        self.AddState((IState)newState2);
+                        Debug.Log("Post Add State");
 
                     }
                 }
