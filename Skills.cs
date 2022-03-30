@@ -14,6 +14,8 @@ namespace Mythical
 
         public static Dictionary<string, SkillInfo> skillsDict = new Dictionary<string, SkillInfo>();
 
+        public static bool hasLoadedNewSpells = false;
+
         //So far, all this can do is replace spells. But fear not! I will be adding more support soon :)
         public static void Awake()
         {
@@ -70,6 +72,19 @@ namespace Mythical
                     SetInfo(info);
                     //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
                     newState = DefaultInitFunction(self, ((Player.SkillState)newState),info);
+                    if (!hasLoadedNewSpells)
+                    {
+                        hasLoadedNewSpells = true;
+                        foreach(SkillInfo skill in skillsDict.Values)
+                        {
+                            if (skill.isNewSkill)
+                            {
+                                self.AddState((IState)skill.newState);
+                                
+                            }
+                        }
+                    }
+
                 }
             }
             orig(self, newState);
@@ -115,30 +130,36 @@ namespace Mythical
 
         public static void Register(SkillInfo skillInfo)
         {
-            if (!skillsDict.ContainsKey(skillInfo.replacementID))
+            if (!skillsDict.ContainsKey(skillInfo.ID))
             {
-                skillsDict.Add(skillInfo.replacementID, skillInfo);
+                skillsDict.Add(skillInfo.ID, skillInfo);
             } else
             {
-                skillsDict[skillInfo.replacementID] = skillInfo;
+                skillsDict[skillInfo.ID] = skillInfo;
             }
         }
 
         public static void SetInfo(SkillInfo info)
         {
             TextManager.SkillInfo skillText = new TextManager.SkillInfo();
-            skillText.skillID = info.replacementID;
+            skillText.skillID = info.ID;
             skillText.displayName = info.displayName;
             skillText.description = info.description;
             skillText.empowered = info.empowered;
 
-            TextManager.skillInfoDict[info.replacementID] = skillText;
+            TextManager.skillInfoDict[info.ID] = skillText;
         }
 
 
         public static IState DefaultInitFunction(FSM fsm, Player.SkillState newState, SkillInfo info)
         {
-            return (IState)Activator.CreateInstance(info.newState, fsm, newState.parent);
+            Player.SkillState state = (Player.SkillState)Activator.CreateInstance(info.newState, fsm, newState.parent);
+            state.element = info.elementType;
+            if (info.isNewSkill)
+            {
+                IconManager.skillIcons.Add(info.ID,info.skillIcon);
+            } 
+            return (IState)state;
         }
 
         public struct SkillInfo
@@ -146,17 +167,22 @@ namespace Mythical
             public string displayName;
             public string description;
             public string empowered;
-            public string replacementID;
+            public string ID;
             public System.Type newState;
             public AttackInfo attackInfo;
             public int startingCharges;
             public float cooldown;
             public float chargeCooldown;
             public bool isChargeSkill;
+
+            public ElementType elementType;
+            public Sprite skillIcon;
+            public bool isNewSkill;
+
             public SkillInfo(string name = "Default")
             {
                 displayName = name;
-                replacementID = "VinePullDash";
+                ID = "VinePullDash";
                 description = "Default Description!";
                 empowered = "Default Empowered!";
                 newState = null;
@@ -165,6 +191,9 @@ namespace Mythical
                 chargeCooldown = 0;
                 isChargeSkill = true;
                 attackInfo = null;
+                elementType = ElementType.Fire;
+                skillIcon = new Sprite();
+                isNewSkill = false;
             }
 
            

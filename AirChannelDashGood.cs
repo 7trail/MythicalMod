@@ -14,7 +14,6 @@ namespace Mythical
 			//this.hasEmpowered = true;
 			this.applyStopElementStatus = true;
 			base.InitChargeSkillSettings(2, 0f, this.skillData, this);
-			this.element = ElementType.Fire;
 		}
 
 		public override void SetEmpowered(bool givenStatus, BoolVarStatMod givenMod)

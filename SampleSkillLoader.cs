@@ -15,15 +15,15 @@ namespace Mythical
             
 
             Skills.SkillInfo skillInfo = new Skills.SkillInfo("PleaseWork");
-            skillInfo.replacementID = "AirChannelDash";
+            skillInfo.ID = "AirChannelDashNew";
             skillInfo.description = "A modified Channel Dash!";
             skillInfo.cooldown = 2;
             skillInfo.chargeCooldown = 0;
             skillInfo.startingCharges = 3;
             skillInfo.newState = typeof(AirChannelDashGood);
             skillInfo.attackInfo = LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
-
-            
+            skillInfo.elementType = ElementType.Air;
+            skillInfo.isNewSkill = true;
 
             Skills.Register(skillInfo);
 
