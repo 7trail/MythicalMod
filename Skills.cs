@@ -85,7 +85,7 @@ namespace Mythical
                     if (skill.isNewSkill && newState is Player.SkillState)
                     {
                         Debug.Log("Pre State2 thing");
-                        IState newState2 = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
+                        IState newState2 = (IState) DefaultInitFunction(self, ((Player.SkillState)newState), skill);
                         Debug.Log("Post State2 thing");
                         self.AddState((IState)newState2);
                         SetInfo(skill);
