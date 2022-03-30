@@ -87,7 +87,6 @@ namespace Mythical
                     SetInfo(info);
                     //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
                     newState = (IState) DefaultInitFunction(self, ((Player.SkillState)newState),info);
-                    ((Player.SkillState)newState).parent.cooldownManager.Add(info.ID,info.cooldown,null, (Player.SkillState)newState));
 
                 }
             }
@@ -107,7 +106,7 @@ namespace Mythical
                         self.AddState((IState)newState2);
                         SetInfo(skill);
                         Debug.Log("Post Add State");
-
+                        ((Player.SkillState)newState).parent.cooldownManager.Add(skill.ID, skill.cooldown, null, (Player.SkillState)newState);
                     }
                 }
             }

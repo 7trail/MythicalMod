@@ -27,6 +27,7 @@ namespace Mythical
 			base.OnEnter();
 			if (this.cooldownReady)
 			{
+				Debug.Log("CASTING THE NEW GUY");
 				this.spawnPosition = this.parent.attackOriginTrans.position;
 				this.CreateImplosion();
 				SoundManager.PlayAudioWithDistance("StandardHeavySwing", new Vector2?(this.parent.transform.position), null, 24f, -1f, 1.4f, false);
