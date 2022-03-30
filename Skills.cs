@@ -30,6 +30,9 @@ namespace Mythical
             {
                 Debug.Log("Constructing modded skill");
                 SkillInfo info = skillsDict[self.skillID];
+
+
+                self.name = info.displayName;
                 self.InitChargeSkillSettings(info.startingCharges, info.chargeCooldown, self.skillData, self);
             }
         }
@@ -119,6 +122,15 @@ namespace Mythical
             {
                 skillsDict[skillInfo.replacementID] = skillInfo;
             }
+
+            TextManager.SkillInfo skillText = new TextManager.SkillInfo();
+            skillText.skillID = skillInfo.replacementID;
+            skillText.displayName = skillInfo.displayName;
+            skillText.description = skillInfo.description;
+            skillText.empowered = skillInfo.empowered;
+
+            TextManager.skillInfoDict[skillInfo.replacementID] = skillText;
+
         }
 
         public static IState DefaultInitFunction(FSM fsm, Player.SkillState newState, SkillInfo info)
@@ -129,6 +141,8 @@ namespace Mythical
         public struct SkillInfo
         {
             public string displayName;
+            public string description;
+            public string empowered;
             public string replacementID;
             public System.Type newState;
             public AttackInfo attackInfo;
@@ -139,7 +153,9 @@ namespace Mythical
             public SkillInfo(string name = "Default")
             {
                 displayName = name;
-                replacementID = "VinePullDash";                
+                replacementID = "VinePullDash";
+                description = "Default Description!";
+                empowered = "Default Empowered!";
                 newState = null;
                 startingCharges = 1;
                 cooldown = 1;

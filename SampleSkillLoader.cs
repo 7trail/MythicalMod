@@ -12,14 +12,22 @@ namespace Mythical
     {
         public static void Awake()
         {
+            
+
             Skills.SkillInfo skillInfo = new Skills.SkillInfo("PleaseWork");
             skillInfo.replacementID = "AirChannelDash";
+            skillInfo.description = "A modified Channel Dash!";
             skillInfo.cooldown = 2;
             skillInfo.chargeCooldown = 0;
             skillInfo.startingCharges = 3;
             skillInfo.newState = typeof(AirChannelDashGood);
             skillInfo.attackInfo = LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
+
+            
+
             Skills.Register(skillInfo);
+
+
         }
 
         public static T LoadFromEmbeddedJson<T>(string jsn)
