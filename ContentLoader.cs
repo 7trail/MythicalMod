@@ -158,7 +158,7 @@ namespace Mythical {
             {
                 return false;
             }
-            if (self.itemDict.Count >= 18 && !self.CheckItemCombine(givenItem) && !ignoreMax && !self.DropItem(string.Empty))
+            if (!self.CheckItemCombine(givenItem) && !ignoreMax)
             {
                 return false;
             }
