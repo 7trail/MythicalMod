@@ -82,7 +82,7 @@ namespace Mythical
                 hasLoadedNewSpells = true;
                 foreach(SkillInfo skill in skillsDict.Values)
                 {
-                    if (skill.isNewSkill && skill.newState is Player.SkillState)
+                    if (skill.isNewSkill && newState is Player.SkillState)
                     {
                         Debug.Log("Pre State2 thing");
                         IState newState2 = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
