@@ -67,7 +67,7 @@ namespace Mythical
                 {
                     Debug.Log("Added state");
                     SkillInfo info = skillsDict[str];
-
+                    SetInfo(info);
                     //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
                     newState = DefaultInitFunction(self, ((Player.SkillState)newState),info);
                 }
@@ -122,16 +122,19 @@ namespace Mythical
             {
                 skillsDict[skillInfo.replacementID] = skillInfo;
             }
-
-            TextManager.SkillInfo skillText = new TextManager.SkillInfo();
-            skillText.skillID = skillInfo.replacementID;
-            skillText.displayName = skillInfo.displayName;
-            skillText.description = skillInfo.description;
-            skillText.empowered = skillInfo.empowered;
-
-            TextManager.skillInfoDict[skillInfo.replacementID] = skillText;
-
         }
+
+        public static void SetInfo(SkillInfo info)
+        {
+            TextManager.SkillInfo skillText = new TextManager.SkillInfo();
+            skillText.skillID = info.replacementID;
+            skillText.displayName = info.displayName;
+            skillText.description = info.description;
+            skillText.empowered = info.empowered;
+
+            TextManager.skillInfoDict[info.replacementID] = skillText;
+        }
+
 
         public static IState DefaultInitFunction(FSM fsm, Player.SkillState newState, SkillInfo info)
         {
