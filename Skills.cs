@@ -39,11 +39,14 @@ namespace Mythical
 
             if (skillsDict.ContainsKey(self.skillID))
             {
+
                 Debug.Log("Modding charges of skill");
                 SkillInfo info = skillsDict[self.skillID];
                 self.cooldownRef.chargeDelayTime = info.chargeCooldown;
                 self.cooldownRef.MaxChargeCount = info.startingCharges;
                 self.cooldownRef.chargeCount = info.startingCharges ;
+
+                self.cooldownRef.maxTime = info.cooldown;
                 //Utils.printAllFields(self.cooldownRef, true);
                 //self.cooldownRef.statData.numVarStatDict[StatData.cdStr].BaseValue *= 0.2f;
             }
