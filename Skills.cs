@@ -23,7 +23,7 @@ namespace Mythical
             On.FSM.AddState += FSM_AddState;
             On.Player.SkillState.InitChargeSkillSettings += SkillState_InitChargeSkillSettings;
             On.Attack.SetAttackInfo_string_string_int_bool += Attack_SetAttackInfo_string_string_int_bool;
-            On.CooldownManager.Add += CooldownManager_Add;
+            //On.CooldownManager.Add += CooldownManager_Add;
         }
 
         private static void Skill_ctor(On.Player.SkillState.orig_ctor orig, Player.SkillState self, string newName, FSM fsm, Player parentPlayer)
