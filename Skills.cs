@@ -71,7 +71,7 @@ namespace Mythical
                     SkillInfo info = skillsDict[str];
                     SetInfo(info);
                     //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
-                    newState = DefaultInitFunction(self, ((Player.SkillState)newState),info);
+                    newState = (IState) DefaultInitFunction(self, ((Player.SkillState)newState),info);
                     
 
                 }
@@ -85,7 +85,9 @@ namespace Mythical
                     if (skill.isNewSkill && newState is Player.SkillState)
                     {
                         Debug.Log("Pre State2 thing");
-                        IState newState2 = (IState) DefaultInitFunction(self, ((Player.SkillState)newState), skill);
+                        Player.SkillState state = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
+                        state.parent.skillsDict.Add(state.skillID,state);
+                        IState newState2 = (IState)state;
                         Debug.Log("Post State2 thing");
                         self.AddState((IState)newState2);
                         SetInfo(skill);
@@ -165,7 +167,7 @@ namespace Mythical
         }
 
 
-        public static IState DefaultInitFunction(FSM fsm, Player.SkillState newState, SkillInfo info)
+        public static Player.SkillState DefaultInitFunction(FSM fsm, Player.SkillState newState, SkillInfo info)
         {
             Player.SkillState state = (Player.SkillState)Activator.CreateInstance(info.newState, fsm, newState.parent);
             state.element = info.elementType;
@@ -173,7 +175,7 @@ namespace Mythical
             {
                 IconManager.skillIcons.Add(info.ID,info.skillIcon);
             } 
-            return (IState)state;
+            return state;
         }
 
         public struct SkillInfo
