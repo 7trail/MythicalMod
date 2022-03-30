@@ -23,6 +23,7 @@ namespace Mythical
             On.FSM.AddState += FSM_AddState;
             On.Player.SkillState.InitChargeSkillSettings += SkillState_InitChargeSkillSettings;
             On.Attack.SetAttackInfo_string_string_int_bool += Attack_SetAttackInfo_string_string_int_bool;
+            On.CooldownManager.Add += CooldownManager_Add;
         }
 
         private static void Skill_ctor(On.Player.SkillState.orig_ctor orig, Player.SkillState self, string newName, FSM fsm, Player parentPlayer)
@@ -64,6 +65,17 @@ namespace Mythical
             }
         }
 
+        private static void CooldownManager_Add(On.CooldownManager.orig_Add orig, CooldownManager self, string id, float time, StatData data, Player.SkillState state )
+        {
+            if (skillsDict.ContainsKey(id))
+            {
+                SkillInfo info = skillsDict[id];
+                orig(self, id, info.cooldown, data, state);
+                return;
+            }
+            orig(self, id, time, data, state);
+        }
+
         private static void FSM_AddState(On.FSM.orig_AddState orig, FSM self, IState newState)
         {
             if (newState is Player.SkillState) {
@@ -75,7 +87,7 @@ namespace Mythical
                     SetInfo(info);
                     //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
                     newState = (IState) DefaultInitFunction(self, ((Player.SkillState)newState),info);
-                    
+                    ((Player.SkillState)newState).parent.cooldownManager.Add(info.ID,info.cooldown,null, (Player.SkillState)newState));
 
                 }
             }
