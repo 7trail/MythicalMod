@@ -85,7 +85,7 @@ namespace Mythical {
                 new global::OutfitModStat(global::OutfitModStat.OutfitModType.Speed, 0f, -0.1f, 0f, false),
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
-            outfitInfo.customDesc = ((bool b) => "You can carry duplicates of items!");
+            outfitInfo.customDesc = ((bool b) => "You can carry six more items!");
             outfitInfo.customMod = ((player, b, b2) => {
                 if (b)
                 {
@@ -149,16 +149,16 @@ namespace Mythical {
         public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item givenItem, bool showNotice, bool ignoreMax)
         {
             self.currentItemID = givenItem.ID;
-            //Player.newItems[givenItem.category].Remove(self.currentItemID);
-            /*if (self.ContainsItem(self.currentItemID))
+            Player.newItems[givenItem.category].Remove(self.currentItemID);
+            if (self.ContainsItem(self.currentItemID))
             {
                 return false;
-            }*/
+            }
             if (!self.CheckForMutallyExclusiveItems(self.currentItemID))
             {
                 return false;
             }
-            if (!self.CheckItemCombine(givenItem) && !ignoreMax && !self.DropItem(string.Empty))
+            if (self.itemDict.Count >= 18 &&!self.CheckItemCombine(givenItem) && !ignoreMax && !self.DropItem(string.Empty))
             {
                 return false;
             }
