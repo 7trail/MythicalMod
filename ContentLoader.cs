@@ -63,8 +63,22 @@ namespace Mythical {
             });
 
             Outfits.Register(outfitInfo);
+
+            outfitInfo = new OutfitInfo();
+            outfitInfo.name = "Shade";
+            outfitInfo.outfit = new global::Outfit("Mythical::Shade", 24, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(global::OutfitModStat.OutfitModType.Speed, 0f, 0.1f, 0f, false),
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo.customDesc = ((bool b) => "Pits will no longer spawn!");
+            outfitInfo.customMod = ((player, b, b2) => {
+                Level.removeAllPits = b;
+            });
+
+            Outfits.Register(outfitInfo);
             //SampleSkillLoader.Awake();
-            
+
 
             ItemInfo monsterTooth = new ItemInfo();
             monsterTooth.name = "MonsterTooth";
