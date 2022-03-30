@@ -149,7 +149,7 @@ namespace Mythical {
         public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item givenItem, bool showNotice, bool ignoreMax)
         {
             self.currentItemID = givenItem.ID;
-            Player.newItems[givenItem.category].Remove(self.currentItemID);
+            //Player.newItems[givenItem.category].Remove(self.currentItemID);
             /*if (self.ContainsItem(self.currentItemID))
             {
                 return false;
@@ -158,7 +158,7 @@ namespace Mythical {
             {
                 return false;
             }
-            if (!self.CheckItemCombine(givenItem) && !ignoreMax)
+            if (!self.CheckItemCombine(givenItem) && !ignoreMax && !self.DropItem(string.Empty))
             {
                 return false;
             }
