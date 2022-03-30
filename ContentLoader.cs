@@ -90,11 +90,9 @@ namespace Mythical {
                 if (b)
                 {
                     On.Inventory.AddItem_Item_bool_bool += Inventory_AddItem;
-                    On.Inventory.ContainsItem += Inventory_Contains;
                 } else
                 {
                     On.Inventory.AddItem_Item_bool_bool -= Inventory_AddItem;
-                    On.Inventory.ContainsItem -= Inventory_Contains;
                 }
             });
 
@@ -140,22 +138,67 @@ namespace Mythical {
 
         }
 
-        public bool Inventory_Contains(On.Inventory.orig_ContainsItem orig, Inventory self, string id)
+        void Update()
         {
-            return false;
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                GameController.players[0].GetComponent<Player>().GiveDesignatedItem("DamageUp");
+            }
         }
 
-        public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item item, bool show, bool ignoreMax)
+        public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item givenItem, bool showNotice, bool ignoreMax)
         {
-            return orig(self, item, show, true);
+            self.currentItemID = givenItem.ID;
+            Player.newItems[givenItem.category].Remove(self.currentItemID);
+            /*if (self.ContainsItem(self.currentItemID))
+            {
+                return false;
+            }*/
+            if (!self.CheckForMutallyExclusiveItems(self.currentItemID))
+            {
+                return false;
+            }
+            if (self.itemDict.Count >= 18 && !self.CheckItemCombine(givenItem) && !ignoreMax && !self.DropItem(string.Empty))
+            {
+                return false;
+            }
+            givenItem.parentEntity = self.parentEntity;
+            givenItem.SetParentSkillCategory();
+            self.itemDict[self.currentItemID] = givenItem;
+            givenItem.Activate();
+            if (showNotice && self.parentEntity is Player)
+            {
+                ((Player)self.parentEntity).newItemNoticeUI.Display(TextManager.GetItemName(self.currentItemID), IconManager.GetItemIcon(self.currentItemID), null, false, false, false, true);
+                if (givenItem.isCursed)
+                {
+                    SoundManager.PlayAudio("BuyCursedRelic", 1f, false, -1f, -1f);
+                }
+                else
+                {
+                    SoundManager.PlayAudio("Powerup", 1f, false, -1f, -1f);
+                }
+                if (givenItem.isCursed)
+                {
+                    PoolManager.GetPoolItem<ParticleEffect>("CursedAuraBurstEffect").Play(null, new Vector3?(self.parentEntity.transform.position), null, null, null, null, 0f, false);
+                }
+            }
+            self.count++;
+            self.AnnounceItemEvent(givenItem, true);
+            if (givenItem.isCursed)
+            {
+                AchievementManager.UnlockAchievement(Achievement.HoldFourCursed, false);
+            }
+            return true;
+
+            //return orig(self, item, show, true);
         }
 
         // This Update() function will run every frame
-        
+
         // Here, we'll hook on to the CameraController's Awake function, to mess with things when it initializes.
-       
+
 
         // Here, we're hooking on the Update function. This code runs every frame on that CameraController
-        
+
     }
 }
