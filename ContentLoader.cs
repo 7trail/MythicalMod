@@ -36,7 +36,7 @@ namespace Mythical {
 
         // now, close these two Notes regions so the script looks little nicer to work with 
         #endregion
-        
+
         // This Awake() function will run at the very start when the mod is initialized
         void Awake() {
 
@@ -52,7 +52,7 @@ namespace Mythical {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
             outfitInfo.customDesc = ((bool b) => "Start with more money, rich boy ;)");
-            outfitInfo.customMod = ((player,b,b2) => {
+            outfitInfo.customMod = ((player, b, b2) => {
                 if (b)
                 {
                     Player.goldWallet.balance += 100;
@@ -71,12 +71,36 @@ namespace Mythical {
                 new global::OutfitModStat(global::OutfitModStat.OutfitModType.Speed, 0f, 0.1f, 0f, false),
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
-            outfitInfo.customDesc = ((bool b) => "Pits will no longer spawn!");
+            outfitInfo.customDesc = ((bool b) => "Pits will no longer spawn in rooms!");
             outfitInfo.customMod = ((player, b, b2) => {
                 Level.removeAllPits = b;
             });
 
             Outfits.Register(outfitInfo);
+
+            outfitInfo = new OutfitInfo();
+            outfitInfo.name = "Hoarder";
+            outfitInfo.outfit = new global::Outfit("Mythical::Hoarder", 23, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(global::OutfitModStat.OutfitModType.Speed, 0f, -0.1f, 0f, false),
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo.customDesc = ((bool b) => "You can carry duplicates of items!");
+            outfitInfo.customMod = ((player, b, b2) => {
+                if (b)
+                {
+                    On.Inventory.AddItem_Item_bool_bool += Inventory_AddItem;
+                    On.Inventory.ContainsItem += Inventory_Contains;
+                } else
+                {
+                    On.Inventory.AddItem_Item_bool_bool -= Inventory_AddItem;
+                    On.Inventory.ContainsItem -= Inventory_Contains;
+                }
+            });
+
+            Outfits.Register(outfitInfo);
+
+
             //SampleSkillLoader.Awake();
 
 
@@ -93,7 +117,7 @@ namespace Mythical {
             Sprite spr = ImgHandler.LoadSprite("tooth");
 
             monsterTooth.text = itemInfo;
-            monsterTooth.icon = (spr!=null?spr:null);
+            monsterTooth.icon = (spr != null ? spr : null);
 
             Items.Register(monsterTooth);
 
@@ -116,45 +140,22 @@ namespace Mythical {
 
         }
 
+        public bool Inventory_Contains(On.Inventory.orig_ContainsItem orig, Inventory self, string id)
+        {
+            return false;
+        }
+
+        public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item item, bool show, bool ignoreMax)
+        {
+            return orig(self, item, show, true);
+        }
+
         // This Update() function will run every frame
         
         // Here, we'll hook on to the CameraController's Awake function, to mess with things when it initializes.
-        private void CameraController_Awake(On.CameraController.orig_Awake orig, CameraController self) {
-
-            // This orig() line is very important. this is executing the original function we've hooked to.
-            // If you don't call this orig() function, the game's original function will not run 
-            orig(self);
-
-            // After the camera initalizes, I'm swoocing right in and increasing these values so the players can run away from each other a huge distance (instead of being stuck at the camera border)
-            // 'self' refers to the current reference of the CameraController that's calling this function, so we use that to mess with its current variables.
-            self.maxHorizontalDistBetweenPlayers = 100;
-            self.maxVerticalDistBetweenPlayers = 100;
-            self.teleportToOtherPlayerRange = 120;
-        }
+       
 
         // Here, we're hooking on the Update function. This code runs every frame on that CameraController
-        private void CameraController_Update(On.CameraController.orig_Update orig, CameraController self) {
-
-            orig(self);
-
-            if (self.overrideCameraUpdate)
-                return;
-            if (GameController.playerScripts[0] == null || GameController.playerScripts[1] == null)
-                return;
-            if (GameController.coopOn && GameController.PlayerIsDead())
-                return;
-
-            //Copied from CameraController.Update in dnSpy:
-            //if (GameController.pvpOn || SceneManager.GetActiveScene().name.Contains("PvP"))
-
-            // This the bit of code ordinarly runs in the 'if' statement above (checks are we pvp right now).
-            // It grabs the distance between players, and uses it to set the camera size if the players are far enough away from each other
-            self.distanceBetweenPlayers = self.playerDiff.magnitude * 0.42f;
-            Camera.main.orthographicSize = (self.distanceBetweenPlayers <= CameraController.originalCameraSize) ? CameraController.originalCameraSize : self.distanceBetweenPlayers;
-
-            // So for this hook i'm simply doing it again, but without the pvp check, so it always does it.
-
-            // And we're done! Build this mod, put it in Plugins, and run the game!
-        }
+        
     }
 }
