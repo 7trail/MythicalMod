@@ -32,7 +32,7 @@ namespace Mythical
                 SkillInfo info = skillsDict[self.skillID];
 
 
-                self.name = info.displayName;
+                //self.name = info.displayName;
                 self.InitChargeSkillSettings(info.startingCharges, info.chargeCooldown, self.skillData, self);
             }
         }
