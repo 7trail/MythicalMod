@@ -63,7 +63,7 @@ namespace Mythical {
             });
 
             Outfits.Register(outfitInfo);
-            SampleSkillLoader.Awake();
+            //SampleSkillLoader.Awake();
             
 
             ItemInfo monsterTooth = new ItemInfo();
