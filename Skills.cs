@@ -84,7 +84,8 @@ namespace Mythical
                 {
                     if (skill.isNewSkill)
                     {
-                        self.AddState((IState)skill.newState);
+                        newState = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
+                        self.AddState((IState)newState);
 
                     }
                 }
