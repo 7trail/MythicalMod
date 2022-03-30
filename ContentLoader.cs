@@ -140,13 +140,6 @@ namespace Mythical {
 
         }
 
-        void Update()
-        {
-            if (Input.GetKeyDown("o"))
-            {
-                GameController.players[0].GetComponent<Player>().GiveDesignatedItem("DamageUp");
-            }
-        }
         public bool Inventory_Contains(On.Inventory.orig_ContainsItem orig, Inventory self, string id)
         {
             return false;
