@@ -88,6 +88,7 @@ namespace Mythical
                         IState newState2 = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
                         Debug.Log("Post State2 thing");
                         self.AddState((IState)newState2);
+                        SetInfo(skill);
                         Debug.Log("Post Add State");
 
                     }
@@ -153,8 +154,14 @@ namespace Mythical
             skillText.displayName = info.displayName;
             skillText.description = info.description;
             skillText.empowered = info.empowered;
-
-            TextManager.skillInfoDict[info.ID] = skillText;
+            if (info.isNewSkill)
+            {
+                TextManager.skillInfoDict.Add(info.ID, skillText);
+            }
+            else
+            {
+                TextManager.skillInfoDict[info.ID] = skillText;
+            }
         }
 
 

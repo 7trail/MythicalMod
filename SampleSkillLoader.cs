@@ -23,7 +23,7 @@ namespace Mythical
             skillInfo.newState = typeof(AirChannelDashGood);
             skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
             skillInfo.elementType = ElementType.Air;
-            skillInfo.isNewSkill = true;
+            //skillInfo.isNewSkill = true;
 
             Skills.Register(skillInfo);
 
