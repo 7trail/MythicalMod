@@ -80,7 +80,7 @@ namespace Mythical {
 
             outfitInfo = new OutfitInfo();
             outfitInfo.name = "Hoarder";
-            outfitInfo.outfit = new global::Outfit("Mythical::Hoarder", 23, new List<global::OutfitModStat>
+            outfitInfo.outfit = new global::Outfit("Mythical::Hoarder", 22, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(global::OutfitModStat.OutfitModType.Speed, 0f, -0.1f, 0f, false),
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
