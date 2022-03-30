@@ -18,6 +18,7 @@ namespace Mythical
         public static void Awake()
         {
             On.Player.SkillState.ctor += Skill_ctor;
+            On.FSM.AddState += FSM_AddState;
             On.Player.SkillState.InitChargeSkillSettings += SkillState_InitChargeSkillSettings;
             On.Attack.SetAttackInfo_string_string_int_bool += Attack_SetAttackInfo_string_string_int_bool;
         }
@@ -46,7 +47,9 @@ namespace Mythical
                 self.cooldownRef.MaxChargeCount = info.startingCharges;
                 self.cooldownRef.chargeCount = info.startingCharges ;
 
-                self.cooldownRef.maxTime = info.cooldown;
+                self.cooldownRef.MaxTime = info.cooldown;
+                self.cooldownRef.isChargeSkill = info.isChargeSkill;
+                
                 //Utils.printAllFields(self.cooldownRef, true);
                 //self.cooldownRef.statData.numVarStatDict[StatData.cdStr].BaseValue *= 0.2f;
             }
@@ -131,6 +134,7 @@ namespace Mythical
             public int startingCharges;
             public float cooldown;
             public float chargeCooldown;
+            public bool isChargeSkill;
             public SkillInfo(string name = "Default")
             {
                 displayName = name;
@@ -139,6 +143,7 @@ namespace Mythical
                 startingCharges = 1;
                 cooldown = 1;
                 chargeCooldown = 0;
+                isChargeSkill = true;
                 attackInfo = null;
             }
 
