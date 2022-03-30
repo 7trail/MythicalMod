@@ -55,6 +55,9 @@ namespace Mythical
                 self.cooldownRef.MaxChargeCount = info.startingCharges;
                 self.cooldownRef.chargeCount = info.startingCharges ;
                 
+                self.cooldownRef.remainingTimeStopwatchID=-1;
+                self.cooldownRef.delayStopwatchID=-1;
+
                 self.cooldownRef.isChargeSkill = info.isChargeSkill;
                 //Utils.printAllFields(self.cooldownRef, true);
                 //self.cooldownRef.statData.numVarStatDict[StatData.cdStr].BaseValue *= 0.2f;

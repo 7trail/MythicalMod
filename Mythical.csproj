@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="AirChannelDashGood.cs" />
     <Compile Include="AttackInfoHolderMythical.cs" />
+    <Compile Include="Behemoth.cs" />
     <Compile Include="SampleSkillLoader.cs" />
     <Compile Include="Skills.cs" />
     <Compile Include="ImgHandler.cs" />

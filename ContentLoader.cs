@@ -64,7 +64,8 @@ namespace Mythical {
 
             Outfits.Register(outfitInfo);
             SampleSkillLoader.Awake();
-            /*
+            
+
             ItemInfo monsterTooth = new ItemInfo();
             monsterTooth.name = "MonsterTooth";
             monsterTooth.item = new MonsterTooth();
@@ -76,13 +77,29 @@ namespace Mythical {
             itemInfo.itemID = MonsterTooth.staticID;
 
             Sprite spr = ImgHandler.LoadSprite("tooth");
-            if (spr != null) { Debug.Log(spr.name); } else { Debug.Log("No sprite"); }
 
             monsterTooth.text = itemInfo;
-            monsterTooth.icon = (spr!=null?spr:default(ItemInfo).icon);
+            monsterTooth.icon = (spr!=null?spr:null);
 
             Items.Register(monsterTooth);
-            */
+
+            ItemInfo behemoth = new ItemInfo();
+            behemoth.name = "BrilliantBehemoth";
+            behemoth.item = new Behemoth();
+            behemoth.tier = 1;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Brilliant Behemoth";
+            itemInfo.description = "Chance to create explosions on hit, BUT deal less damage!";
+            itemInfo.itemID = MonsterTooth.staticID;
+
+            spr = ImgHandler.LoadSprite("cannon");
+
+            behemoth.text = itemInfo;
+            behemoth.icon = (spr != null ? spr : null);
+
+            Items.Register(behemoth);
+
         }
 
         // This Update() function will run every frame
