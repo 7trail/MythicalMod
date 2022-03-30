@@ -43,13 +43,14 @@ namespace Mythical
 
                 Debug.Log("Modding charges of skill");
                 SkillInfo info = skillsDict[self.skillID];
+
+                self.cooldownRef.MaxTime = info.cooldown;
+                self.cooldownRef.maxTime = info.cooldown;
                 self.cooldownRef.chargeDelayTime = info.chargeCooldown;
                 self.cooldownRef.MaxChargeCount = info.startingCharges;
                 self.cooldownRef.chargeCount = info.startingCharges ;
-
-                self.cooldownRef.MaxTime = info.cooldown;
-                self.cooldownRef.isChargeSkill = info.isChargeSkill;
                 
+                self.cooldownRef.isChargeSkill = info.isChargeSkill;
                 //Utils.printAllFields(self.cooldownRef, true);
                 //self.cooldownRef.statData.numVarStatDict[StatData.cdStr].BaseValue *= 0.2f;
             }

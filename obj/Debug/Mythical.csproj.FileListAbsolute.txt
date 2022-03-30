@@ -41,3 +41,4 @@ C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-mai
 C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\obj\Debug\Mythical.csproj.CopyComplete
 C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\obj\Debug\Mythical.dll
 C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\obj\Debug\Mythical.pdb
+C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\obj\Debug\Mythical.csproj.AssemblyReference.cache
