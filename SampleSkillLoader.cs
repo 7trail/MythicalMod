@@ -21,7 +21,7 @@ namespace Mythical
             skillInfo.chargeCooldown = 0;
             skillInfo.startingCharges = 3;
             skillInfo.newState = typeof(AirChannelDashGood);
-            skillInfo.attackInfo = LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
+            skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
             skillInfo.elementType = ElementType.Air;
             skillInfo.isNewSkill = true;
 
@@ -30,21 +30,27 @@ namespace Mythical
 
         }
 
-        public static T LoadFromEmbeddedJson<T>(string jsn)
+        
+    }
+}
+
+
+public static class Utils
+{
+    public static T LoadFromEmbeddedJson<T>(string jsn)
+    {
+
+        string jsnstring;
+
+        var assembly = Assembly.GetExecutingAssembly();
+        var resourceName = $"Mythical.{jsn}";
+
+        using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+        using (StreamReader reader = new StreamReader(stream))
         {
-
-            string jsnstring;
-
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"Mythical.{jsn}";
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                jsnstring = reader.ReadToEnd();
-            }
-
-            return JsonUtility.FromJson<T>(jsnstring);
+            jsnstring = reader.ReadToEnd();
         }
+
+        return JsonUtility.FromJson<T>(jsnstring);
     }
 }

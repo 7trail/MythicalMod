@@ -72,21 +72,24 @@ namespace Mythical
                     SetInfo(info);
                     //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
                     newState = DefaultInitFunction(self, ((Player.SkillState)newState),info);
-                    if (!hasLoadedNewSpells)
-                    {
-                        hasLoadedNewSpells = true;
-                        foreach(SkillInfo skill in skillsDict.Values)
-                        {
-                            if (skill.isNewSkill)
-                            {
-                                self.AddState((IState)skill.newState);
-                                
-                            }
-                        }
-                    }
+                    
 
                 }
             }
+
+            if (!hasLoadedNewSpells)
+            {
+                hasLoadedNewSpells = true;
+                foreach (SkillInfo skill in skillsDict.Values)
+                {
+                    if (skill.isNewSkill)
+                    {
+                        self.AddState((IState)skill.newState);
+
+                    }
+                }
+            }
+
             orig(self, newState);
         }
 
