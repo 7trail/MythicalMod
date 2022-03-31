@@ -37,9 +37,9 @@ namespace Mythical
 				startMin = entry.minGold;
 				startMax = entry.maxGold;
 				startChance = entry.goldDropRate;
-				entry.minGold = 3;
-				entry.maxGold = 5;
-				entry.goldDropRate = 0.75f;
+				entry.minGold = 6;
+				entry.maxGold = 10;
+				entry.goldDropRate = 0.5f;
 				return;
 			}
 			entry.minGold = startMin;
