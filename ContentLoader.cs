@@ -151,6 +151,8 @@ namespace Mythical {
             sage.text = itemInfo;
             sage.icon = (spr != null ? spr : null);
 
+            Items.Register(sage);
+
             ItemInfo midas = new ItemInfo();
             midas.name = "MidasRage";
             midas.item = new MidasRage();
