@@ -127,9 +127,26 @@ namespace Mythical {
             itemInfo = new TextManager.ItemInfo();
             itemInfo.displayName = "Brilliant Behemoth";
             itemInfo.description = "Chance to create explosions on hit, BUT deal less damage!";
-            itemInfo.itemID = MonsterTooth.staticID;
+            itemInfo.itemID = Behemoth.staticID;
 
             spr = ImgHandler.LoadSprite("cannon");
+
+            behemoth.text = itemInfo;
+            behemoth.icon = (spr != null ? spr : null);
+
+            Items.Register(behemoth);
+
+            ItemInfo sage = new ItemInfo();
+            behemoth.name = "InvisibleOnLowHealth";
+            behemoth.item = new InvisibleOnLowHealth();
+            behemoth.tier = 2;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sage's Armor";
+            itemInfo.description = "Become invulnerable at low health!";
+            itemInfo.itemID = InvisibleOnLowHealth.staticID;
+
+            spr = ImgHandler.LoadSprite("sage");
 
             behemoth.text = itemInfo;
             behemoth.icon = (spr != null ? spr : null);
