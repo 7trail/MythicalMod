@@ -170,10 +170,10 @@ namespace Mythical {
 
             Items.Register(midas);
 
-            midas = new ItemInfo();
-            midas.name = "FrostCrit";
-            midas.item = new MidasRage();
-            midas.tier = 2;
+            ItemInfo frost = new ItemInfo();
+            frost.name = "FrostCrit";
+            frost.item = new FrostCrit();
+            frost.tier = 2;
 
             itemInfo = new TextManager.ItemInfo();
             itemInfo.displayName = "Sanctum of Antifrost";
@@ -182,8 +182,8 @@ namespace Mythical {
 
             spr = ImgHandler.LoadSprite("antifrost");
 
-            midas.text = itemInfo;
-            midas.icon = (spr != null ? spr : null);
+            frost.text = itemInfo;
+            frost.icon = (spr != null ? spr : null);
 
             Items.Register(midas);
         }
