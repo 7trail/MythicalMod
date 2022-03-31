@@ -137,9 +137,9 @@ namespace Mythical {
             Items.Register(behemoth);
 
             ItemInfo sage = new ItemInfo();
-            behemoth.name = "InvisibleOnLowHealth";
-            behemoth.item = new InvisibleOnLowHealth();
-            behemoth.tier = 2;
+            sage.name = "InvisibleOnLowHealth";
+            sage.item = new InvisibleOnLowHealth();
+            sage.tier = 2;
 
             itemInfo = new TextManager.ItemInfo();
             itemInfo.displayName = "Sage's Armor";
@@ -148,10 +148,10 @@ namespace Mythical {
 
             spr = ImgHandler.LoadSprite("sage");
 
-            behemoth.text = itemInfo;
-            behemoth.icon = (spr != null ? spr : null);
+            sage.text = itemInfo;
+            sage.icon = (spr != null ? spr : null);
 
-            Items.Register(behemoth);
+            Items.Register(sage);
 
         }
 

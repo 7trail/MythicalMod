@@ -131,7 +131,7 @@ namespace Mythical
 		private static Dictionary<int, int> idCDDict = new Dictionary<int, int>();
 
 		// Token: 0x04002952 RID: 10578
-		private static float cdTime = 10f;
+		private static float cdTime = 20f;
 
 		// Token: 0x04002953 RID: 10579
 		private ChaosQuickStopwatch durationStopwatch = new ChaosQuickStopwatch(5f);
