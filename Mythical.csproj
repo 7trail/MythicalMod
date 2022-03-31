@@ -40,6 +40,7 @@
     <Compile Include="AttackInfoHolderMythical.cs" />
     <Compile Include="Behemoth.cs" />
     <Compile Include="InvisibleOnLowHealth.cs" />
+    <Compile Include="MidasRage.cs" />
     <Compile Include="SampleSkillLoader.cs" />
     <Compile Include="Skills.cs" />
     <Compile Include="ImgHandler.cs" />

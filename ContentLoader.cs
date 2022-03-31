@@ -151,8 +151,22 @@ namespace Mythical {
             sage.text = itemInfo;
             sage.icon = (spr != null ? spr : null);
 
-            Items.Register(sage);
+            ItemInfo midas = new ItemInfo();
+            midas.name = "MidasRage";
+            midas.item = new MidasRage();
+            midas.tier = 2;
 
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Rage of Midas";
+            itemInfo.description = "Destructibles drop more gold more frequently!";
+            itemInfo.itemID = MidasRage.staticID;
+
+            spr = ImgHandler.LoadSprite("midas");
+
+            midas.text = itemInfo;
+            midas.icon = (spr != null ? spr : null);
+
+            Items.Register(midas);
         }
 
         void Update()
