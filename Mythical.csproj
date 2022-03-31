@@ -39,6 +39,7 @@
     <Compile Include="AirChannelDashGood.cs" />
     <Compile Include="AttackInfoHolderMythical.cs" />
     <Compile Include="Behemoth.cs" />
+    <Compile Include="FrostCrit.cs" />
     <Compile Include="InvisibleOnLowHealth.cs" />
     <Compile Include="MidasRage.cs" />
     <Compile Include="SampleSkillLoader.cs" />

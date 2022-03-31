@@ -169,6 +169,23 @@ namespace Mythical {
             midas.icon = (spr != null ? spr : null);
 
             Items.Register(midas);
+
+            midas = new ItemInfo();
+            midas.name = "FrostCrit";
+            midas.item = new MidasRage();
+            midas.tier = 2;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Antifrost";
+            itemInfo.description = "Attacks against Frost enemies are guaranteed to be critical!";
+            itemInfo.itemID = FrostCrit.staticID;
+
+            spr = ImgHandler.LoadSprite("antifrost");
+
+            midas.text = itemInfo;
+            midas.icon = (spr != null ? spr : null);
+
+            Items.Register(midas);
         }
 
         void Update()
