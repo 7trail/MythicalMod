@@ -185,7 +185,7 @@ namespace Mythical {
             frost.text = itemInfo;
             frost.icon = (spr != null ? spr : null);
 
-            Items.Register(midas);
+            Items.Register(frost);
         }
 
         void Update()
