@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Mythical
 {
@@ -32,23 +33,25 @@ namespace Mythical
 			//global::StatManager.ModifyAllStatData(this.damageMod, this.parentSkillCategory, global::StatData.damageStr, new global::StatManager.ModApplyConditional(base.IgnoreStatusConditional), givenStatus);
 			if (givenStatus)
 			{
-				Health.globalTakeDamageActualHandlers += FrostThing;
+				On.Health.TakeDamage += FrostThing;
 				//On.Health.TakeDamage += this.FrostThing;
 				return;
 			}
-			Health.globalTakeDamageActualHandlers -= FrostThing;
+			On.Health.TakeDamage -= FrostThing;
 		}
 
-		public void FrostThing(AttackInfo info, Entity attackEntity, Entity hurtEntity)
+		public bool FrostThing(On.Health.orig_TakeDamage orig, Health self, AttackInfo info, Entity attackEntity, bool crit)
 		{
-			if (hurtEntity is Enemy)
+			GameObject obj = self.parentObject;
+			if (obj != null)
             {
-				Enemy enemy = (Enemy)hurtEntity;
+				Enemy enemy = obj.GetComponent<Enemy>();
 				if (enemy.name.StartsWith("Frost"))
                 {
 					info.isCritical = true;
                 }
             }
+			return orig(self, info, attackEntity,crit);
 		}
 
 		// Token: 0x17000002 RID: 2
