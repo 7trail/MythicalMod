@@ -168,12 +168,12 @@ namespace Mythical {
             midas.text = itemInfo;
             midas.icon = (spr != null ? spr : null);
 
-            Items.Register(midas);
+            Items.Register(midas); //Here is where all the funny anti element relics come in ------------
 
             ItemInfo frost = new ItemInfo();
             frost.name = "FrostCrit";
             frost.item = new FrostCrit();
-            frost.tier = 2;
+            frost.tier = 3;
 
             itemInfo = new TextManager.ItemInfo();
             itemInfo.displayName = "Sanctum of Antifrost";
@@ -186,6 +186,74 @@ namespace Mythical {
             frost.icon = (spr != null ? spr : null);
 
             Items.Register(frost);
+
+            ItemInfo flame = new ItemInfo();
+            flame.name = "flameCrit";
+            flame.item = new FrostCrit("flame");
+            flame.tier = 3;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-Flame";
+            itemInfo.description = "Attacks against flame enemies are guaranteed to be critical!";
+            itemInfo.itemID = "flameCrit";
+
+            spr = ImgHandler.LoadSprite("antiflame");
+
+            flame.text = itemInfo;
+            flame.icon = (spr != null ? spr : null);
+
+            Items.Register(flame);
+
+            ItemInfo earth = new ItemInfo();
+            earth.name = "earthCrit";
+            earth.item = new FrostCrit("earth");
+            earth.tier = 2;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-Earth";
+            itemInfo.description = "Attacks against earth enemies are guaranteed to be critical!";
+            itemInfo.itemID = "earthCrit";
+
+            spr = ImgHandler.LoadSprite("antiearth");
+
+            earth.text = itemInfo;
+            earth.icon = (spr != null ? spr : null);
+
+            Items.Register(earth);
+
+            ItemInfo wind = new ItemInfo();
+            wind.name = "windCrit";
+            wind.item = new FrostCrit("wind");
+            wind.tier = 2;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-Wind";
+            itemInfo.description = "Attacks against wind enemies are guaranteed to be critical!";
+            itemInfo.itemID = "windCrit";
+
+            spr = ImgHandler.LoadSprite("antiwind");
+
+            wind.text = itemInfo;
+            wind.icon = (spr != null ? spr : null);
+
+            Items.Register(wind);
+            
+            ItemInfo thunder = new ItemInfo();
+            thunder.name = "thunderCrit";
+            thunder.item = new FrostCrit("thunder");
+            thunder.tier = 4;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-thunder";
+            itemInfo.description = "Attacks against thunder enemies are guaranteed to be critical!";
+            itemInfo.itemID = "thunderCrit";
+
+            spr = ImgHandler.LoadSprite("antithunder");
+
+            thunder.text = itemInfo;
+            thunder.icon = (spr != null ? spr : null);
+
+            Items.Register(thunder);
         }
 
         void Update()

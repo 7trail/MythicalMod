@@ -8,9 +8,10 @@ namespace Mythical
 {
     class FrostCrit : Item
     {
-        public FrostCrit()
+        public FrostCrit(string el = "frost")
 		{
-			this.ID = FrostCrit.staticID;
+			this.element = el;
+			this.ID = el+"Crit";
 			this.category = global::Item.Category.Offense;
 			//this.damageMod = new global::NumVarStatMod(this.ID, -0.3f, 10, VarStatModType.Multiplicative, false);
 		}
@@ -44,13 +45,11 @@ namespace Mythical
 		public bool FrostThing(On.Health.orig_TakeDamage orig, Health self, AttackInfo info, Entity attackEntity, bool crit)
 		{
 			Entity enemy = self.entityScript;
-			Debug.Log(enemy.gameObject.name);
-			if (enemy.gameObject.name.ToLower().Contains("frost"))
+			if (enemy.gameObject.name.ToLower().Contains(element))
             {
 				//info.isCritical = true;
 				if (!crit && !info.isCritical)
 				{
-					Debug.Log("Doing the thing");
 					info.critHitChance = 100f;
 					return orig(self, info, attackEntity, false);
 				} else
@@ -77,6 +76,8 @@ namespace Mythical
 
 		// Token: 0x04000003 RID: 3
 		public static string staticID = "FrostCrit";
+
+		public string element = "Frost";
 
 	}
 }
