@@ -42,15 +42,24 @@ namespace Mythical
 
 		public bool FrostThing(On.Health.orig_TakeDamage orig, Health self, AttackInfo info, Entity attackEntity, bool crit)
 		{
-			GameObject obj = self.parentObject;
-
-			if (obj != null)
+			Entity enemy = self.entityScript;
+			if (enemy.gameObject.name.ToLower().StartsWith("frost"))
             {
-				Entity enemy = obj.GetComponent<Entity>();
-				if (enemy.gameObject.name.ToLower().StartsWith("frost"))
-                {
-					//info.isCritical = true;
+				//info.isCritical = true;
+				if (!crit)
+				{
 					info.critHitChance = 100f;
+				} else
+                {
+					if (self.evadeCrit) { return false; }
+					if (Attack.globalCritEventHandlers!=null)
+                    {
+						Attack.globalCritEventHandlers(info, attackEntity, self.entityScript);
+                    }
+					if (!info.isCritical)
+                    {
+						info.damage = (int)(info.damage* info.critDmgModifier);
+                    }
                 }
             }
 			return orig(self, info, attackEntity,crit);
