@@ -13,6 +13,7 @@ namespace Mythical
 			this.category = global::Item.Category.Offense;
 			element = elements[count];
 			count++;
+			this.ID = element + "Crit";
 			//this.damageMod = new global::NumVarStatMod(this.ID, -0.3f, 10, VarStatModType.Multiplicative, false);
 		}
 
