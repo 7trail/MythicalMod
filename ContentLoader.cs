@@ -173,7 +173,6 @@ namespace Mythical {
             ItemInfo frost = new ItemInfo();
             frost.name = "frostCrit";
             frost.item = new FrostCrit();
-            ((FrostCrit)frost.item).SetElement("frost");
             frost.tier = 3;
 
             itemInfo = new TextManager.ItemInfo();
@@ -191,7 +190,6 @@ namespace Mythical {
             ItemInfo flame = new ItemInfo();
             flame.name = "flameCrit";
             flame.item = new FrostCrit();
-            ((FrostCrit)flame.item).SetElement("flame");
             flame.tier = 3;
 
             itemInfo = new TextManager.ItemInfo();
@@ -209,7 +207,6 @@ namespace Mythical {
             ItemInfo earth = new ItemInfo();
             earth.name = "earthCrit";
             earth.item = new FrostCrit();
-            ((FrostCrit)earth.item).SetElement("earth");
             earth.tier = 2;
 
             itemInfo = new TextManager.ItemInfo();
@@ -227,7 +224,6 @@ namespace Mythical {
             ItemInfo wind = new ItemInfo();
             wind.name = "windCrit";
             wind.item = new FrostCrit();
-            ((FrostCrit)wind.item).SetElement("wind");
             wind.tier = 2;
 
             itemInfo = new TextManager.ItemInfo();
@@ -245,7 +241,6 @@ namespace Mythical {
             ItemInfo thunder = new ItemInfo();
             thunder.name = "thunderCrit";
             thunder.item = new FrostCrit();
-            ((FrostCrit)thunder.item).SetElement("thunder");
             thunder.tier = 4;
 
             itemInfo = new TextManager.ItemInfo();

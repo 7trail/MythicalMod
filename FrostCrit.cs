@@ -6,20 +6,16 @@ using UnityEngine;
 
 namespace Mythical
 {
-    class FrostCrit : Item
-    {
-        public FrostCrit()
+	class FrostCrit : Item
+	{
+		public FrostCrit()
 		{
-			
 			this.category = global::Item.Category.Offense;
+			element = elements[count];
+			count++;
 			//this.damageMod = new global::NumVarStatMod(this.ID, -0.3f, 10, VarStatModType.Multiplicative, false);
 		}
 
-		public void SetElement(string el)
-        {
-			this.element = el;
-			this.ID = el + "Crit";
-        }
 
 		// Token: 0x0600000E RID: 14
 		public override void Activate()
@@ -44,26 +40,26 @@ namespace Mythical
 				return;
 			}
 			On.Health.TakeDamage -= FrostThing;
-			
+
 		}
 
 		public bool FrostThing(On.Health.orig_TakeDamage orig, Health self, AttackInfo info, Entity attackEntity, bool crit)
 		{
 			Entity enemy = self.entityScript;
 			if (enemy.gameObject.name.ToLower().Contains(element))
-            {
+			{
 				//info.isCritical = true;
 				if (!crit && !info.isCritical)
 				{
 					info.critHitChance = 100f;
 					return orig(self, info, attackEntity, false);
 				} else
-                {
+				{
 					info.critHitChance = 100f;
 					return orig(self, info, attackEntity, false);
 				}
-            }
-			return orig(self, info, attackEntity,crit);
+			}
+			return orig(self, info, attackEntity, crit);
 		}
 
 		// Token: 0x17000002 RID: 2
@@ -77,11 +73,12 @@ namespace Mythical
 		}
 
 		// Token: 0x06000019 RID: 25
-		
+
 
 		// Token: 0x04000003 RID: 3
 		public static string staticID = "FrostCrit";
-
+		public static int count = 0;
+		public static string[] elements = new string[]{"frost","flame","earth","wind","thunder"};
 		public string element = "Frost";
 
 	}
