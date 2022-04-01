@@ -43,10 +43,11 @@ namespace Mythical
 		public bool FrostThing(On.Health.orig_TakeDamage orig, Health self, AttackInfo info, Entity attackEntity, bool crit)
 		{
 			GameObject obj = self.parentObject;
+
 			if (obj != null)
             {
-				Enemy enemy = obj.GetComponent<Enemy>();
-				if (enemy.name.StartsWith("Frost"))
+				Entity enemy = obj.GetComponent<Entity>();
+				if (enemy.gameObject.name.ToLower().StartsWith("frost"))
                 {
 					info.isCritical = true;
                 }
