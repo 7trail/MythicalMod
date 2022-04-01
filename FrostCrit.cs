@@ -49,7 +49,8 @@ namespace Mythical
 				Entity enemy = obj.GetComponent<Entity>();
 				if (enemy.gameObject.name.ToLower().StartsWith("frost"))
                 {
-					info.isCritical = true;
+					//info.isCritical = true;
+					info.critHitChance = 100f;
                 }
             }
 			return orig(self, info, attackEntity,crit);
