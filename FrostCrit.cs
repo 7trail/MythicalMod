@@ -8,13 +8,18 @@ namespace Mythical
 {
     class FrostCrit : Item
     {
-        public FrostCrit(string el = "frost")
+        public FrostCrit()
 		{
-			this.element = el;
-			this.ID = el+"Crit";
+			
 			this.category = global::Item.Category.Offense;
 			//this.damageMod = new global::NumVarStatMod(this.ID, -0.3f, 10, VarStatModType.Multiplicative, false);
 		}
+
+		public void SetElement(string el)
+        {
+			this.element = el;
+			this.ID = el + "Crit";
+        }
 
 		// Token: 0x0600000E RID: 14
 		public override void Activate()

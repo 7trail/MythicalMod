@@ -171,8 +171,9 @@ namespace Mythical {
             Items.Register(midas); //Here is where all the funny anti element relics come in ------------
 
             ItemInfo frost = new ItemInfo();
-            frost.name = "FrostCrit";
+            frost.name = "frostCrit";
             frost.item = new FrostCrit();
+            ((FrostCrit)frost.item).SetElement("frost");
             frost.tier = 3;
 
             itemInfo = new TextManager.ItemInfo();
@@ -189,7 +190,8 @@ namespace Mythical {
 
             ItemInfo flame = new ItemInfo();
             flame.name = "flameCrit";
-            flame.item = new FrostCrit("flame");
+            flame.item = new FrostCrit();
+            ((FrostCrit)flame.item).SetElement("flame");
             flame.tier = 3;
 
             itemInfo = new TextManager.ItemInfo();
@@ -206,7 +208,8 @@ namespace Mythical {
 
             ItemInfo earth = new ItemInfo();
             earth.name = "earthCrit";
-            earth.item = new FrostCrit("earth");
+            earth.item = new FrostCrit();
+            ((FrostCrit)earth.item).SetElement("earth");
             earth.tier = 2;
 
             itemInfo = new TextManager.ItemInfo();
@@ -223,7 +226,8 @@ namespace Mythical {
 
             ItemInfo wind = new ItemInfo();
             wind.name = "windCrit";
-            wind.item = new FrostCrit("wind");
+            wind.item = new FrostCrit();
+            ((FrostCrit)wind.item).SetElement("wind");
             wind.tier = 2;
 
             itemInfo = new TextManager.ItemInfo();
@@ -240,7 +244,8 @@ namespace Mythical {
             
             ItemInfo thunder = new ItemInfo();
             thunder.name = "thunderCrit";
-            thunder.item = new FrostCrit("thunder");
+            thunder.item = new FrostCrit();
+            ((FrostCrit)thunder.item).SetElement("thunder");
             thunder.tier = 4;
 
             itemInfo = new TextManager.ItemInfo();
