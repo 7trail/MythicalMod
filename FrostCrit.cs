@@ -38,6 +38,7 @@ namespace Mythical
 				return;
 			}
 			On.Health.TakeDamage -= FrostThing;
+			
 		}
 
 		public bool FrostThing(On.Health.orig_TakeDamage orig, Health self, AttackInfo info, Entity attackEntity, bool crit)
@@ -47,21 +48,16 @@ namespace Mythical
 			if (enemy.gameObject.name.ToLower().Contains("frost"))
             {
 				//info.isCritical = true;
-				if (!crit)
+				if (!crit && !info.isCritical)
 				{
+					Debug.Log("Doing the thing");
 					info.critHitChance = 100f;
+					return orig(self, info, attackEntity, false);
 				} else
                 {
-					if (self.evadeCrit) { return false; }
-					if (Attack.globalCritEventHandlers!=null)
-                    {
-						Attack.globalCritEventHandlers(info, attackEntity, self.entityScript);
-                    }
-					if (!info.isCritical)
-                    {
-						info.damage = (int)(info.damage* info.critDmgModifier);
-                    }
-                }
+					info.critHitChance = 100f;
+					return orig(self, info, attackEntity, false);
+				}
             }
 			return orig(self, info, attackEntity,crit);
 		}
