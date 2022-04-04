@@ -36,6 +36,14 @@ namespace Mythical
             }
 		}
 
+		public override string ExtraInfo
+		{
+			get
+			{
+				return base.PercentToStr(0.1f, "+");
+			}
+		}
+
 		public static string staticID = "attackSpeedUpItem";
 		public static NumVarStatMod atkSpeed;
 	}

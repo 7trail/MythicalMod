@@ -41,9 +41,21 @@ namespace Mythical
                     }
                 }
             }
-            StatManager.ModifyAllStatData(cooldownReduction, this.parentSkillCategory, "cooldown", new StatManager.ModApplyConditional(base.IgnoreStatusConditional), givenStatus);
+            StatManager.ModifyAllStatData(cooldownReduction, this.parentSkillCategory, "cooldown", new StatManager.ModApplyConditional(this.Conditional), givenStatus);
             GameUI.RefreshCDUI();
         }
+        public bool Conditional(StatData data)
+        {
+            return true;
+        }
+        public override string ExtraInfo
+        {
+            get
+            {
+                return base.PercentToStr(0.4f, "-");
+            }
+        }
+
         public static BoolVarStatMod emp;
         public static NumVarStatMod cooldownReduction;
         public static string staticID = "unenhanceRelic";
