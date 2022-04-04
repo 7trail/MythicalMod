@@ -163,105 +163,29 @@ namespace Mythical {
             itemInfo.description = "Destructibles drop more gold more frequently!";
             itemInfo.itemID = MidasRage.staticID;
 
-            spr = ImgHandler.LoadSprite("midas");
-
             midas.text = itemInfo;
-            midas.icon = (spr != null ? spr : null);
+            midas = midas.loadSprite("midas");
 
             Items.Register(midas); //Here is where all the funny anti element relics come in ------------
 
-            ItemInfo frost = new ItemInfo();
-            frost.name = "frostCrit";
-            frost.item = new FrostCrit();
-            frost.tier = 3;
+            ItemInfo gemChest = new ItemInfo();
+            gemChest.name = "GemChestRelic";
+            gemChest.item = new GemChestRelic();
+            gemChest.tier = 1;
 
             itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Antifrost";
-            itemInfo.description = "Attacks against Frost enemies are guaranteed to be critical!";
-            itemInfo.itemID = FrostCrit.staticID;
+            itemInfo.displayName = "Locked Gem Chest";
+            itemInfo.description = "Gets heavier as you progress through the trials! Drop from inventory to open.";
+            itemInfo.itemID = GemChestRelic.staticID;
 
-            spr = ImgHandler.LoadSprite("antifrost");
+            gemChest.text = itemInfo;
+            gemChest = gemChest.loadSprite("gemchest");
 
-            frost.text = itemInfo;
-            frost.icon = (spr != null ? spr : null);
 
-            Items.Register(frost);
+            Items.Register(gemChest);
 
-            ItemInfo flame = new ItemInfo();
-            flame.name = "flameCrit";
-            flame.item = new FrostCrit();
-            flame.tier = 3;
 
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Anti-Flame";
-            itemInfo.description = "Attacks against flame enemies are guaranteed to be critical!";
-            itemInfo.itemID = "flameCrit";
-
-            spr = ImgHandler.LoadSprite("antiflame");
-
-            flame.text = itemInfo;
-            flame.icon = (spr != null ? spr : null);
-
-            Items.Register(flame);
-
-            ItemInfo earth = new ItemInfo();
-            earth.name = "earthCrit";
-            earth.item = new FrostCrit();
-            earth.tier = 2;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Anti-Earth";
-            itemInfo.description = "Attacks against earth enemies are guaranteed to be critical!";
-            itemInfo.itemID = "earthCrit";
-
-            spr = ImgHandler.LoadSprite("antiearth");
-
-            earth.text = itemInfo;
-            earth.icon = (spr != null ? spr : null);
-
-            Items.Register(earth);
-
-            ItemInfo wind = new ItemInfo();
-            wind.name = "windCrit";
-            wind.item = new FrostCrit();
-            wind.tier = 2;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Anti-Wind";
-            itemInfo.description = "Attacks against wind enemies are guaranteed to be critical!";
-            itemInfo.itemID = "windCrit";
-
-            spr = ImgHandler.LoadSprite("antiwind");
-
-            wind.text = itemInfo;
-            wind.icon = (spr != null ? spr : null);
-
-            Items.Register(wind);
-            
-            ItemInfo thunder = new ItemInfo();
-            thunder.name = "thunderCrit";
-            thunder.item = new FrostCrit();
-            thunder.tier = 4;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Anti-thunder";
-            itemInfo.description = "Attacks against thunder enemies are guaranteed to be critical!";
-            itemInfo.itemID = "thunderCrit";
-
-            spr = ImgHandler.LoadSprite("antithunder");
-
-            thunder.text = itemInfo;
-            thunder.icon = (spr != null ? spr : null);
-
-            Items.Register(thunder);
-        }
-
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                GameController.players[0].GetComponent<Player>().GiveDesignatedItem("DamageUp");
-            }
+            LoadAntiRelics();
         }
 
         public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item givenItem, bool showNotice, bool ignoreMax)
@@ -311,12 +235,92 @@ namespace Mythical {
             //return orig(self, item, show, true);
         }
 
-        // This Update() function will run every frame
+        public static void LoadAntiRelics()
+        {
+            ItemInfo frost = new ItemInfo();
+            frost.name = "frostCrit";
+            frost.item = new FrostCrit();
+            frost.tier = 3;
 
-        // Here, we'll hook on to the CameraController's Awake function, to mess with things when it initializes.
+            TextManager.ItemInfo itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Antifrost";
+            itemInfo.description = "Attacks against Frost enemies are guaranteed to be critical!";
+            itemInfo.itemID = FrostCrit.staticID;
 
+            frost.text = itemInfo;
+            frost = frost.loadSprite("antifrost");
 
-        // Here, we're hooking on the Update function. This code runs every frame on that CameraController
+            Items.Register(frost);
 
+            ItemInfo flame = new ItemInfo();
+            flame.name = "flameCrit";
+            flame.item = new FrostCrit();
+            flame.tier = 3;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-Flame";
+            itemInfo.description = "Attacks against flame enemies are guaranteed to be critical!";
+            itemInfo.itemID = "flameCrit";
+
+            flame.text = itemInfo;
+            flame = flame.loadSprite("antiflame");
+
+            Items.Register(flame);
+
+            ItemInfo earth = new ItemInfo();
+            earth.name = "earthCrit";
+            earth.item = new FrostCrit();
+            earth.tier = 2;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-Earth";
+            itemInfo.description = "Attacks against earth enemies are guaranteed to be critical!";
+            itemInfo.itemID = "earthCrit";
+
+            earth.text = itemInfo;
+            earth = earth.loadSprite("antiearth");
+
+            Items.Register(earth);
+
+            ItemInfo wind = new ItemInfo();
+            wind.name = "windCrit";
+            wind.item = new FrostCrit();
+            wind.tier = 2;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-Wind";
+            itemInfo.description = "Attacks against wind enemies are guaranteed to be critical!";
+            itemInfo.itemID = "windCrit";
+
+            wind.text = itemInfo;
+            wind = wind.loadSprite("antiwind");
+
+            Items.Register(wind);
+
+            ItemInfo thunder = new ItemInfo();
+            thunder.name = "thunderCrit";
+            thunder.item = new FrostCrit();
+            thunder.tier = 4;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-thunder";
+            itemInfo.description = "Attacks against thunder enemies are guaranteed to be critical!";
+            itemInfo.itemID = "thunderCrit";
+
+            thunder.text = itemInfo;
+            thunder = thunder.loadSprite("antithunder");
+
+            Items.Register(thunder);
+        }
+    }
+}
+
+public static class Extensions
+{
+    public static ItemInfo loadSprite(this ItemInfo info, string name)
+    {
+        Sprite spr = Mythical.ImgHandler.LoadSprite("midas");
+        info.icon = (spr != null ? spr : null);
+        return info;
     }
 }
