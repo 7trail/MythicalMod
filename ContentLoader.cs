@@ -44,7 +44,17 @@ namespace Mythical {
 
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
             Debug.Log("Loading Outfits");
+
             OutfitInfo outfitInfo = new OutfitInfo();
+            outfitInfo.name = "Vagrant";
+            outfitInfo.outfit = new global::Outfit("Mythical::Vagrant", 15, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(global::OutfitModStat.OutfitModType.HealAmount, 0f, 0.2f, 0f, false),
+                new global::OutfitModStat(global::OutfitModStat.OutfitModType.CritChance, 0f, 0.2f, 0f, false)
+            }, true, false);
+            Outfits.Register(outfitInfo);
+
+            outfitInfo = new OutfitInfo();
             outfitInfo.name = "Showman";
             outfitInfo.outfit = new global::Outfit("Mythical::Showman", 30, new List<global::OutfitModStat>
             {
@@ -217,7 +227,7 @@ namespace Mythical {
 
             itemInfo = new TextManager.ItemInfo();
             itemInfo.displayName = "All Or Nothing";
-            itemInfo.description = "You have a 50 percent chance to deal triple damage, but deal no damage otherwise!";
+            itemInfo.description = "Idea by BurnVolcano! You have a 50 percent chance to deal triple damage, but deal no damage otherwise!";
             itemInfo.itemID = AllOrNothing.staticID;
 
             allOrNothing.text = itemInfo;
