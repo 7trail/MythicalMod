@@ -13,6 +13,7 @@ namespace Mythical
 			this.category = global::Item.Category.Offense;
 			this.element = "frost";
 			this.ID = "frostCrit";
+			
 		}
     }
 	class FlameCrit : FrostCrit
@@ -119,7 +120,7 @@ namespace Mythical
 
 
 		// Token: 0x04000003 RID: 3
-		public static string staticID = "FrostCrit";
+		public static string staticID = "frostCrit";
 		public static int count = 0;
 		public static string[] elements = new string[]{"frost","flame","earth","wind","thunder"};
 		public string element = "Frost";

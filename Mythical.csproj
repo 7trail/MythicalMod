@@ -50,6 +50,7 @@
     <Compile Include="MonsterTooth.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
+    <Compile Include="UnEnhanceRelic.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">

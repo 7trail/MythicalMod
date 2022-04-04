@@ -196,6 +196,20 @@ namespace Mythical {
             atkSpeedUp = atkSpeedUp.loadSprite("atkSpeedUp");
             Items.Register(atkSpeedUp);
 
+            ItemInfo unEnhance = new ItemInfo();
+            unEnhance.name = UnEnhanceRelic.staticID;
+            unEnhance.item = new UnEnhanceRelic();
+            unEnhance.tier = 1;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Power Drain";
+            itemInfo.description = "Unenhance all current relics, but greatly reduce cooldowns!";
+            itemInfo.itemID = UnEnhanceRelic.staticID;
+
+            unEnhance.text = itemInfo;
+            unEnhance = unEnhance.loadSprite("unEnhance");
+            Items.Register(unEnhance);
+
             LoadAntiRelics();
         }
 
