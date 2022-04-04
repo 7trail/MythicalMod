@@ -47,6 +47,7 @@ namespace Mythical
 		// (get) Token: 0x06000011 RID: 17
 		public override string ExtraInfo
 		{
+
 			get
 			{
 				return base.PercentToStr(this.damageMod, "-");

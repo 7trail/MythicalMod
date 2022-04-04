@@ -181,6 +181,7 @@ namespace Mythical {
             gemChest.text = itemInfo;
             gemChest = gemChest.loadSprite("gemchest");
 
+            
 
             Items.Register(gemChest);
 
@@ -257,6 +258,7 @@ namespace Mythical {
             flame.item = new FrostCrit();
             flame.tier = 3;
 
+
             itemInfo = new TextManager.ItemInfo();
             itemInfo.displayName = "Sanctum of Anti-Flame";
             itemInfo.description = "Attacks against flame enemies are guaranteed to be critical!";
@@ -319,7 +321,7 @@ public static class Extensions
 {
     public static ItemInfo loadSprite(this ItemInfo info, string name)
     {
-        Sprite spr = Mythical.ImgHandler.LoadSprite("midas");
+        Sprite spr = Mythical.ImgHandler.LoadSprite(name);
         info.icon = (spr != null ? spr : null);
         return info;
     }

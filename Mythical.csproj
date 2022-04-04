@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="AirChannelDashGood.cs" />
     <Compile Include="AttackInfoHolderMythical.cs" />
+    <Compile Include="AttackSpeedUpItem.cs" />
     <Compile Include="Behemoth.cs" />
     <Compile Include="FrostCrit.cs" />
     <Compile Include="GemChestRelic.cs" />
