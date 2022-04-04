@@ -210,6 +210,20 @@ namespace Mythical {
             unEnhance = unEnhance.loadSprite("unEnhance");
             Items.Register(unEnhance);
 
+            ItemInfo allOrNothing = new ItemInfo();
+            allOrNothing.name = AllOrNothing.staticID;
+            allOrNothing.item = new AllOrNothing();
+            allOrNothing.tier = 1;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "All Or Nothing";
+            itemInfo.description = "You have a 50 percent chance to deal triple damage, but deal no damage otherwise!";
+            itemInfo.itemID = AllOrNothing.staticID;
+
+            allOrNothing.text = itemInfo;
+            allOrNothing = allOrNothing.loadSprite("allOrNothing");
+            Items.Register(allOrNothing);
+
             LoadAntiRelics();
         }
 

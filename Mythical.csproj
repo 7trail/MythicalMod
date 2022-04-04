@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AirChannelDashGood.cs" />
+    <Compile Include="AllOrNothing.cs" />
     <Compile Include="AttackInfoHolderMythical.cs" />
     <Compile Include="AttackSpeedUpItem.cs" />
     <Compile Include="Behemoth.cs" />
