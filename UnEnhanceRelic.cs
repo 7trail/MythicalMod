@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Mythical
 {
@@ -30,18 +31,23 @@ namespace Mythical
 
         public virtual void SetModStatus(bool givenStatus)
         {
+            Debug.Log("1");
             //global::StatManager.ModifyAllStatData(this.damageMod, this.parentSkillCategory, global::StatData.damageStr, new global::StatManager.ModApplyConditional(base.IgnoreStatusConditional), givenStatus);
             if (givenStatus)
             {
-                foreach(Player.SkillState skill in this.parentPlayer.assignedSkills)
+                Debug.Log("2");
+                foreach (Player.SkillState skill in this.parentPlayer.assignedSkills)
                 {
                     if (skill != null)
                     {
                         skill.SetEmpowered(false, emp);
                     }
                 }
+                Debug.Log("3");
             }
+            Debug.Log("4");
             StatManager.ModifyAllStatData(cooldownReduction, this.parentSkillCategory, "cooldown", new StatManager.ModApplyConditional(this.Conditional), givenStatus);
+            Debug.Log("5");
             GameUI.RefreshCDUI();
         }
         public bool Conditional(StatData data)
