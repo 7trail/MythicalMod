@@ -6,14 +6,56 @@ using UnityEngine;
 
 namespace Mythical
 {
+	class IceCrit : FrostCrit
+    {
+		public IceCrit()
+        {
+			this.category = global::Item.Category.Offense;
+			this.element = "frost";
+			this.ID = "frostCrit";
+		}
+    }
+	class FlameCrit : FrostCrit
+	{
+		public FlameCrit()
+		{
+			this.category = global::Item.Category.Offense;
+			this.element = "flame";
+			this.ID = "flameCrit";
+		}
+	}
+	class EarthCrit : FrostCrit
+	{
+		public EarthCrit()
+		{
+			this.category = global::Item.Category.Offense;
+			this.element = "earth";
+			this.ID = "earthCrit";
+		}
+	}
+	class WindCrit : FrostCrit
+	{
+		public WindCrit()
+		{
+			this.category = global::Item.Category.Offense;
+			this.element = "wind";
+			this.ID = "windCrit";
+		}
+	}
+	class ThunderCrit : FrostCrit
+	{
+		public ThunderCrit()
+		{
+			this.category = global::Item.Category.Offense;
+			this.element = "thunder";
+			this.ID = "thunderCrit";
+		}
+	}
 	class FrostCrit : Item
 	{
 		public FrostCrit()
 		{
 			this.category = global::Item.Category.Offense;
-			element = elements[count];
-			count = (count+1)%5;
-			this.ID = element + "Crit";
 			//this.damageMod = new global::NumVarStatMod(this.ID, -0.3f, 10, VarStatModType.Multiplicative, false);
 		}
 

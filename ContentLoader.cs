@@ -250,7 +250,7 @@ namespace Mythical {
         {
             ItemInfo frost = new ItemInfo();
             frost.name = "frostCrit";
-            frost.item = new FrostCrit();
+            frost.item = new IceCrit();
             frost.tier = 3;
 
             TextManager.ItemInfo itemInfo = new TextManager.ItemInfo();
@@ -265,7 +265,7 @@ namespace Mythical {
 
             ItemInfo flame = new ItemInfo();
             flame.name = "flameCrit";
-            flame.item = new FrostCrit();
+            flame.item = new FlameCrit();
             flame.tier = 3;
 
 
@@ -281,7 +281,7 @@ namespace Mythical {
 
             ItemInfo earth = new ItemInfo();
             earth.name = "earthCrit";
-            earth.item = new FrostCrit();
+            earth.item = new EarthCrit();
             earth.tier = 2;
 
             itemInfo = new TextManager.ItemInfo();
@@ -296,7 +296,7 @@ namespace Mythical {
 
             ItemInfo wind = new ItemInfo();
             wind.name = "windCrit";
-            wind.item = new FrostCrit();
+            wind.item = new WindCrit();
             wind.tier = 2;
 
             itemInfo = new TextManager.ItemInfo();
@@ -311,11 +311,11 @@ namespace Mythical {
 
             ItemInfo thunder = new ItemInfo();
             thunder.name = "thunderCrit";
-            thunder.item = new FrostCrit();
+            thunder.item = new ThunderCrit();
             thunder.tier = 4;
 
             itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Anti-thunder";
+            itemInfo.displayName = "Sanctum of Anti-Thunder";
             itemInfo.description = "Attacks against thunder enemies are guaranteed to be critical!";
             itemInfo.itemID = "thunderCrit";
 
