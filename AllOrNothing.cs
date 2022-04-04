@@ -11,6 +11,7 @@ namespace Mythical
 		{
 			this.category = global::Item.Category.Offense;
 			this.ID = staticID;
+			this.isCursed = true;
 			//this.damageMod = new global::NumVarStatMod(this.ID, -0.3f, 10, VarStatModType.Multiplicative, false);
 		}
 
