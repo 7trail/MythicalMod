@@ -180,11 +180,21 @@ namespace Mythical {
 
             gemChest.text = itemInfo;
             gemChest = gemChest.loadSprite("gemchest");
-
-            
-
             Items.Register(gemChest);
 
+            ItemInfo atkSpeedUp = new ItemInfo();
+            atkSpeedUp.name = "atkSpeedUpRelic";
+            atkSpeedUp.item = new AttackSpeedUpItem();
+            atkSpeedUp.tier = 1;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Energy Drink";
+            itemInfo.description = "Increases spell activation speed!";
+            itemInfo.itemID = AttackSpeedUpItem.staticID;
+
+            atkSpeedUp.text = itemInfo;
+            atkSpeedUp = atkSpeedUp.loadSprite("atkSpeedUp");
+            Items.Register(atkSpeedUp);
 
             LoadAntiRelics();
         }
