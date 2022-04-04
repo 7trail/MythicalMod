@@ -31,11 +31,10 @@ namespace Mythical
 
         public virtual void SetModStatus(bool givenStatus)
         {
-            Debug.Log("1");
             //global::StatManager.ModifyAllStatData(this.damageMod, this.parentSkillCategory, global::StatData.damageStr, new global::StatManager.ModApplyConditional(base.IgnoreStatusConditional), givenStatus);
-            if (givenStatus)
+            if (givenStatus && this.parentPlayer != null && this.parentPlayer.assignedSkills != null)
             {
-                Debug.Log("2");
+                
                 foreach (Player.SkillState skill in this.parentPlayer.assignedSkills)
                 {
                     if (skill != null)
@@ -43,11 +42,8 @@ namespace Mythical
                         skill.SetEmpowered(false, emp);
                     }
                 }
-                Debug.Log("3");
             }
-            Debug.Log("4");
             StatManager.ModifyAllStatData(cooldownReduction, this.parentSkillCategory, "cooldown", new StatManager.ModApplyConditional(this.Conditional), givenStatus);
-            Debug.Log("5");
             GameUI.RefreshCDUI();
         }
         public bool Conditional(StatData data)
