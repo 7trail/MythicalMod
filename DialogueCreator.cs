@@ -13,7 +13,7 @@ namespace Mythical
             List<DialogMessage> messages = new List<DialogMessage>();
             foreach(string str in statements)
             {
-                DialogMessage msg = default(DialogMessage);
+                DialogMessage msg = new DialogMessage(DialogManager.dialogDict.ElementAt(0).Value.messages[0]);
                 msg.message = str;
                 msg.leftActive = false;
                 msg.leftSpeakerInitialized = false;
