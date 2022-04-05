@@ -16,7 +16,8 @@ namespace Mythical
 		{
 			this.ID = Behemoth.staticID;
 			this.category = global::Item.Category.Offense;
-			//this.damageMod = new global::NumVarStatMod(this.ID, -0.3f, 10, VarStatModType.Multiplicative, false);
+			this.isCursed = true;
+			this.damageMod = new global::NumVarStatMod(this.ID, -0.3f, 10, VarStatModType.Multiplicative, false);
 		}
 
 		// Token: 0x0600000E RID: 14
@@ -34,7 +35,7 @@ namespace Mythical
 		// Token: 0x06000010 RID: 16
 		public virtual void SetModStatus(bool givenStatus)
 		{
-			//global::StatManager.ModifyAllStatData(this.damageMod, this.parentSkillCategory, global::StatData.damageStr, new global::StatManager.ModApplyConditional(base.IgnoreStatusConditional), givenStatus);
+			global::StatManager.ModifyAllStatData(this.damageMod, this.parentSkillCategory, global::StatData.damageStr, new global::StatManager.ModApplyConditional(base.IgnoreStatusConditional), givenStatus);
 			if (givenStatus)
 			{
 				On.Health.TakeDamage += this.ExplosionDamage;
@@ -47,6 +48,7 @@ namespace Mythical
 		// (get) Token: 0x06000011 RID: 17
 		public override string ExtraInfo
 		{
+
 			get
 			{
 				return base.PercentToStr(this.damageMod, "-");

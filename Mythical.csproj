@@ -37,17 +37,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AirChannelDashGood.cs" />
+    <Compile Include="AllOrNothing.cs" />
     <Compile Include="AttackInfoHolderMythical.cs" />
+    <Compile Include="AttackSpeedUpItem.cs" />
     <Compile Include="Behemoth.cs" />
+    <Compile Include="DialogueCreator.cs" />
     <Compile Include="FrostCrit.cs" />
+    <Compile Include="GemChestRelic.cs" />
     <Compile Include="InvisibleOnLowHealth.cs" />
     <Compile Include="MidasRage.cs" />
+    <Compile Include="RootChanceUp.cs" />
     <Compile Include="SampleSkillLoader.cs" />
     <Compile Include="Skills.cs" />
     <Compile Include="ImgHandler.cs" />
     <Compile Include="MonsterTooth.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
+    <Compile Include="UnEnhanceRelic.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">

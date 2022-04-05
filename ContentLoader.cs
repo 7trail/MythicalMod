@@ -44,7 +44,17 @@ namespace Mythical {
 
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
             Debug.Log("Loading Outfits");
+
             OutfitInfo outfitInfo = new OutfitInfo();
+            outfitInfo.name = "Vagrant";
+            outfitInfo.outfit = new global::Outfit("Mythical::Vagrant", 15, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(global::OutfitModStat.OutfitModType.HealAmount, 0f, 0.2f, 0f, false),
+                new global::OutfitModStat(global::OutfitModStat.OutfitModType.CritChance, 0f, 0.2f, 0f, false)
+            }, true, false);
+            Outfits.Register(outfitInfo);
+
+            outfitInfo = new OutfitInfo();
             outfitInfo.name = "Showman";
             outfitInfo.outfit = new global::Outfit("Mythical::Showman", 30, new List<global::OutfitModStat>
             {
@@ -163,37 +173,85 @@ namespace Mythical {
             itemInfo.description = "Destructibles drop more gold more frequently!";
             itemInfo.itemID = MidasRage.staticID;
 
-            spr = ImgHandler.LoadSprite("midas");
-
             midas.text = itemInfo;
-            midas.icon = (spr != null ? spr : null);
+            midas = midas.loadSprite("midas");
 
-            Items.Register(midas);
+            Items.Register(midas); //Here is where all the funny anti element relics come in ------------
 
-            ItemInfo frost = new ItemInfo();
-            frost.name = "FrostCrit";
-            frost.item = new FrostCrit();
-            frost.tier = 2;
+            ItemInfo gemChest = new ItemInfo();
+            gemChest.name = "GemChestRelic";
+            gemChest.item = new GemChestRelic();
+            gemChest.tier = 1;
 
             itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Antifrost";
-            itemInfo.description = "Attacks against Frost enemies are guaranteed to be critical!";
-            itemInfo.itemID = FrostCrit.staticID;
+            itemInfo.displayName = "Locked Gem Chest";
+            itemInfo.description = "Gets heavier as you progress through the trials! Drop from inventory to open.";
+            itemInfo.itemID = GemChestRelic.staticID;
 
-            spr = ImgHandler.LoadSprite("antifrost");
+            gemChest.text = itemInfo;
+            gemChest = gemChest.loadSprite("gemchest");
+            Items.Register(gemChest);
 
-            frost.text = itemInfo;
-            frost.icon = (spr != null ? spr : null);
+            ItemInfo atkSpeedUp = new ItemInfo();
+            atkSpeedUp.name = "atkSpeedUpRelic";
+            atkSpeedUp.item = new AttackSpeedUpItem();
+            atkSpeedUp.tier = 1;
 
-            Items.Register(frost);
-        }
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Energy Drink";
+            itemInfo.description = "Increases spell activation speed!";
+            itemInfo.itemID = AttackSpeedUpItem.staticID;
 
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                GameController.players[0].GetComponent<Player>().GiveDesignatedItem("DamageUp");
-            }
+            atkSpeedUp.text = itemInfo;
+            atkSpeedUp = atkSpeedUp.loadSprite("atkSpeedUp");
+            Items.Register(atkSpeedUp);
+
+            ItemInfo unEnhance = new ItemInfo();
+            unEnhance.name = UnEnhanceRelic.staticID;
+            unEnhance.item = new UnEnhanceRelic();
+            unEnhance.tier = 1;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Power Drain";
+            itemInfo.description = "Unenhance all current arcana, but greatly reduce cooldowns!";
+            itemInfo.itemID = UnEnhanceRelic.staticID;
+
+            unEnhance.text = itemInfo;
+            unEnhance = unEnhance.loadSprite("unEnhance");
+            Items.Register(unEnhance);
+
+            ItemInfo allOrNothing = new ItemInfo();
+            allOrNothing.name = AllOrNothing.staticID;
+            allOrNothing.item = new AllOrNothing();
+            allOrNothing.tier = 1;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "All Or Nothing";
+            itemInfo.description = "Idea by BurnVolcano! You have a 50 percent chance to deal triple damage, but deal no damage otherwise!";
+            itemInfo.itemID = AllOrNothing.staticID;
+
+            allOrNothing.text = itemInfo;
+            allOrNothing = allOrNothing.loadSprite("allOrNothing");
+            Items.Register(allOrNothing);
+
+            ItemInfo rootChanceUp = new ItemInfo();
+            rootChanceUp.name = RootChanceUp.staticID;
+            rootChanceUp.item = new RootChanceUp();
+            rootChanceUp.tier = 1;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Petrified Root";
+            itemInfo.description = "Adds a chance to root foes!";
+            itemInfo.itemID = RootChanceUp.staticID;
+
+            rootChanceUp.text = itemInfo;
+            rootChanceUp = rootChanceUp.loadSprite("rootChanceUp");
+            Items.Register(rootChanceUp);
+
+
+            LoadAntiRelics();
+            DialogueCreator.Init();
+            MakeNewDialogueTest();
         }
 
         public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item givenItem, bool showNotice, bool ignoreMax)
@@ -243,12 +301,99 @@ namespace Mythical {
             //return orig(self, item, show, true);
         }
 
-        // This Update() function will run every frame
+        public static void LoadAntiRelics()
+        {
+            ItemInfo frost = new ItemInfo();
+            frost.name = "frostCrit";
+            frost.item = new IceCrit();
+            frost.tier = 3;
 
-        // Here, we'll hook on to the CameraController's Awake function, to mess with things when it initializes.
+            TextManager.ItemInfo itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Antifrost";
+            itemInfo.description = "Attacks against Frost enemies are guaranteed to be critical!";
+            itemInfo.itemID = FrostCrit.staticID;
+
+            frost.text = itemInfo;
+            frost = frost.loadSprite("antifrost");
+
+            Items.Register(frost);
+
+            ItemInfo flame = new ItemInfo();
+            flame.name = "flameCrit";
+            flame.item = new FlameCrit();
+            flame.tier = 3;
 
 
-        // Here, we're hooking on the Update function. This code runs every frame on that CameraController
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-Flame";
+            itemInfo.description = "Attacks against flame enemies are guaranteed to be critical!";
+            itemInfo.itemID = "flameCrit";
 
+            flame.text = itemInfo;
+            flame = flame.loadSprite("antiflame");
+
+            Items.Register(flame);
+
+            ItemInfo earth = new ItemInfo();
+            earth.name = "earthCrit";
+            earth.item = new EarthCrit();
+            earth.tier = 2;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-Earth";
+            itemInfo.description = "Attacks against earth enemies are guaranteed to be critical!";
+            itemInfo.itemID = "earthCrit";
+
+            earth.text = itemInfo;
+            earth = earth.loadSprite("antiearth");
+
+            Items.Register(earth);
+
+            ItemInfo wind = new ItemInfo();
+            wind.name = "windCrit";
+            wind.item = new WindCrit();
+            wind.tier = 2;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-Wind";
+            itemInfo.description = "Attacks against wind enemies are guaranteed to be critical!";
+            itemInfo.itemID = "windCrit";
+
+            wind.text = itemInfo;
+            wind = wind.loadSprite("antiwind");
+
+            Items.Register(wind);
+
+            ItemInfo thunder = new ItemInfo();
+            thunder.name = "thunderCrit";
+            thunder.item = new ThunderCrit();
+            thunder.tier = 4;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Sanctum of Anti-Thunder";
+            itemInfo.description = "Attacks against thunder enemies are guaranteed to be critical!";
+            itemInfo.itemID = "thunderCrit";
+
+            thunder.text = itemInfo;
+            thunder = thunder.loadSprite("antithunder");
+
+            Items.Register(thunder);
+        }
+
+        public static void MakeNewDialogueTest()
+        {
+            DialogueCreator.RegisterDialogue("mod",DialogueCreator.GenerateDialog(new List<string>() {"Among us sus", "Among us sus?", "Among us sus!" }));
+        }
+
+    }
+}
+
+public static class Extensions
+{
+    public static ItemInfo loadSprite(this ItemInfo info, string name)
+    {
+        Sprite spr = Mythical.ImgHandler.LoadSprite(name);
+        info.icon = (spr != null ? spr : null);
+        return info;
     }
 }
