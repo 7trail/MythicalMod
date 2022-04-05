@@ -250,8 +250,9 @@ namespace Mythical {
 
 
             LoadAntiRelics();
-            DialogueCreator.Init();
-            MakeNewDialogueTest();
+            //DialogueCreator.Init();
+            //MakeNewDialogueTest();
+            AddBlobBoss();
         }
 
         public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item givenItem, bool showNotice, bool ignoreMax)
@@ -378,6 +379,25 @@ namespace Mythical {
             thunder = thunder.loadSprite("antithunder");
 
             Items.Register(thunder);
+        }
+
+        public static void AddBlobBoss()
+        {
+            On.ExitRoomEventHandler.Start += addToPool;
+        }
+        public static void addToPool(On.ExitRoomEventHandler.orig_Start orig, ExitRoomEventHandler self)
+        {
+            self.miniBossGroupList = new List<List<Enemy.EName>>()
+            {
+                new List<Enemy.EName>
+                {
+                    Enemy.EName.SuperBlob,
+                    Enemy.EName.Blob,
+                    Enemy.EName.BlobRoller,
+                    Enemy.EName.BlobSpitter
+                }
+            };
+            orig(self);
         }
 
         public static void MakeNewDialogueTest()
