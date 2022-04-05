@@ -21,7 +21,7 @@ namespace Mythical
             entry.optionsPoint = optionsPoint;
             return entry;
         }
-        static List<DialogTemp> tempDialogues;
+        static List<DialogTemp> tempDialogues = new List<DialogTemp>();
         public static void Init()
         {
             On.DialogManager.InitDialogDicts += InitDialogueDicts;
