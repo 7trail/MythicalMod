@@ -234,6 +234,21 @@ namespace Mythical {
             allOrNothing = allOrNothing.loadSprite("allOrNothing");
             Items.Register(allOrNothing);
 
+            ItemInfo rootChanceUp = new ItemInfo();
+            rootChanceUp.name = RootChanceUp.staticID;
+            rootChanceUp.item = new RootChanceUp();
+            rootChanceUp.tier = 1;
+
+            itemInfo = new TextManager.ItemInfo();
+            itemInfo.displayName = "Petrified Root";
+            itemInfo.description = "Adds a chance to root foes!";
+            itemInfo.itemID = RootChanceUp.staticID;
+
+            rootChanceUp.text = itemInfo;
+            rootChanceUp = rootChanceUp.loadSprite("rootChanceUp");
+            Items.Register(rootChanceUp);
+
+
             LoadAntiRelics();
         }
 
