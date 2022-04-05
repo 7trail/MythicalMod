@@ -75,8 +75,8 @@ namespace Mythical {
             Outfits.Register(outfitInfo);
 
             outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Shade";
-            outfitInfo.outfit = new global::Outfit("Mythical::Shade", 24, new List<global::OutfitModStat>
+            outfitInfo.name = "Handyman";
+            outfitInfo.outfit = new global::Outfit("Mythical::Handyman", 27, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(global::OutfitModStat.OutfitModType.Speed, 0f, 0.1f, 0f, false),
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
@@ -396,6 +396,16 @@ namespace Mythical {
                     Enemy.EName.Blob,
                     Enemy.EName.BlobRoller,
                     Enemy.EName.BlobSpitter
+                }
+            };
+            self.miniBossGroupList = new List<List<Enemy.EName>>()
+            {
+                new List<Enemy.EName>
+                {
+                    Enemy.EName.SuperMovingStatue,
+                    Enemy.EName.MovingStatue,
+                    Enemy.EName.EnemyTurret,
+                    Enemy.EName.MovingStatue
                 }
             };
             orig(self);
