@@ -250,6 +250,7 @@ namespace Mythical {
 
 
             LoadAntiRelics();
+            DialogueCreator.Init();
             MakeNewDialogueTest();
         }
 
