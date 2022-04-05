@@ -402,11 +402,11 @@ namespace Mythical {
         }
         public static void superBlobChanges(On.SuperBlob.orig_Awake orig, SuperBlob self)
         {
-            bar = Globals.ChaosInst<EnemyHealthBar>(EnemyHealthBar.Prefab, null, null, null);
+            /*bar = Globals.ChaosInst<EnemyHealthBar>(EnemyHealthBar.Prefab, null, null, null);
             bar.Claim(self);
             bar.gameObject.SetActive(false);
             bar.SetName("Blob Conglomerate");
-            bar.FadeIn();
+            bar.FadeIn();*/
             orig(self);
         }
         public static EnemyHealthBar bar;
