@@ -13,6 +13,12 @@ namespace Mythical
             public List<string> statements;
             public int optionsPoint;
             public string id;
+            public DialogTemp(int options = -1)
+            {
+                statements = new List<string>();
+                optionsPoint = -1;
+                id = "";
+            }
         }
         public static DialogTemp GenerateDialog(List<string> statements, int optionsPoint = -1)
         {
@@ -57,7 +63,8 @@ namespace Mythical
         }
         public static DialogEntry MakeEntry(DialogTemp temp)
         {
-            DialogEntry entry = new DialogEntry();
+            DialogEntry entry = new DialogEntry(-1);
+            entry.ID = temp.id;
             List<DialogMessage> messages = new List<DialogMessage>();
             foreach (string str in temp.statements)
             {
