@@ -213,7 +213,7 @@ namespace Mythical {
 
             itemInfo = new TextManager.ItemInfo();
             itemInfo.displayName = "Power Drain";
-            itemInfo.description = "Unenhance all current relics, but greatly reduce cooldowns!";
+            itemInfo.description = "Unenhance all current arcana, but greatly reduce cooldowns!";
             itemInfo.itemID = UnEnhanceRelic.staticID;
 
             unEnhance.text = itemInfo;
@@ -250,6 +250,7 @@ namespace Mythical {
 
 
             LoadAntiRelics();
+            MakeNewDialogueTest();
         }
 
         public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item givenItem, bool showNotice, bool ignoreMax)
@@ -377,6 +378,12 @@ namespace Mythical {
 
             Items.Register(thunder);
         }
+
+        public static void MakeNewDialogueTest()
+        {
+            DialogueCreator.RegisterDialogue("mod",DialogueCreator.GenerateDialog(new List<string>() {"Among us sus", "Among us sus?", "Among us sus!" }));
+        }
+
     }
 }
 

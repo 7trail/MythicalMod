@@ -41,6 +41,7 @@
     <Compile Include="AttackInfoHolderMythical.cs" />
     <Compile Include="AttackSpeedUpItem.cs" />
     <Compile Include="Behemoth.cs" />
+    <Compile Include="DialogueCreator.cs" />
     <Compile Include="FrostCrit.cs" />
     <Compile Include="GemChestRelic.cs" />
     <Compile Include="InvisibleOnLowHealth.cs" />
