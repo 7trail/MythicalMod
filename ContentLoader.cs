@@ -384,6 +384,7 @@ namespace Mythical {
         public static void AddBlobBoss()
         {
             On.ExitRoomEventHandler.Start += addToPool;
+            On.SuperBlob.Awake += superBlobChanges;
         }
         public static void addToPool(On.ExitRoomEventHandler.orig_Start orig, ExitRoomEventHandler self)
         {
@@ -399,7 +400,16 @@ namespace Mythical {
             };
             orig(self);
         }
-
+        public static void superBlobChanges(On.SuperBlob.orig_Awake orig, SuperBlob self)
+        {
+            bar = Globals.ChaosInst<EnemyHealthBar>(EnemyHealthBar.Prefab, null, null, null);
+            bar.Claim(self);
+            bar.gameObject.SetActive(false);
+            bar.SetName("Blob Conglomerate");
+            bar.FadeIn();
+            orig(self);
+        }
+        public static EnemyHealthBar bar;
         public static void MakeNewDialogueTest()
         {
             DialogueCreator.RegisterDialogue("mod",DialogueCreator.GenerateDialog(new List<string>() {"Among us sus", "Among us sus?", "Among us sus!" }));
