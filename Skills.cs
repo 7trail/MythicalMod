@@ -180,7 +180,7 @@ namespace Mythical
 
             Debug.Log("1");
 
-            if (info.isNewSkill)
+            if (!TextManager.skillInfoDict.ContainsKey(info.ID))
             {
                 Debug.Log("2");
                 TextManager.skillInfoDict.Add(info.ID, skillText);
@@ -195,7 +195,7 @@ namespace Mythical
 
             if (true)
             {
-                if (info.isNewSkill)
+                if (!IconManager.skillIcons.ContainsKey(info.ID))
                 {
                     Debug.Log("2");
                     IconManager.skillIcons.Add(info.ID,info.skillIcon);
