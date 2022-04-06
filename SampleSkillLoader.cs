@@ -15,7 +15,7 @@ namespace Mythical
             
 
             Skills.SkillInfo skillInfo = new Skills.SkillInfo("PleaseWork");
-            skillInfo.ID = "AirChannelDash";
+            skillInfo.ID = "AirChannelDashNew";
             skillInfo.description = "A modified Channel Dash!";
             skillInfo.cooldown = 2;
             skillInfo.chargeCooldown = 0;
