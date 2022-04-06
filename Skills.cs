@@ -90,7 +90,14 @@ namespace Mythical
 
             if (!hasLoadedNewSpells)
             {
-                
+                if (IconManager.skillIcons == null)
+                {
+                    IconManager.skillIcons = new Dictionary<string, Sprite>();
+                }
+                if (TextManager.skillInfoDict == null)
+                {
+                    TextManager.skillInfoDict = new Dictionary<string, TextManager.SkillInfo>();
+                }
                 foreach(SkillInfo skill in skillsDict.Values)
                 {
                     if (skill.isNewSkill && newState is Player.SkillState)
