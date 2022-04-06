@@ -167,24 +167,35 @@ namespace Mythical
             skillText.displayName = info.displayName;
             skillText.description = info.description;
             skillText.empowered = info.empowered;
+
+            Debug.Log("1");
+
             if (info.isNewSkill)
             {
+                Debug.Log("2");
                 TextManager.skillInfoDict.Add(info.ID, skillText);
+                Debug.Log("2.5");
             }
             else
             {
+                Debug.Log("3");
                 TextManager.skillInfoDict[info.ID] = skillText;
+                Debug.Log("3.5");
             }
 
             if (true)
             {
                 if (info.isNewSkill)
                 {
+                    Debug.Log("2");
                     IconManager.skillIcons.Add(info.ID,info.skillIcon);
+                    Debug.Log("2.5");
                 }
                 else
                 {
+                    Debug.Log("3");
                     IconManager.skillIcons[info.ID] = info.skillIcon;
+                    Debug.Log("3.5");
                 }
             }
 
