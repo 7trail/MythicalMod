@@ -384,12 +384,10 @@ namespace Mythical {
         public static void AddBlobBoss()
         {
             On.ExitRoomEventHandler.Start += addToPool;
-            On.SuperBlob.Awake += superBlobChanges;
         }
         public static void addToPool(On.ExitRoomEventHandler.orig_Start orig, ExitRoomEventHandler self)
         {
-            self.miniBossGroupList = new List<List<Enemy.EName>>()
-            {
+            self.miniBossGroupList.Add(
                 new List<Enemy.EName>
                 {
                     Enemy.EName.SuperBlob,
@@ -397,9 +395,8 @@ namespace Mythical {
                     Enemy.EName.BlobRoller,
                     Enemy.EName.BlobSpitter
                 }
-            };
-            self.miniBossGroupList = new List<List<Enemy.EName>>()
-            {
+            );
+            self.miniBossGroupList.Add(
                 new List<Enemy.EName>
                 {
                     Enemy.EName.SuperMovingStatue,
@@ -407,16 +404,8 @@ namespace Mythical {
                     Enemy.EName.EnemyTurret,
                     Enemy.EName.MovingStatue
                 }
-            };
-            orig(self);
-        }
-        public static void superBlobChanges(On.SuperBlob.orig_Awake orig, SuperBlob self)
-        {
-            /*bar = Globals.ChaosInst<EnemyHealthBar>(EnemyHealthBar.Prefab, null, null, null);
-            bar.Claim(self);
-            bar.gameObject.SetActive(false);
-            bar.SetName("Blob Conglomerate");
-            bar.FadeIn();*/
+            );
+            ExitRoomEventHandler.miniBossGroupCount = 9;
             orig(self);
         }
         public static EnemyHealthBar bar;
