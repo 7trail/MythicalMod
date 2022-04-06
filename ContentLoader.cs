@@ -42,8 +42,9 @@ namespace Mythical {
         void Awake() {
 
             Skills.Awake();
-
+            SampleSkillLoader.Awake();
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
+            /*
             Debug.Log("Loading Outfits");
 
             OutfitInfo outfitInfo = new OutfitInfo();
@@ -108,9 +109,6 @@ namespace Mythical {
             });
 
             Outfits.Register(outfitInfo);
-
-
-            //SampleSkillLoader.Awake();
 
 
             ItemInfo monsterTooth = new ItemInfo();
@@ -254,6 +252,7 @@ namespace Mythical {
             //DialogueCreator.Init();
             //MakeNewDialogueTest();
             AddBlobBoss();
+            */
         }
 
         public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item givenItem, bool showNotice, bool ignoreMax)
@@ -422,6 +421,11 @@ namespace Mythical {
                 GameObject mimi = MimicNpc.Prefab;
                 Instantiate(mimi, new Vector3(0, 9, 0), Quaternion.identity);
             }
+        }
+
+        public static void MakeStatMod(string id, float value, int priority=10, VarStatModType scaling = VarStatModType.Additive, bool thing = false)
+        {
+
         }
 
     }
