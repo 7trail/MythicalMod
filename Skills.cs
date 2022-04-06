@@ -110,13 +110,20 @@ namespace Mythical
                         Debug.Log("State 2 thing 2");
                         IState newState2 = (IState)state;
                         Debug.Log("Post State2 thing");
-                        self.AddState((IState)newState2);
+                        if (self.states.ContainsKey(newState2.name))
+                        {
+
+                        } else
+                        {
+                            self.AddState((IState)newState2);
+                        }
                         SetInfo(skill);
                         Debug.Log("Post Add State");
                         if (!((Player.SkillState)newState).parent.cooldownManager.cooldowns.ContainsKey(skill.ID))
                         {
                             ((Player.SkillState)newState).parent.cooldownManager.Add(skill.ID, skill.cooldown, null, (Player.SkillState)newState);
                         }
+                        Debug.Log("Post Add State 2");
                     }
                 }
             }
