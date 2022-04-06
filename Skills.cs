@@ -98,7 +98,9 @@ namespace Mythical
                         hasLoadedNewSpells = true;
                         Debug.Log("Pre State2 thing");
                         Player.SkillState state = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
+                        Debug.Log("State 2 thing 1");
                         state.parent.skillsDict.Add(state.skillID,state);
+                        Debug.Log("State 2 thing 2");
                         IState newState2 = (IState)state;
                         Debug.Log("Post State2 thing");
                         self.AddState((IState)newState2);
@@ -205,11 +207,16 @@ namespace Mythical
 
         public static Player.SkillState DefaultInitFunction(FSM fsm, Player.SkillState newState, SkillInfo info)
         {
+            Debug.Log("DefInit 1");
             Player.SkillState state = (Player.SkillState)Activator.CreateInstance(info.newState, fsm, newState.parent);
+            Debug.Log("DefInit 2");
             state.element = info.elementType;
+            Debug.Log("DefInit 3");
             if (info.isNewSkill)
             {
+                Debug.Log("DefInit 4");
                 IconManager.skillIcons.Add(info.ID,info.skillIcon);
+                Debug.Log("DefInit 5");
             } 
             return state;
         }
