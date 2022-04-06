@@ -22,6 +22,7 @@ namespace Mythical
             skillInfo.startingCharges = 3;
             skillInfo.newState = typeof(AirChannelDashGood);
             skillInfo.isNewSkill = true;
+            skillInfo.skillIcon = new Sprite();
             skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
             skillInfo.elementType = ElementType.Air;
             //skillInfo.isNewSkill = true;
