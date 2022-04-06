@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Resources;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Mythical {
 
@@ -412,6 +413,15 @@ namespace Mythical {
         public static void MakeNewDialogueTest()
         {
             DialogueCreator.RegisterDialogue("mod",DialogueCreator.GenerateDialog(new List<string>() {"Among us sus", "Among us sus?", "Among us sus!" }));
+        }
+
+        public void OnLevelWasLoaded()
+        {
+            if (SceneManager.GetActiveScene().name.ToLower()=="pvp")
+            {
+                GameObject mimi = MimicNpc.Prefab;
+                Instantiate(mimi, new Vector3(0, 9, 0), Quaternion.identity);
+            }
         }
 
     }
