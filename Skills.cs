@@ -218,6 +218,7 @@ namespace Mythical
             Player.SkillState state = (Player.SkillState)Activator.CreateInstance(info.newState, fsm, newState.parent);
             Debug.Log("DefInit 2");
             state.element = info.elementType;
+            state.skillID = info.ID;
             Debug.Log("DefInit 3");
             if (info.isNewSkill)
             {
