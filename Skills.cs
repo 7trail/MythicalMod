@@ -193,24 +193,25 @@ namespace Mythical
                 Debug.Log("3.5");
             }
 
-            if (true)
-            {
-                if (!IconManager.skillIcons.ContainsKey(info.ID))
-                {
-                    Debug.Log("2");
-                    IconManager.skillIcons.Add(info.ID,info.skillIcon);
-                    Debug.Log("2.5");
-                }
-                else
-                {
-                    Debug.Log("3");
-                    IconManager.skillIcons[info.ID] = info.skillIcon;
-                    Debug.Log("3.5");
-                }
-            }
+            SetIcon(info);
 
         }
 
+        public static void SetIcon(SkillInfo info)
+        {
+            if (!IconManager.skillIcons.ContainsKey(info.ID))
+            {
+                Debug.Log("2");
+                IconManager.skillIcons.Add(info.ID, info.skillIcon);
+                Debug.Log("2.5");
+            }
+            else
+            {
+                Debug.Log("3");
+                IconManager.skillIcons[info.ID] = info.skillIcon;
+                Debug.Log("3.5");
+            }
+        }
 
         public static Player.SkillState DefaultInitFunction(FSM fsm, Player.SkillState newState, SkillInfo info)
         {
@@ -223,7 +224,8 @@ namespace Mythical
             if (info.isNewSkill)
             {
                 Debug.Log("DefInit 4");
-                IconManager.skillIcons.Add(info.ID,info.skillIcon);
+
+                SetIcon(info);
                 Debug.Log("DefInit 5");
             } 
             return state;
