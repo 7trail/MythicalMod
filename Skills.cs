@@ -38,8 +38,12 @@ namespace Mythical
             Dictionary<string, StatData> dictionary = StatManager.data[StatManager.statFieldStr][text];
             foreach (SkillInfo info in skillsDict.Values)
             {
+                if (info.data == null) { Debug.Log("Uh oh, it's null!"); }
+                Debug.Log("1");
                 dictionary[info.data.GetValue<string>("ID", -1)] = info.data;
+                Debug.Log("3");
                 StatManager.globalSkillData[info.data.GetValue<string>("ID", -1)] = info.data;
+                Debug.Log("2");
             }
         }
         private static void CatalogSkills(On.LootManager.orig_ResetAvailableSkills orig)
