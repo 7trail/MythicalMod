@@ -16,13 +16,14 @@ namespace Mythical
 
             Skills.SkillInfo skillInfo = new Skills.SkillInfo("Fire Storm");
             skillInfo.ID = "Mythical::FireStorm";
-            skillInfo.description = "A modified Channel Dash!";
+            skillInfo.description = "Create an explosion where you dash!";
+            skillInfo.empowered = "Create an explosion where you land as well!";
             skillInfo.cooldown = 2;
             skillInfo.chargeCooldown = 0;
-            skillInfo.startingCharges = 3;
+            skillInfo.startingCharges = 2;
             skillInfo.newState = typeof(AirChannelDashGood);
             skillInfo.isNewSkill = true;
-            skillInfo.skillIcon = new Sprite();
+            skillInfo.skillIcon = Extensions.loadSprite("firestorm");
             skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
             skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData1.json");
             skillInfo.elementType = ElementType.Fire;

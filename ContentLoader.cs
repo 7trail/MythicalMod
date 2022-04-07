@@ -439,4 +439,9 @@ public static class Extensions
         info.icon = (spr != null ? spr : null);
         return info;
     }
+    public static Sprite loadSprite(string name)
+    {
+        Sprite spr = Mythical.ImgHandler.LoadSprite(name);
+        return (spr != null ? spr : null);
+    }
 }
