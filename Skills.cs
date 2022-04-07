@@ -221,13 +221,15 @@ namespace Mythical
 
         private static void replaceAttackInfo(AttackInfo stinky, AttackInfo sexy)
         {
-
-            sexy.entity = stinky.entity;
-            sexy.gameObject = stinky.gameObject;
-            sexy.skillCategory = stinky.skillCategory;
-            sexy.attackInfoKey = stinky.attackInfoKey;
-            sexy.atkObjID = stinky.atkObjID;
-            sexy.attacker = stinky.attacker;
+            if (stinky != null && sexy != null)
+            {
+                sexy.entity = stinky.entity;
+                sexy.gameObject = stinky.gameObject;
+                sexy.skillCategory = stinky.skillCategory;
+                sexy.attackInfoKey = stinky.attackInfoKey;
+                sexy.atkObjID = stinky.atkObjID;
+                sexy.attacker = stinky.attacker;
+            }
         }
 
         public static void Register(SkillInfo skillInfo)
