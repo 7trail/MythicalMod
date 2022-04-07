@@ -23,7 +23,50 @@ namespace Mythical
             On.FSM.AddState += FSM_AddState;
             On.Player.SkillState.InitChargeSkillSettings += SkillState_InitChargeSkillSettings;
             On.Attack.SetAttackInfo_string_string_int_bool += Attack_SetAttackInfo_string_string_int_bool;
+            On.LootManager.ResetAvailableSkills += CatalogSkills;
             //On.CooldownManager.Add += CooldownManager_Add;
+        }
+
+        private static void CatalogSkills(On.LootManager.orig_ResetAvailableSkills orig)
+        {
+            bool flag = badentrypointsignal.Contains("Loot");
+            if (flag)
+            {
+                orig.Invoke();
+            }
+            else
+            {
+                foreach (SkillInfo info in skillsDict.Values)
+                {
+                    bool flag2 = !LootManager.completeSkillList.Contains(info.ID);
+                    if (flag2)
+                    {
+                        LootManager.completeSkillList.Add(info.ID);
+                    }
+
+                    bool flag3 = info.tier >= LootManager.maxSkillTier;
+                    if (flag3)
+                    {
+                        for (int i = LootManager.maxSkillTier; i <= info.tier; i++)
+                        {
+                            LootManager.skillTierDict.Add(i, new List<string>());
+                        }
+                        LootManager.maxSkillTier = info.tier + 1;
+                    }
+                    foreach (List<string> list in LootManager.skillTierDict.Values)
+                    {
+                        bool flag4 = list.Contains(info.ID);
+                        if (flag4)
+                        {
+                            list.Remove(info.ID);
+                        }
+                    }
+                    LootManager.skillTierDict[info.tier].Add(info.ID);
+                }
+                //Items.LateInit();
+                badentrypointsignal.Add("Loot");
+                orig.Invoke();
+            }
         }
 
         private static void Skill_ctor(On.Player.SkillState.orig_ctor orig, Player.SkillState self, string newName, FSM fsm, Player parentPlayer)
@@ -265,6 +308,7 @@ namespace Mythical
             public float cooldown;
             public float chargeCooldown;
             public bool isChargeSkill;
+            public int tier;
 
             public ElementType elementType;
             public Sprite skillIcon;
@@ -282,6 +326,7 @@ namespace Mythical
                 chargeCooldown = 0;
                 isChargeSkill = true;
                 attackInfo = null;
+                tier = 1;
                 elementType = ElementType.Fire;
                 skillIcon = new Sprite();
                 isNewSkill = false;
@@ -290,5 +335,6 @@ namespace Mythical
            
 
         }
+        internal static List<string> badentrypointsignal = new List<string>();
     }
 }
