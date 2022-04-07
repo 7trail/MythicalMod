@@ -41,13 +41,20 @@ namespace Mythical
 
                 foreach (SkillInfo info in skillsDict.Values)
                 {
-                    StatData data = new StatData(info.data, text);
-                    if (data == null) { Debug.Log("Uh oh, it's null!"); }
-                    Debug.Log("1");
-                    dictionary[data.GetValue<string>("ID", -1)] = data;
-                    Debug.Log("3");
-                    StatManager.globalSkillData[data.GetValue<string>("ID", -1)] = data;
-                    Debug.Log("2");
+                    if (info.data == null)
+                    {
+                        Debug.Log("Uh oh! SkillStats is null!");
+                    }
+                    else
+                    {
+                        StatData data = new StatData(info.data, text);
+                        if (data == null) { Debug.Log("Uh oh, it's null!"); }
+                        Debug.Log("1");
+                        dictionary[data.GetValue<string>("ID", -1)] = data;
+                        Debug.Log("2");
+                        StatManager.globalSkillData[data.GetValue<string>("ID", -1)] = data;
+                        Debug.Log("3");
+                    }
                 }
             }
         }
