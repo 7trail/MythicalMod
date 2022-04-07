@@ -47,6 +47,7 @@ namespace Mythical
                     }
                     else
                     {
+                        info.data.Initialize();
                         StatData data = new StatData(info.data, text);
                         if (data == null) { Debug.Log("Uh oh, it's null!"); }
                         Debug.Log("1");
