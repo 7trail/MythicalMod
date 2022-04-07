@@ -28,7 +28,7 @@ namespace Mythical
                 orig.Invoke(self);
                 On.LootManager.ResetAvailableSkills += CatalogSkills;
             };
-            //On.CooldownManager.Add += CooldownManager_Add;
+            On.CooldownManager.Add += CooldownManager_Add;
         }
 
         private static void CatalogSkills(On.LootManager.orig_ResetAvailableSkills orig)
@@ -169,7 +169,7 @@ namespace Mythical
                         }
                     }
                     string str = ((Player.SkillState)newState).skillID;
-                    if (skillsDict.ContainsKey(str))
+                    if (skillsDict.ContainsKey(str) && !skillsDict[str].isNewSkill)
                     {
                         Debug.Log("Added state");
                         SkillInfo info = skillsDict[str];

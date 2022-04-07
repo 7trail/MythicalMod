@@ -13,6 +13,7 @@ namespace Mythical
 		{
 			//this.hasEmpowered = true;
 			this.applyStopElementStatus = true;
+			this.isDash = true;
 			base.InitChargeSkillSettings(2, 0f, this.skillData, this);
 		}
 
