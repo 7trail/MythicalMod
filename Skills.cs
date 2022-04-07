@@ -240,6 +240,7 @@ namespace Mythical
             Debug.Log("DefInit 2");
             state.element = info.elementType;
             state.skillID = info.ID;
+            state.name = info.ID;
             Debug.Log("DefInit 3");
             if (info.isNewSkill)
             {
