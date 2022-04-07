@@ -128,6 +128,10 @@ namespace Mythical
                         newState = (IState)DefaultInitFunction(self, ((Player.SkillState)newState), info);
 
                     }
+                    foreach (SpellBookUI ui in UnityEngine.MonoBehaviour.FindObjectsOfType<SpellBookUI>())
+                    {
+                        ui.LoadEleSkillDict(((Player.SkillState)newState).parent);
+                    }
                 }
             }
             if (!self.states.ContainsKey(newState.name))
