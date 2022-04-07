@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Resources;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Mythical {
 
@@ -41,8 +42,9 @@ namespace Mythical {
         void Awake() {
 
             Skills.Awake();
-
+            SampleSkillLoader.Awake();
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
+            /*
             Debug.Log("Loading Outfits");
 
             OutfitInfo outfitInfo = new OutfitInfo();
@@ -75,8 +77,8 @@ namespace Mythical {
             Outfits.Register(outfitInfo);
 
             outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Shade";
-            outfitInfo.outfit = new global::Outfit("Mythical::Shade", 24, new List<global::OutfitModStat>
+            outfitInfo.name = "Handyman";
+            outfitInfo.outfit = new global::Outfit("Mythical::Handyman", 27, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(global::OutfitModStat.OutfitModType.Speed, 0f, 0.1f, 0f, false),
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
@@ -107,9 +109,6 @@ namespace Mythical {
             });
 
             Outfits.Register(outfitInfo);
-
-
-            //SampleSkillLoader.Awake();
 
 
             ItemInfo monsterTooth = new ItemInfo();
@@ -250,8 +249,10 @@ namespace Mythical {
 
 
             LoadAntiRelics();
-            DialogueCreator.Init();
-            MakeNewDialogueTest();
+            //DialogueCreator.Init();
+            //MakeNewDialogueTest();
+            AddBlobBoss();
+            */
         }
 
         public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item givenItem, bool showNotice, bool ignoreMax)
@@ -380,9 +381,51 @@ namespace Mythical {
             Items.Register(thunder);
         }
 
+        public static void AddBlobBoss()
+        {
+            On.ExitRoomEventHandler.Start += addToPool;
+        }
+        public static void addToPool(On.ExitRoomEventHandler.orig_Start orig, ExitRoomEventHandler self)
+        {
+            self.miniBossGroupList.Add(
+                new List<Enemy.EName>
+                {
+                    Enemy.EName.SuperBlob,
+                    Enemy.EName.Blob,
+                    Enemy.EName.BlobRoller,
+                    Enemy.EName.BlobSpitter
+                }
+            );
+            self.miniBossGroupList.Add(
+                new List<Enemy.EName>
+                {
+                    Enemy.EName.SuperMovingStatue,
+                    Enemy.EName.MovingStatue,
+                    Enemy.EName.EnemyTurret,
+                    Enemy.EName.MovingStatue
+                }
+            );
+            ExitRoomEventHandler.miniBossGroupCount = 9;
+            orig(self);
+        }
+        public static EnemyHealthBar bar;
         public static void MakeNewDialogueTest()
         {
             DialogueCreator.RegisterDialogue("mod",DialogueCreator.GenerateDialog(new List<string>() {"Among us sus", "Among us sus?", "Among us sus!" }));
+        }
+
+        public void OnLevelWasLoaded()
+        {
+            if (SceneManager.GetActiveScene().name.ToLower()=="pvp")
+            {
+                GameObject mimi = MimicNpc.Prefab;
+                Instantiate(mimi, new Vector3(0, 9, 0), Quaternion.identity);
+            }
+        }
+
+        public static void MakeStatMod(string id, float value, int priority=10, VarStatModType scaling = VarStatModType.Additive, bool thing = false)
+        {
+
         }
 
     }
