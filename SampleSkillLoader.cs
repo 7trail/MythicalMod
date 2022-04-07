@@ -24,7 +24,7 @@ namespace Mythical
             skillInfo.isNewSkill = true;
             skillInfo.skillIcon = new Sprite();
             skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
-            skillInfo.data = Utils.LoadFromEmbeddedJson<StatData>("StatData1.json");
+            skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData1.json");
             skillInfo.elementType = ElementType.Fire;
 
             Skills.Register(skillInfo);

@@ -34,16 +34,21 @@ namespace Mythical
         public static void AddSkills(On.StatManager.orig_LoadData orig, string str, string statID, string category, string modifier)
         {
             orig(str,statID,category,modifier);
-            string text = category+modifier;
-            Dictionary<string, StatData> dictionary = StatManager.data[statID][text];
-            foreach (SkillInfo info in skillsDict.Values)
+            if (str == StatManager.playerSkillAssetPath)
             {
-                if (info.data == null) { Debug.Log("Uh oh, it's null!"); }
-                Debug.Log("1");
-                dictionary[info.data.GetValue<string>("ID", -1)] = info.data;
-                Debug.Log("3");
-                StatManager.globalSkillData[info.data.GetValue<string>("ID", -1)] = info.data;
-                Debug.Log("2");
+                string text = category + modifier;
+                Dictionary<string, StatData> dictionary = StatManager.data[statID][text];
+
+                foreach (SkillInfo info in skillsDict.Values)
+                {
+                    StatData data = new StatData(info.data, text);
+                    if (data == null) { Debug.Log("Uh oh, it's null!"); }
+                    Debug.Log("1");
+                    dictionary[data.GetValue<string>("ID", -1)] = data;
+                    Debug.Log("3");
+                    StatManager.globalSkillData[data.GetValue<string>("ID", -1)] = data;
+                    Debug.Log("2");
+                }
             }
         }
         private static void CatalogSkills(On.LootManager.orig_ResetAvailableSkills orig)
@@ -329,7 +334,7 @@ namespace Mythical
             public string ID;
             public System.Type newState;
             public AttackInfo attackInfo;
-            public StatData data;
+            public SkillStats data;
             public int startingCharges;
             public float cooldown;
             public float chargeCooldown;
