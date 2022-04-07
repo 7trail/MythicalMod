@@ -75,13 +75,12 @@ namespace Mythical
 
         private static void FSM_AddState(On.FSM.orig_AddState orig, FSM self, IState newState)
         {
-            
 
             if (!hasLoadedNewSpells)
             {
                 if (IconManager.skillIcons == null)
                 {
-                    IconManager.skillIcons = new Dictionary<string, Sprite>();
+                    IconManager.skillIcons = IconManager.SkillIcons;
                 }
                 if (TextManager.skillInfoDict == null)
                 {
