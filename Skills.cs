@@ -27,7 +27,7 @@ namespace Mythical
             {
                 orig.Invoke(self);
                 On.LootManager.ResetAvailableSkills += CatalogSkills;
-            }
+            };
             //On.CooldownManager.Add += CooldownManager_Add;
         }
 
