@@ -27,15 +27,15 @@ namespace Mythical
             {
                 orig.Invoke(self);
                 On.LootManager.ResetAvailableSkills += CatalogSkills;
-                On.StatManager.LoadPlayerSkills += AddSkills;
+                On.StatManager.LoadData += AddSkills;
             };
             On.CooldownManager.Add += CooldownManager_Add;
         }
-        public static void AddSkills(On.StatManager.orig_LoadPlayerSkills orig, string str)
+        public static void AddSkills(On.StatManager.orig_LoadData orig, string str, string statID, string category, string modifier)
         {
-            orig(str);
-            string text = StatManager.playerBaseCategory;
-            Dictionary<string, StatData> dictionary = StatManager.data[StatManager.statFieldStr][text];
+            orig(str,statID,category,modifier);
+            string text = category+modifier;
+            Dictionary<string, StatData> dictionary = StatManager.data[statID][text];
             foreach (SkillInfo info in skillsDict.Values)
             {
                 if (info.data == null) { Debug.Log("Uh oh, it's null!"); }
