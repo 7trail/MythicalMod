@@ -23,7 +23,11 @@ namespace Mythical
             On.FSM.AddState += FSM_AddState;
             On.Player.SkillState.InitChargeSkillSettings += SkillState_InitChargeSkillSettings;
             On.Attack.SetAttackInfo_string_string_int_bool += Attack_SetAttackInfo_string_string_int_bool;
-            On.LootManager.ResetAvailableSkills += CatalogSkills;
+            On.GameController.Awake += delegate (On.GameController.orig_Awake orig, GameController self)
+            {
+                orig.Invoke(self);
+                On.LootManager.ResetAvailableSkills += CatalogSkills;
+            }
             //On.CooldownManager.Add += CooldownManager_Add;
         }
 
