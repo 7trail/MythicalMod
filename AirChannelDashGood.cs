@@ -74,7 +74,7 @@ namespace Mythical
 			this.currentAC.targetVector = this.inputVector;
 		}
 
-		public new static string staticID = "AirChannelDashNew";
+		public new static string staticID = "AirChannelDashNewAmongUs";
 
 		private WindBurst currentWB;
 
