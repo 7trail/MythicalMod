@@ -27,10 +27,21 @@ namespace Mythical
             {
                 orig.Invoke(self);
                 On.LootManager.ResetAvailableSkills += CatalogSkills;
+                On.StatManager.LoadPlayerSkills += AddSkills;
             };
             On.CooldownManager.Add += CooldownManager_Add;
         }
-
+        public static void AddSkills(On.StatManager.orig_LoadPlayerSkills orig, string str)
+        {
+            orig(str);
+            string text = StatManager.playerBaseCategory;
+            Dictionary<string, StatData> dictionary = StatManager.data[StatManager.statFieldStr][text];
+            foreach (SkillInfo info in skillsDict.Values)
+            {
+                dictionary[info.data.GetValue<string>("ID", -1)] = info.data;
+                StatManager.globalSkillData[info.data.GetValue<string>("ID", -1)] = info.data;
+            }
+        }
         private static void CatalogSkills(On.LootManager.orig_ResetAvailableSkills orig)
         {
             bool flag = badentrypointsignal.Contains("Loot");
@@ -314,6 +325,7 @@ namespace Mythical
             public string ID;
             public System.Type newState;
             public AttackInfo attackInfo;
+            public StatData data;
             public int startingCharges;
             public float cooldown;
             public float chargeCooldown;
@@ -340,6 +352,7 @@ namespace Mythical
                 elementType = ElementType.Fire;
                 skillIcon = new Sprite();
                 isNewSkill = false;
+                data = null;
             }
 
            

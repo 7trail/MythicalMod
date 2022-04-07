@@ -14,7 +14,7 @@ namespace Mythical
 			//this.hasEmpowered = true;
 			this.applyStopElementStatus = true;
 			this.isDash = true;
-			base.InitChargeSkillSettings(2, 0f, this.skillData, this);
+			base.InitChargeSkillSettings(3, 0f, this.skillData, this);
 		}
 
 		public override void SetEmpowered(bool givenStatus, BoolVarStatMod givenMod)
@@ -31,7 +31,7 @@ namespace Mythical
 				Debug.Log("CASTING THE NEW GUY");
 				this.spawnPosition = this.parent.attackOriginTrans.position;
 				//this.CreateImplosion();
-				this.CreateExplosion(this.skillID, this.spawnPosition);
+				this.CreateExplosion(FlameBurst.burnSkillID, this.spawnPosition);
 				SoundManager.PlayAudioWithDistance("StandardHeavySwing", new Vector2?(this.parent.transform.position), null, 24f, -1f, 1.4f, false);
 				PoolManager.GetPoolItem<SectionedTrailEmitter>("WindTrail").Emit(this.spawnPosition, this.spawnPosition + this.inputVector * 5f, -1, false, -1f, true, 0.3f, 0.15f, null, true, null, null);
 				PoolManager.GetPoolItem<SectionedTrailEmitter>("WindTrail").Emit(this.spawnPosition, this.spawnPosition + this.inputVector * 5f, -1, false, -1f, true, 0.4f, 0.15f, null, true, null, null);
@@ -54,7 +54,7 @@ namespace Mythical
 		}
 		public void CreateExplosion(string skillID, Vector2 givenPosition)
 		{
-			global::FlameBurst.CreateBurst(givenPosition, "noparentskill", skillID, 1, 1.5f, true);
+			global::FlameBurst.CreateBurst(givenPosition, this.parent.skillCategory, skillID, 1, 1.5f, true);
 			global::SoundManager.PlayWithDistAndSPR("BlazingBlitzEnd", givenPosition, 1f);
 			global::PoolManager.GetPoolItem<global::ParticleEffect>("SmokeEmitter").Emit(new int?(6), new Vector3?(givenPosition), null, null, 0f, null, null);
 			global::CameraController.ShakeCamera(0.25f, false);
@@ -83,7 +83,7 @@ namespace Mythical
 			this.currentAC.targetVector = this.inputVector;
 		}
 
-		public new static string staticID = "AirChannelDashNewAmongUs";
+		public new static string staticID = "Mythical::FireStorm";
 
 		private WindBurst currentWB;
 

@@ -8,7 +8,7 @@
         "m_PathID": 0
     },
     "skillCategory": "Player0",
-    "skillID": "AirChannelDash",
+    "skillID": "Mythical::FireStorm",
     "skillLevel": 1,
     "isUltimate": false,
     "attackInfoKey": "Player0AirChannelDash1",
