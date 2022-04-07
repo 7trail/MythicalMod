@@ -9,7 +9,7 @@ namespace Mythical
 	public class AirChannelDashGood : Player.BaseDashState
 	{
 
-		public AirChannelDashGood(FSM fsm, Player parentPlayer) : base(Player.AirChannelDash.staticID, fsm, parentPlayer)
+		public AirChannelDashGood(FSM fsm, Player parentPlayer) : base(AirChannelDashGood.staticID, fsm, parentPlayer)
 		{
 			//this.hasEmpowered = true;
 			this.applyStopElementStatus = true;

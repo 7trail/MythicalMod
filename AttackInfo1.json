@@ -11,7 +11,7 @@
     "skillID": "Mythical::FireStorm",
     "skillLevel": 1,
     "isUltimate": false,
-    "attackInfoKey": "Player0AirChannelDash1",
+    "attackInfoKey": "Mythical::FireStorm",
     "atkObjID": -66074,
     "attacker": "WindBurst(Clone)-66066",
     "attackerPosition": {
