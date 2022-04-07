@@ -141,7 +141,7 @@ namespace Mythical
                             Player.SkillState state = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
                             Debug.Log("State 2 thing 1");
                             state.parent.skillsDict[state.skillID] =  state;
-                            state.isUnlocked = true;
+                            //state.isUnlocked = true;
                             Debug.Log("State 2 thing 2");
                             IState newState2 = (IState)state;
                             Debug.Log("Post State2 thing");
@@ -176,8 +176,10 @@ namespace Mythical
                     {
                         ui.LoadEleSkillDict(((Player.SkillState)newState).parent);
                     }
+                    GameDataManager.gameData.PushSkillData();
                 }
             }
+
             if (!self.states.ContainsKey(newState.name))
             {
                 orig(self, newState);
