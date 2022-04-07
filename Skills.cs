@@ -162,6 +162,7 @@ namespace Mythical
                             if (!((Player.SkillState)newState).parent.cooldownManager.cooldowns.ContainsKey(skill.ID))
                             {
                                 ((Player.SkillState)newState).parent.cooldownManager.Add(skill.ID, skill.cooldown, null, (Player.SkillState)newState);
+                                ((Player.SkillState)newState).parent.cooldownManager.cooldowns[skill.ID].maxChargeStat = new NumVarStat((float)skill.startingCharges, true);
                             }
                             Debug.Log("Post Add State 2");
                         }
