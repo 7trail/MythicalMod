@@ -75,18 +75,7 @@ namespace Mythical
 
         private static void FSM_AddState(On.FSM.orig_AddState orig, FSM self, IState newState)
         {
-            if (newState is Player.SkillState) {
-                string str = ((Player.SkillState)newState).skillID;
-                if (skillsDict.ContainsKey(str))
-                {
-                    Debug.Log("Added state");
-                    SkillInfo info = skillsDict[str];
-                    SetInfo(info);
-                    //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
-                    newState = (IState) DefaultInitFunction(self, ((Player.SkillState)newState),info);
-
-                }
-            }
+            
 
             if (!hasLoadedNewSpells)
             {
@@ -98,37 +87,55 @@ namespace Mythical
                 {
                     TextManager.skillInfoDict = new Dictionary<string, TextManager.SkillInfo>();
                 }
-                foreach(SkillInfo skill in skillsDict.Values)
+                if (newState is Player.SkillState)
                 {
-                    if (skill.isNewSkill && newState is Player.SkillState)
+                    hasLoadedNewSpells = true;
+                    foreach (SkillInfo skill in skillsDict.Values)
                     {
-                        hasLoadedNewSpells = true;
-                        Debug.Log("Pre State2 thing");
-                        Player.SkillState state = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
-                        Debug.Log("State 2 thing 1");
-                        state.parent.skillsDict.Add(state.skillID,state);
-                        Debug.Log("State 2 thing 2");
-                        IState newState2 = (IState)state;
-                        Debug.Log("Post State2 thing");
-                        if (self.states.ContainsKey(newState2.name))
+                        if (skill.isNewSkill)
                         {
 
-                        } else
-                        {
-                            self.AddState((IState)newState2);
+                            Debug.Log("Pre State2 thing");
+                            Player.SkillState state = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
+                            Debug.Log("State 2 thing 1");
+                            state.parent.skillsDict.Add(state.skillID, state);
+                            Debug.Log("State 2 thing 2");
+                            IState newState2 = (IState)state;
+                            Debug.Log("Post State2 thing");
+                            if (self.states.ContainsKey(newState2.name))
+                            {
+
+                            }
+                            else
+                            {
+                                self.AddState((IState)newState2);
+                            }
+                            SetInfo(skill);
+                            Debug.Log("Post Add State");
+                            if (!((Player.SkillState)newState).parent.cooldownManager.cooldowns.ContainsKey(skill.ID))
+                            {
+                                ((Player.SkillState)newState).parent.cooldownManager.Add(skill.ID, skill.cooldown, null, (Player.SkillState)newState);
+                            }
+                            Debug.Log("Post Add State 2");
                         }
-                        SetInfo(skill);
-                        Debug.Log("Post Add State");
-                        if (!((Player.SkillState)newState).parent.cooldownManager.cooldowns.ContainsKey(skill.ID))
-                        {
-                            ((Player.SkillState)newState).parent.cooldownManager.Add(skill.ID, skill.cooldown, null, (Player.SkillState)newState);
-                        }
-                        Debug.Log("Post Add State 2");
+                    }
+                    string str = ((Player.SkillState)newState).skillID;
+                    if (skillsDict.ContainsKey(str))
+                    {
+                        Debug.Log("Added state");
+                        SkillInfo info = skillsDict[str];
+                        SetInfo(info);
+                        //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
+                        newState = (IState)DefaultInitFunction(self, ((Player.SkillState)newState), info);
+
                     }
                 }
             }
-
-            orig(self, newState);
+            if (!self.states.ContainsKey(newState.name))
+            {
+                orig(self, newState);
+            }
+            
         }
 
         private static AttackInfo Attack_SetAttackInfo_string_string_int_bool(
