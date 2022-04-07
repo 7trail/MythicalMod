@@ -30,7 +30,8 @@ namespace Mythical
 			{
 				Debug.Log("CASTING THE NEW GUY");
 				this.spawnPosition = this.parent.attackOriginTrans.position;
-				this.CreateImplosion();
+				//this.CreateImplosion();
+				this.CreateExplosion(this.skillID, this.spawnPosition);
 				SoundManager.PlayAudioWithDistance("StandardHeavySwing", new Vector2?(this.parent.transform.position), null, 24f, -1f, 1.4f, false);
 				PoolManager.GetPoolItem<SectionedTrailEmitter>("WindTrail").Emit(this.spawnPosition, this.spawnPosition + this.inputVector * 5f, -1, false, -1f, true, 0.3f, 0.15f, null, true, null, null);
 				PoolManager.GetPoolItem<SectionedTrailEmitter>("WindTrail").Emit(this.spawnPosition, this.spawnPosition + this.inputVector * 5f, -1, false, -1f, true, 0.4f, 0.15f, null, true, null, null);
@@ -48,9 +49,16 @@ namespace Mythical
 					this.CreateImplosion();
 				}
 			}
+			Debug.Log("Doing the thing");
 			base.OnExit();
 		}
-
+		public void CreateExplosion(string skillID, Vector2 givenPosition)
+		{
+			global::FlameBurst.CreateBurst(givenPosition, "noparentskill", skillID, 1, 1.5f, true);
+			global::SoundManager.PlayWithDistAndSPR("BlazingBlitzEnd", givenPosition, 1f);
+			global::PoolManager.GetPoolItem<global::ParticleEffect>("SmokeEmitter").Emit(new int?(6), new Vector3?(givenPosition), null, null, 0f, null, null);
+			global::CameraController.ShakeCamera(0.25f, false);
+		}
 		private void CreateImplosion()
 		{
 			this.currentWB = WindBurst.CreateBurst(this.spawnPosition, this.parent.skillCategory, this.skillID, 1, this.burstScale);
