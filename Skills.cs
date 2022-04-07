@@ -97,7 +97,8 @@ namespace Mythical
                             Debug.Log("Pre State2 thing");
                             Player.SkillState state = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
                             Debug.Log("State 2 thing 1");
-                            state.parent.skillsDict.Add(state.skillID, state);
+                            state.parent.skillsDict[state.skillID] =  state;
+                            state.isUnlocked = true;
                             Debug.Log("State 2 thing 2");
                             IState newState2 = (IState)state;
                             Debug.Log("Post State2 thing");
