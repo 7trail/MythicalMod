@@ -124,7 +124,7 @@ namespace Mythical
 
                 Debug.Log("Modding charges of skill");
                 SkillInfo info = skillsDict[self.skillID];
-                if (info.cooldown != -1)
+                if (info.cooldown >= 0)
                 {
                     self.cooldownRef.MaxTime = info.cooldown;
                     self.cooldownRef.maxTime = info.cooldown;
@@ -132,7 +132,7 @@ namespace Mythical
                 if (info.chargeCooldown >= -0.01) {
                     self.cooldownRef.chargeDelayTime = info.chargeCooldown;
                 }
-                if (info.startingCharges != -1)
+                if (info.startingCharges >= 0)
                 {
                     
                     self.cooldownRef.MaxChargeCount = info.startingCharges;
@@ -154,9 +154,12 @@ namespace Mythical
                 {
                     orig(self, id, info.cooldown, data, state);
                     return;
+                } else
+                {
+                    orig(self, id, time, data, state);
                 }
             }
-            orig(self, id, time, data, state);
+            
         }
 
         private static void FSM_AddState(On.FSM.orig_AddState orig, FSM self, IState newState)
