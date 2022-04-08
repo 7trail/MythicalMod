@@ -223,7 +223,8 @@ namespace Mythical
                 string str = ((Player.SkillState)newState).skillID;
                 if (skillsDict.ContainsKey(str) && !skillsDict[str].isNewSkill)
                 {
-                    Debug.Log("Added state");
+
+                    Debug.Log("Added state for " + skillsDict[str].displayName);
                     SkillInfo info = skillsDict[str];
                     SetInfo(info);
                     //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
@@ -352,7 +353,7 @@ namespace Mythical
             return state;
         }
 
-        public struct SkillInfo
+        public class SkillInfo
         {
             public string displayName;
             public string description;

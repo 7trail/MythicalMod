@@ -36,7 +36,8 @@ namespace Mythical
             skillInfo.empowered = "You can move over pits and move faster!";
             skillInfo.newState = typeof(ZephyrNerf);
             skillInfo.isNewSkill =false;
-            skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
+            skillInfo.atkChanges = false;
+            //skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
             //skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData1.json");
             skillInfo.elementType = ElementType.Air;
 
