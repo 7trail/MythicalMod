@@ -109,6 +109,9 @@
   <ItemGroup>
     <EmbeddedResource Include="StatData1.json" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NewBubbleBarrageData.json" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(Username)" == "Erikbir" copy /Y "$(TargetPath)" "$(SolutionDir)\Build"
