@@ -51,9 +51,9 @@ namespace Mythical
 			Debug.Log("Doing the thing");
 			base.OnExit();
 		}
-		public void CreateExplosion(string skillID, Vector2 givenPosition)
+		public void CreateExplosion(string skillID, Vector2 givenPosition, bool empower = false)
 		{
-			global::FlameBurst.CreateBurst(givenPosition, this.parent.skillCategory, skillID, 1, 1.5f, true);
+			global::FlameBurst.CreateBurst(givenPosition, this.parent.skillCategory, skillID, 1, 2.5f*(empower?1.25f:1), true);
 			global::SoundManager.PlayWithDistAndSPR("BlazingBlitzEnd", givenPosition, 1f);
 			global::PoolManager.GetPoolItem<global::ParticleEffect>("SmokeEmitter").Emit(new int?(6), new Vector3?(givenPosition), null, null, 0f, null, null);
 			global::CameraController.ShakeCamera(0.25f, false);
