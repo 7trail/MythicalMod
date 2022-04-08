@@ -54,6 +54,7 @@
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
     <Compile Include="UnEnhanceRelic.cs" />
+    <Compile Include="ZephyrNerf.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
