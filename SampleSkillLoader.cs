@@ -30,6 +30,22 @@ namespace Mythical
 
             Skills.Register(skillInfo);
 
+            skillInfo = new Skills.SkillInfo("New Bubble Barrage");
+            skillInfo.ID = "Mythical::NewBubbleBarrage";
+            skillInfo.description = "Create an explosion where you dash!";
+            skillInfo.empowered = "Create an explosion where you land as well!";
+            //skillInfo.cooldown = 2;
+            //skillInfo.chargeCooldown = 0;
+            skillInfo.startingCharges = 1;
+            skillInfo.newState = typeof(NewBubbleBarrage);
+            skillInfo.isNewSkill = true;
+            skillInfo.skillIcon = Extensions.loadSprite("firestorm");
+            //skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
+            skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("NewBubbleBarrageData.json");
+            skillInfo.elementType = ElementType.Water;
+
+            Skills.Register(skillInfo);
+
             skillInfo = new Skills.SkillInfo("Evading Zephyr");
             skillInfo.ID = "UseWindDefense";
             skillInfo.description = "After a slight delay, summon a current of air that causes all incoming attacks to miss while you are moving or using basic arcana!";
