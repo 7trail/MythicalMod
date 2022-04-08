@@ -159,7 +159,7 @@ namespace Mythical
                     orig(self, id, time, data, state);
                 }
             }
-            
+            orig(self, id, time, data, state);
         }
 
         private static void FSM_AddState(On.FSM.orig_AddState orig, FSM self, IState newState)
