@@ -39,7 +39,8 @@ namespace Mythical
 		}
 		public IEnumerator delayZephyr(bool givenStatus)
         {
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.15f);
+			Debug.Log("Zeohyr was delayed");
 			base.SetBuffStatus(givenStatus);
 			this.empStatus = this.IsEmpowered;
 			this.parent.overheadPrompt.PlayShakeAnalog(2f);

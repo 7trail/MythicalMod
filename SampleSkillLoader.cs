@@ -34,14 +34,11 @@ namespace Mythical
             skillInfo.ID = "UseWindDefense";
             skillInfo.description = "After a slight delay, summon a current of air that causes all incoming attacks to miss while you are moving or using basic arcana!";
             skillInfo.empowered = "You can move over pits and move faster!";
-            skillInfo.cooldown = 2;
-            skillInfo.chargeCooldown = 0;
-            skillInfo.startingCharges = 2;
             skillInfo.newState = typeof(ZephyrNerf);
             skillInfo.isNewSkill =false;
             skillInfo.skillIcon = Extensions.loadSprite("firestorm");
             skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
-            skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData1.json");
+            //skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData1.json");
             skillInfo.elementType = ElementType.Air;
 
             Skills.Register(skillInfo);
