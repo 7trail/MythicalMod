@@ -37,6 +37,8 @@ namespace Mythical
             skillInfo.newState = typeof(ZephyrNerf);
             skillInfo.isNewSkill =false;
             skillInfo.atkChanges = false;
+            skillInfo.startingCharges = 1;
+            skillInfo.chargeCooldown = 0;
             //skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
             //skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData1.json");
             skillInfo.elementType = ElementType.Air;
