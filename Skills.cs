@@ -27,10 +27,38 @@ namespace Mythical
             {
                 orig.Invoke(self);
                 On.LootManager.ResetAvailableSkills += CatalogSkills;
+                On.StatManager.LoadData += AddSkills;
             };
             On.CooldownManager.Add += CooldownManager_Add;
         }
+        public static void AddSkills(On.StatManager.orig_LoadData orig, string str, string statID, string category, string modifier)
+        {
+            orig(str,statID,category,modifier);
+            if (str == StatManager.playerSkillAssetPath)
+            {
+                string text = category + modifier;
+                Dictionary<string, StatData> dictionary = StatManager.data[statID][text];
 
+                foreach (SkillInfo info in skillsDict.Values)
+                {
+                    if (info.data == null)
+                    {
+                        Debug.Log("Uh oh! SkillStats is null!");
+                    }
+                    else
+                    {
+                        info.data.Initialize();
+                        StatData data = new StatData(info.data, text);
+                        if (data == null) { Debug.Log("Uh oh, it's null!"); }
+                        Debug.Log("1");
+                        dictionary[data.GetValue<string>("ID", -1)] = data;
+                        Debug.Log("2");
+                        StatManager.globalSkillData[data.GetValue<string>("ID", -1)] = data;
+                        Debug.Log("3");
+                    }
+                }
+            }
+        }
         private static void CatalogSkills(On.LootManager.orig_ResetAvailableSkills orig)
         {
             bool flag = badentrypointsignal.Contains("Loot");
@@ -96,12 +124,20 @@ namespace Mythical
 
                 Debug.Log("Modding charges of skill");
                 SkillInfo info = skillsDict[self.skillID];
-
-                self.cooldownRef.MaxTime = info.cooldown;
-                self.cooldownRef.maxTime = info.cooldown;
-                self.cooldownRef.chargeDelayTime = info.chargeCooldown;
-                self.cooldownRef.MaxChargeCount = info.startingCharges;
-                self.cooldownRef.chargeCount = info.startingCharges ;
+                if (info.cooldown >= 0)
+                {
+                    self.cooldownRef.MaxTime = info.cooldown;
+                    self.cooldownRef.maxTime = info.cooldown;
+                }
+                if (info.chargeCooldown >= -0.01) {
+                    self.cooldownRef.chargeDelayTime = info.chargeCooldown;
+                }
+                if (info.startingCharges >= 0)
+                {
+                    
+                    self.cooldownRef.MaxChargeCount = info.startingCharges;
+                    self.cooldownRef.chargeCount = info.startingCharges;
+                }
                 
                 self.cooldownRef.isChargeSkill = info.isChargeSkill;
                 //Utils.printAllFields(self.cooldownRef, true);
@@ -111,11 +147,17 @@ namespace Mythical
 
         private static void CooldownManager_Add(On.CooldownManager.orig_Add orig, CooldownManager self, string id, float time, StatData data, Player.SkillState state )
         {
-            if (skillsDict.ContainsKey(id))
+            if (skillsDict.ContainsKey(id) )
             {
                 SkillInfo info = skillsDict[id];
-                orig(self, id, info.cooldown, data, state);
-                return;
+                if (info.cooldown != -1)
+                {
+                    orig(self, id, info.cooldown, data, state);
+                    return;
+                } else
+                {
+                    orig(self, id, time, data, state);
+                }
             }
             orig(self, id, time, data, state);
         }
@@ -144,7 +186,7 @@ namespace Mythical
                             Debug.Log("Pre State2 thing");
                             Player.SkillState state = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
                             Debug.Log("State 2 thing 1");
-                            state.parent.skillsDict[state.skillID] =  state;
+                            state.parent.skillsDict[state.skillID] = state;
                             //state.isUnlocked = true;
                             Debug.Log("State 2 thing 2");
                             IState newState2 = (IState)state;
@@ -162,30 +204,34 @@ namespace Mythical
                             if (!((Player.SkillState)newState).parent.cooldownManager.cooldowns.ContainsKey(skill.ID))
                             {
                                 Player.SkillState state3 = (Player.SkillState)newState;
-                                ((Player.SkillState)newState).parent.cooldownManager.Add(skill.ID, skill.cooldown,state3.skillData , state3 );
+                                ((Player.SkillState)newState).parent.cooldownManager.Add(skill.ID, skill.cooldown, state3.skillData, state3);
                                 ((Player.SkillState)newState).parent.cooldownManager.cooldowns[skill.ID].maxChargeStat = new NumVarStat((float)skill.startingCharges, true);
                             }
                             Debug.Log("Post Add State 2");
                         }
                     }
-                    string str = ((Player.SkillState)newState).skillID;
-                    if (skillsDict.ContainsKey(str) && !skillsDict[str].isNewSkill)
-                    {
-                        Debug.Log("Added state");
-                        SkillInfo info = skillsDict[str];
-                        SetInfo(info);
-                        //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
-                        newState = (IState)DefaultInitFunction(self, ((Player.SkillState)newState), info);
 
-                    }
                     foreach (SpellBookUI ui in UnityEngine.MonoBehaviour.FindObjectsOfType<SpellBookUI>())
                     {
                         ui.LoadEleSkillDict(((Player.SkillState)newState).parent);
                     }
                     GameDataManager.gameData.PushSkillData();
                 }
-            }
 
+            }
+            if (newState is Player.SkillState) { 
+                string str = ((Player.SkillState)newState).skillID;
+                if (skillsDict.ContainsKey(str) && !skillsDict[str].isNewSkill)
+                {
+
+                    Debug.Log("Added state for " + skillsDict[str].displayName);
+                    SkillInfo info = skillsDict[str];
+                    SetInfo(info);
+                    //Player.BaseDashState airchanneldashpoopoo = ((Player.BaseDashState)newState);
+                    newState = (IState)DefaultInitFunction(self, ((Player.SkillState)newState), info);
+
+                }
+            }
             if (!self.states.ContainsKey(newState.name))
             {
                 orig(self, newState);
@@ -199,7 +245,7 @@ namespace Mythical
 
             AttackInfo oldAttackInfo = orig(self, newSkillCat, newSkillID, newSkillLevel, newIsUltimate);
 
-            if (skillsDict.ContainsKey(newSkillID))
+            if (skillsDict.ContainsKey(newSkillID) && skillsDict[newSkillID].atkChanges)
             {
                 Debug.Log("Attack info tweaks");
                 AttackInfo newAttackInfo = skillsDict[newSkillID].attackInfo;
@@ -266,9 +312,10 @@ namespace Mythical
                 TextManager.skillInfoDict[info.ID] = skillText;
                 Debug.Log("3.5");
             }
-
-            SetIcon(info);
-
+            if (info.isNewSkill)
+            {
+                SetIcon(info);
+            }
         }
 
         public static void SetIcon(SkillInfo info)
@@ -306,7 +353,7 @@ namespace Mythical
             return state;
         }
 
-        public struct SkillInfo
+        public class SkillInfo
         {
             public string displayName;
             public string description;
@@ -314,6 +361,7 @@ namespace Mythical
             public string ID;
             public System.Type newState;
             public AttackInfo attackInfo;
+            public SkillStats data;
             public int startingCharges;
             public float cooldown;
             public float chargeCooldown;
@@ -323,6 +371,7 @@ namespace Mythical
             public ElementType elementType;
             public Sprite skillIcon;
             public bool isNewSkill;
+            public bool atkChanges;
 
             public SkillInfo(string name = "Default")
             {
@@ -331,15 +380,17 @@ namespace Mythical
                 description = "Default Description!";
                 empowered = "Default Empowered!";
                 newState = null;
-                startingCharges = 1;
-                cooldown = 1;
-                chargeCooldown = 0;
+                startingCharges = -1;
+                cooldown = -1;
+                chargeCooldown = -1;
                 isChargeSkill = true;
                 attackInfo = null;
                 tier = 1;
                 elementType = ElementType.Fire;
                 skillIcon = new Sprite();
                 isNewSkill = false;
+                data = null;
+                atkChanges = true;
             }
 
            

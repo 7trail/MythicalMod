@@ -1,0 +1,5 @@
+{
+  "ID": [ "Mythical::NewBubbleBarrage" ],
+  "cooldown": [ 5 ],
+  "elementType": [ "Water" ]
+}

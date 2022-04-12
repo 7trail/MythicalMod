@@ -1,0 +1,5 @@
+{
+  "ID": [ "Mythical::FireStorm" ],
+  "cooldown": [ 3 ],
+  "elementType":  ["Fire"]
+}

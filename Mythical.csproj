@@ -46,6 +46,7 @@
     <Compile Include="GemChestRelic.cs" />
     <Compile Include="InvisibleOnLowHealth.cs" />
     <Compile Include="MidasRage.cs" />
+    <Compile Include="NewBubbleBarrage.cs" />
     <Compile Include="RootChanceUp.cs" />
     <Compile Include="SampleSkillLoader.cs" />
     <Compile Include="Skills.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
     <Compile Include="UnEnhanceRelic.cs" />
+    <Compile Include="ZephyrNerf.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
@@ -103,6 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AttackInfo1.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StatData1.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NewBubbleBarrageData.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
