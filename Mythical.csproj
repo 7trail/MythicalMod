@@ -81,7 +81,7 @@
     </Reference>
     <Reference Include="LegendApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\source\repos\ItemsPlusPlus\ItemsPlusPlus\lib\LegendApi.dll</HintPath>
+      <HintPath>lib\LegendApi.dll</HintPath>
     </Reference>
     <Reference Include="MMHOOK_Assembly-CSharp">
       <HintPath>lib\MMHOOK_Assembly-CSharp.dll</HintPath>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
+using LegendAPI;
 
 namespace Mythical
 {
@@ -12,7 +13,15 @@ namespace Mythical
     {
         public static void Awake()
         {
-            
+            ElementInfo newElement = new ElementInfo()
+            {
+                name = "Radiant",
+                color = Color.yellow,
+                weakTo = new List<ElementType>() { ElementType.Chaos}
+            };
+
+            ElementType element = Elements.Register(newElement);
+            Debug.Log("New element name: " + element.ToString());
 
             Skills.SkillInfo skillInfo = new Skills.SkillInfo("Fire Storm");
             skillInfo.ID = "Mythical::FireStorm";
@@ -26,7 +35,7 @@ namespace Mythical
             skillInfo.skillIcon = Extensions.loadSprite("firestorm");
             skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
             skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData1.json");
-            skillInfo.elementType = ElementType.Fire;
+            skillInfo.elementType = element;
 
             Skills.Register(skillInfo);
 

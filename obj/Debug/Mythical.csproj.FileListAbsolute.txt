@@ -59,3 +59,4 @@ C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.Co
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.CopyComplete
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Mythical.dll
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Mythical.pdb
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\LegendApi.dll
