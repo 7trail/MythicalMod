@@ -20,8 +20,8 @@ namespace Mythical
                 weakTo = new List<ElementType>() { ElementType.Chaos}
             };
 
-            ElementType element = Elements.Register(newElement);
-            Debug.Log("New element name: " + element.ToString());
+            //ElementType element = Elements.Register(newElement);
+            //Debug.Log("New element name: " + element.ToString());
 
             Skills.SkillInfo skillInfo = new Skills.SkillInfo("Fire Storm");
             skillInfo.ID = "Mythical::FireStorm";
@@ -35,7 +35,7 @@ namespace Mythical
             skillInfo.skillIcon = Extensions.loadSprite("firestorm");
             skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
             skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData1.json");
-            skillInfo.elementType = element;
+            skillInfo.elementType = ElementType.Fire;
 
             Skills.Register(skillInfo);
 
