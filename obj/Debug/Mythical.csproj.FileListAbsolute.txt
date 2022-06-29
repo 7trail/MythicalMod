@@ -35,8 +35,6 @@ C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-mai
 C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\bin\Debug\UnityEngine.Networking.dll
 C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\bin\Debug\UnityEngine.UI.dll
 C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\bin\Debug\Mono.Cecil.dll
-C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\bin\Debug\MonoMod.Utils.dll
-C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\bin\Debug\MonoMod.RuntimeDetour.dll
 C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\obj\Debug\Mythical.csproj.CoreCompileInputs.cache
 C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\obj\Debug\Mythical.csproj.CopyComplete
 C:\Users\t1239901_s\Downloads\Plugin-Example-Guide-main\Plugin-Example-Guide-main\WolModExample\MythicalMod\obj\Debug\Mythical.dll
@@ -61,3 +59,4 @@ C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.Co
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.CopyComplete
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Mythical.dll
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Mythical.pdb
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\LegendApi.dll

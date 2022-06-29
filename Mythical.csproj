@@ -37,14 +37,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AirChannelDashGood.cs" />
+    <Compile Include="AllOrNothing.cs" />
     <Compile Include="AttackInfoHolderMythical.cs" />
+    <Compile Include="AttackSpeedUpItem.cs" />
     <Compile Include="Behemoth.cs" />
+    <Compile Include="DialogueCreator.cs" />
+    <Compile Include="FrostCrit.cs" />
+    <Compile Include="GemChestRelic.cs" />
+    <Compile Include="InvisibleOnLowHealth.cs" />
+    <Compile Include="MidasRage.cs" />
+    <Compile Include="NewBubbleBarrage.cs" />
+    <Compile Include="RootChanceUp.cs" />
     <Compile Include="SampleSkillLoader.cs" />
     <Compile Include="Skills.cs" />
     <Compile Include="ImgHandler.cs" />
     <Compile Include="MonsterTooth.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
+    <Compile Include="UnEnhanceRelic.cs" />
+    <Compile Include="ZephyrNerf.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
@@ -70,7 +81,7 @@
     </Reference>
     <Reference Include="LegendApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\source\repos\ItemsPlusPlus\ItemsPlusPlus\lib\LegendApi.dll</HintPath>
+      <HintPath>lib\LegendApi.dll</HintPath>
     </Reference>
     <Reference Include="MMHOOK_Assembly-CSharp">
       <HintPath>lib\MMHOOK_Assembly-CSharp.dll</HintPath>
@@ -94,6 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AttackInfo1.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StatData1.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NewBubbleBarrageData.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
