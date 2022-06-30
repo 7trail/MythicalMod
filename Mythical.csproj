@@ -55,6 +55,7 @@
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
     <Compile Include="UnEnhanceRelic.cs" />
+    <Compile Include="WindowIconTools.cs" />
     <Compile Include="ZephyrNerf.cs" />
   </ItemGroup>
   <ItemGroup>

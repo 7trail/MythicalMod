@@ -20,14 +20,24 @@ namespace Mythical
 			texture2D.Apply();
 			return texture2D;
 		}
+		public static Texture2D LoadTex2D(string path)
+        {
+			string path2 = "Sprites/" + path + ".png";
+			string text = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path2);
+			return ImgHandler.LoadPNG(text);
+		}
 
+		public static byte[] LoadByteArray(string path)
+        {
+			string path2 = "Sprites/" + path + ".png";
+			string text = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path2);
+			return ImgHandler.LoadPNG(text).GetRawTextureData();
+		}
 		// Token: 0x06000014 RID: 20 RVA: 0x000022C4 File Offset: 0x000004C4
 		public static Sprite LoadSprite(string path)
 		{
-			string path2 = "Sprites/" + path + ".png";
-			string text = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path2);
-			Texture2D texture2D = ImgHandler.LoadPNG(text);
-			texture2D.name = text;
+			Texture2D texture2D = LoadTex2D(path);
+			texture2D.name = path;
 			texture2D.filterMode = FilterMode.Point;
 			Rect rect = new Rect(0f, 0f, (float)texture2D.width, (float)texture2D.height);
 			Sprite sprite = Sprite.Create(texture2D, rect, new Vector2(0.5f, 0.5f), 16f);

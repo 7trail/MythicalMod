@@ -4,6 +4,7 @@ using LegendAPI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Resources;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -41,8 +42,12 @@ namespace Mythical {
         // This Awake() function will run at the very start when the mod is initialized
         void Awake() {
 
-            Skills.Awake();
-            SampleSkillLoader.Awake();
+            //Skills.Awake();
+            //SampleSkillLoader.Awake();
+            //UnityEngine.Texture2D img = ImgHandler.LoadTex2D("icon");
+            //WindowIconTools.SetIcon(img.GetRawTextureData(), img.width, img.height, WindowIconKind.Big);
+
+
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
             /*
             Debug.Log("Loading Outfits");
@@ -253,6 +258,40 @@ namespace Mythical {
             //MakeNewDialogueTest();
             AddBlobBoss();
             */
+
+            On.PvpController.ResetStage += PvpController_ResetStage;
+            On.PvpController.ResetPlayers += PvpController_ResetPlayers;
+
+        }
+        public static Dictionary<int, string> pvpItems = new Dictionary<int, string>();
+
+        public void PvpController_ResetPlayers(On.PvpController.orig_ResetPlayers orig, PvpController self, bool b)
+        {
+            orig(self, b);
+            int i = 0;
+            foreach(Player p in GameController.activePlayers)
+            {
+                if (pvpItems.ContainsKey(i))
+                {
+                    p.inventory.GetItem(pvpItems[i]);
+                }
+                i++;
+            }
+        }
+
+        public void PvpController_ResetStage(On.PvpController.orig_ResetStage orig, PvpController self, bool b)
+        {
+            pvpItems.Clear();
+            int i = 0;
+            foreach(Player p in GameController.activePlayers)
+            {
+                if (p.inventory.itemDict.Count > 0)
+                {
+                    pvpItems[i] = p.inventory.itemDict.ElementAt(i).Key;
+                }
+                i++;
+            }
+            orig(self,b);
         }
 
         public bool Inventory_AddItem(On.Inventory.orig_AddItem_Item_bool_bool orig, Inventory self, Item givenItem, bool showNotice, bool ignoreMax)
