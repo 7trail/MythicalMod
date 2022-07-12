@@ -38,7 +38,7 @@ namespace Mythical {
 
         // now, close these two Notes regions so the script looks little nicer to work with 
         #endregion
-
+        public List<Texture2D> palettes = new List<Texture2D>();
         // This Awake() function will run at the very start when the mod is initialized
         void Awake() {
 
@@ -46,7 +46,17 @@ namespace Mythical {
             //SampleSkillLoader.Awake();
             //UnityEngine.Texture2D img = ImgHandler.LoadTex2D("icon");
             //WindowIconTools.SetIcon(img.GetRawTextureData(), img.width, img.height, WindowIconKind.Big);
+            Screen.SetResolution(1200, 675, false);
+            OutfitInfo outfitInfo = new OutfitInfo();
+            outfitInfo.name = "Vagrant";
+            outfitInfo.outfit = new global::Outfit("Mythical::Vagrant", 33, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(global::OutfitModStat.OutfitModType.HealAmount, 0f, 0.2f, 0f, false),
+                new global::OutfitModStat(global::OutfitModStat.OutfitModType.CritChance, 0f, 0.2f, 0f, false)
+            }, true, false);
+            Outfits.Register(outfitInfo);
 
+            palettes.Add(ImgHandler.LoadTex2D("test"));
 
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
             /*
@@ -261,9 +271,63 @@ namespace Mythical {
 
             On.PvpController.ResetStage += PvpController_ResetStage;
             On.PvpController.ResetPlayers += PvpController_ResetPlayers;
-
+            //On.Player.SetPlayerOutfitColor += Us_AddOutfit;
+            //On.OutfitMenu.LoadMenu += (On.OutfitMenu.orig_LoadMenu orig , OutfitMenu self, Player p) => { orig(self, p); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
         }
         public static Dictionary<int, string> pvpItems = new Dictionary<int, string>();
+
+        public bool hasAddedPalettes = false;
+        public Texture2D newPalette = null;
+
+        public void Us_AddOutfit(On.Player.orig_SetPlayerOutfitColor orig, Player self, NumVarStatMod mod, bool givenStatus)
+        {
+            orig(self, mod, givenStatus);
+            Texture2D tex = (Texture2D) self.spriteMaterial.GetTexture("_Palette");
+            if (newPalette == null)
+            {
+                Debug.Log("1");
+                newPalette = tex;
+                if (!hasAddedPalettes)
+                {
+                    Debug.Log("2");
+                    hasAddedPalettes = true;
+                    Texture2D t = newPalette;
+                    Texture2D newT;
+                    int h = t.height;
+                    Debug.Log("3");
+                    foreach (Texture2D te in palettes)
+                    {
+                        Debug.Log("Iterating over " + te.name);
+                        newT = new Texture2D(t.width, t.height + 1);
+                        for(int x = 0; x < newT.width; x++)
+                        {
+                            for (int y = 0; y < t.height; y++)
+                            {
+                                newT.SetPixel(x, y, t.GetPixel(x, y));
+                            }
+                        }
+                        Debug.Log("Out of loop for " + te.name);
+                        for (int x = 0; x < newT.width; x++)
+                        {
+                            newT.SetPixel(x, h, te.GetPixel(x, h));
+                        }
+                        Debug.Log("Out of loop 2 for " + te.name);
+                        newT.filterMode = FilterMode.Point;
+                        newT.Apply();
+                        newPalette = newT;
+                        h++;
+                    }
+                }
+            }
+
+            if (hasAddedPalettes)
+            {
+                self.spriteMaterial.SetTexture("_Palette", newPalette);
+            }
+
+            //orig(self, mod, givenStatus);
+            
+        }
 
         public void PvpController_ResetPlayers(On.PvpController.orig_ResetPlayers orig, PvpController self, bool b)
         {
@@ -455,6 +519,10 @@ namespace Mythical {
 
         public void OnLevelWasLoaded()
         {
+            try
+            {
+                Player.platWallet.balance = 900; //Enjoy
+            } catch { }
             if (SceneManager.GetActiveScene().name.ToLower()=="pvp")
             {
                 GameObject mimi = MimicNpc.Prefab;
