@@ -25,7 +25,7 @@ namespace Mythical {
     //     Customary to follow Semantic Versioning (major.minor.patch). 
     //         You don't have to, but you'll just look silly in front of everyone. It's ok. I won't make fun of you.
     #endregion
-    [BepInPlugin("Amber.Mythical", "Mythical", "0.1.0")]
+    [BepInPlugin("Amber.TournamentEdition", "TournamentEdition", "0.1.0")]
     public class ContentLoader : BaseUnityPlugin {
         #region BaseUnityPlugin Notes
         // BaseUnityPlugin is the main class that gets loaded by bepin.
@@ -41,12 +41,11 @@ namespace Mythical {
 
         // This Awake() function will run at the very start when the mod is initialized
         void Awake() {
-
+            Debug.Log("Hello! Tournament Edition is loading. If you don't see this, you're not getting the true Tournament Content");
             //Skills.Awake();
             //SampleSkillLoader.Awake();
             //UnityEngine.Texture2D img = ImgHandler.LoadTex2D("icon");
             //WindowIconTools.SetIcon(img.GetRawTextureData(), img.width, img.height, WindowIconKind.Big);
-
 
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
             /*
@@ -273,7 +272,7 @@ namespace Mythical {
             {
                 if (pvpItems.ContainsKey(i))
                 {
-                    p.inventory.GetItem(pvpItems[i]);
+                    p.inventory.AddItem(pvpItems[i]);
                 }
                 i++;
             }
@@ -455,6 +454,7 @@ namespace Mythical {
 
         public void OnLevelWasLoaded()
         {
+            Debug.Log("This should be running when a level is loaded... Level is: " + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
             if (SceneManager.GetActiveScene().name.ToLower()=="pvp")
             {
                 GameObject mimi = MimicNpc.Prefab;
