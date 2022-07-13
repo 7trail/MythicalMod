@@ -26,7 +26,7 @@ namespace Mythical {
     //         You don't have to, but you'll just look silly in front of everyone. It's ok. I won't make fun of you.
     #endregion
     [BepInPlugin("Amber.Mythical", "Mythical", "0.1.0")]
-    public class ContentLoader : BaseUnityPlugin {
+    public class ContentLoader : BaseUnityPlugin { 
         #region BaseUnityPlugin Notes
         // BaseUnityPlugin is the main class that gets loaded by bepin.
         // It inherits from MonoBehaviour, so it gains all the familiar Unity callback functions you can use: 
@@ -46,18 +46,157 @@ namespace Mythical {
             //SampleSkillLoader.Awake();
             //UnityEngine.Texture2D img = ImgHandler.LoadTex2D("icon");
             //WindowIconTools.SetIcon(img.GetRawTextureData(), img.width, img.height, WindowIconKind.Big);
-            Screen.SetResolution(1200, 675, false);
+            //Screen.SetResolution(1200, 675, false);
             OutfitInfo outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Vagrant";
-            outfitInfo.outfit = new global::Outfit("Mythical::Vagrant", 33, new List<global::OutfitModStat>
+            outfitInfo.name = "Sovereign";
+            outfitInfo.outfit = new global::Outfit("Mythical::Sovereign", 32, new List<global::OutfitModStat>
             {
-                new global::OutfitModStat(global::OutfitModStat.OutfitModType.HealAmount, 0f, 0.2f, 0f, false),
-                new global::OutfitModStat(global::OutfitModStat.OutfitModType.CritChance, 0f, 0.2f, 0f, false)
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, true, false);
+            outfitInfo.customDesc = ((bool b) => "Designed by Cerberus!");
+            outfitInfo.customMod = ((player, b, b2) => {});
             Outfits.Register(outfitInfo);
 
-            palettes.Add(ImgHandler.LoadTex2D("test"));
+            outfitInfo = new OutfitInfo();
+            outfitInfo.name = "Crimson";
+            outfitInfo.outfit = new global::Outfit("Mythical::Crimson", 33, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, true, false);
+            outfitInfo.customDesc = ((bool b) => "Designed by only_going_up_fr0m_here!");
+            outfitInfo.customMod = ((player, b, b2) => { });
+            Outfits.Register(outfitInfo);
 
+
+            // New ones
+            OutfitInfo outfitInfo9 = new OutfitInfo();
+            outfitInfo9.name = "Vision";
+            outfitInfo9.outfit = new global::Outfit("Mythical::Vision", 34, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo9.customDesc = ((bool b) => "The All Seeing End");
+            outfitInfo9.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo9);
+
+            OutfitInfo outfitInfo8 = new OutfitInfo();
+            outfitInfo8.name = "Terror";
+            outfitInfo8.outfit = new global::Outfit("Mythical::Terror", 35, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo8.customDesc = ((bool b) => "The Worst Of The Best");
+            outfitInfo8.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo8);
+
+            OutfitInfo outfitInfo7 = new OutfitInfo();
+            outfitInfo7.name = "Scholar";
+            outfitInfo7.outfit = new global::Outfit("Mythical::Scholar", 36, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo7.customDesc = ((bool b) => "The Keeper Of Knowledge");
+            outfitInfo7.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo7);
+
+            OutfitInfo outfitInfo6 = new OutfitInfo();
+            outfitInfo6.name = "Fear";
+            outfitInfo6.outfit = new global::Outfit("Mythical::Fear", 37, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo6.customDesc = ((bool b) => "The Everlasting Terror");
+            outfitInfo6.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo6);
+
+            OutfitInfo outfitInfo5 = new OutfitInfo();
+            outfitInfo5.name = "Conquest";
+            outfitInfo5.outfit = new global::Outfit("Mythical::Conquest", 38, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo5.customDesc = ((bool b) => "The Iron Fist");
+            outfitInfo5.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo5);
+
+            OutfitInfo outfitInfo4 = new OutfitInfo();
+            outfitInfo4.name = "Tycoon";
+            outfitInfo4.outfit = new global::Outfit("Mythical::Tycoon", 39, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo4.customDesc = ((bool b) => "The Invisible Hand");
+            outfitInfo4.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo4);
+
+            OutfitInfo outfitInfo3 = new OutfitInfo();
+            outfitInfo3.name = "Surf";
+            outfitInfo3.outfit = new global::Outfit("Mythical::Surf", 40, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo3.customDesc = ((bool b) => "The Challenger");
+            outfitInfo3.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo3);
+
+            outfitInfo = new OutfitInfo();
+            outfitInfo.name = "Walter";
+            outfitInfo.outfit = new global::Outfit("Mythical::Walter", 41, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo.customDesc = ((bool b) => "The Living Menace.");
+            outfitInfo.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo);
+
+            OutfitInfo outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Guardian";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Guardian", 42, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "The Defender");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Archaic";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Archaic", 43, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "From Days Past - only_going_up_fr0m_here");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            //palettes.Add(ImgHandler.LoadTex2D("test"));
+            //palettes.Add(ImgHandler.LoadTex2D("sovereign"));
+            //palettes.Add(ImgHandler.LoadTex2D("crimson"));
+            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic" };
+            foreach(string robeName in robeNames)
+            {
+                palettes.Add(ImgHandler.LoadTex2D(robeName));
+            }
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
             /*
             Debug.Log("Loading Outfits");
@@ -271,8 +410,72 @@ namespace Mythical {
 
             On.PvpController.ResetStage += PvpController_ResetStage;
             On.PvpController.ResetPlayers += PvpController_ResetPlayers;
-            //On.Player.SetPlayerOutfitColor += Us_AddOutfit;
-            //On.OutfitMenu.LoadMenu += (On.OutfitMenu.orig_LoadMenu orig , OutfitMenu self, Player p) => { orig(self, p); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
+            On.Player.SetPlayerOutfitColor += Us_AddOutfit;
+            On.WardrobeUI.LoadOutfits += (On.WardrobeUI.orig_LoadOutfits orig, WardrobeUI self) =>
+            {
+                orig(self);
+                if (newPalette != null)
+                {
+                    for (int j = 0; j < self.totalOutfitCount; j++)
+                    {
+                        
+                        self.wrRef.outfitImageArray[j].material.SetFloat("_PaletteCount", 32+palettes.Count);
+                        self.wrRef.outfitImageArray[j].material.SetTexture("_Palette", newPalette);
+                    }
+                }
+            };
+            On.DialogManager.Activate += (On.DialogManager.orig_Activate orig, DialogManager self, DialogMessage m, bool b, bool s) =>
+            {
+                orig(self, m, b, s);
+                if (m.rightActive && m.RightSpeaker != null && newPalette != null)
+                {
+                    self.rightPlayerImage.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                    self.rightPlayerImage.material.SetTexture("_Palette", newPalette);
+                }
+            };
+            On.UnlockNotifier.SetNotice += (On.UnlockNotifier.orig_SetNotice orig, UnlockNotifier self, UnlockNotifier.NoticeVars vars) =>
+            {
+                orig(self, vars);
+                if (newPalette != null)
+                {
+                    self.outfitIconImage.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                    self.outfitIconImage.material.SetTexture("_Palette", newPalette);
+                }
+            };
+            On.WardrobeUI.UpdateOutfits += (On.WardrobeUI.orig_UpdateOutfits orig, WardrobeUI self, int givenIndex) =>
+            {
+                orig(self, givenIndex);
+                if (newPalette != null)
+                {
+                    self.wrRef.playerImages[self.currentPlayerImageIndex].material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                    self.wrRef.playerImages[self.currentPlayerImageIndex].material.SetTexture("_Palette", newPalette);
+                }
+            };
+            On.OutfitStoreItem.Start += (On.OutfitStoreItem.orig_Start orig, OutfitStoreItem self) =>
+            {
+                orig(self);
+                self.itemSpriteRenderer.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                self.itemSpriteRenderer.material.SetTexture("_Palette", newPalette);
+            };
+            On.PlayerStatusBar.Update += (On.PlayerStatusBar.orig_Update orig, PlayerStatusBar self) =>
+            {
+                orig(self);
+                if (self.playerPortrait != null && newPalette != null)
+                {
+                    Material material = UnityEngine.Object.Instantiate<Material>(self.playerPortrait.material);
+                    material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                    material.SetTexture("_Palette", newPalette);
+                    self.playerPortrait.material = material;
+                }
+            };
+            On.WardrobeUI.AssignOutfit += (On.WardrobeUI.orig_AssignOutfit orig, WardrobeUI self, Outfit o, int i) =>
+            {
+                self.wrRef.outfitImageArray[i].material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                self.wrRef.outfitImageArray[i].material.SetTexture("_Palette", newPalette);
+                orig(self, o, i);
+            };
+            On.OutfitMenu.LoadMenu += (On.OutfitMenu.orig_LoadMenu orig , OutfitMenu self, Player p) => { orig(self, p); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
+            On.OutfitMenu.SwapFocus += (On.OutfitMenu.orig_SwapFocus orig, OutfitMenu self, bool n) => { orig(self, n); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
         }
         public static Dictionary<int, string> pvpItems = new Dictionary<int, string>();
 
@@ -298,37 +501,57 @@ namespace Mythical {
                     foreach (Texture2D te in palettes)
                     {
                         Debug.Log("Iterating over " + te.name);
-                        newT = new Texture2D(t.width, t.height + 1);
-                        for(int x = 0; x < newT.width; x++)
+                        newT = new Texture2D(newPalette.width, newPalette.height + 2,TextureFormat.RGBA32,false);
+                        newT = FillColorAlpha(newT);
+                        for(int x = 1; x < newT.width; x++)
                         {
-                            for (int y = 0; y < t.height; y++)
+                            for (int y = 0; y < newPalette.height; y++)
                             {
-                                newT.SetPixel(x, y, t.GetPixel(x, y));
+                                newT.SetPixel(x, y, newPalette.GetPixel(x, y));
                             }
                         }
                         Debug.Log("Out of loop for " + te.name);
-                        for (int x = 0; x < newT.width; x++)
+                        for (int x = 1; x < newT.width; x++)
                         {
                             newT.SetPixel(x, h, te.GetPixel(x, h));
                         }
+                        for (int x = 1; x < newT.width; x++)
+                        {
+                            newT.SetPixel(x, h+1, te.GetPixel(x, h+1));
+                        }
+
                         Debug.Log("Out of loop 2 for " + te.name);
                         newT.filterMode = FilterMode.Point;
                         newT.Apply();
                         newPalette = newT;
-                        h++;
+                        h+=2;
                     }
                 }
             }
 
             if (hasAddedPalettes)
             {
+                self.spriteMaterial.SetFloat("_PaletteCount", 32 + palettes.Count);
                 self.spriteMaterial.SetTexture("_Palette", newPalette);
             }
 
             //orig(self, mod, givenStatus);
             
         }
-
+        public static Texture2D FillColorAlpha(Texture2D tex2D, Color32? fillColor = null)
+        {
+            if (fillColor == null)
+            {
+                fillColor = UnityEngine.Color.clear;
+            }
+            Color32[] fillPixels = new Color32[tex2D.width * tex2D.height];
+            for (int i = 0; i < fillPixels.Length; i++)
+            {
+                fillPixels[i] = (Color32)fillColor;
+            }
+            tex2D.SetPixels32(fillPixels);
+            return tex2D;
+        }
         public void PvpController_ResetPlayers(On.PvpController.orig_ResetPlayers orig, PvpController self, bool b)
         {
             orig(self, b);
