@@ -189,14 +189,15 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
-            //palettes.Add(ImgHandler.LoadTex2D("test"));
-            //palettes.Add(ImgHandler.LoadTex2D("sovereign"));
-            //palettes.Add(ImgHandler.LoadTex2D("crimson"));
             List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic" };
             foreach(string robeName in robeNames)
             {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
             }
+
+            //TitleScreen.bgCount += 1;
+            
+
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
             /*
             Debug.Log("Loading Outfits");
@@ -744,7 +745,7 @@ namespace Mythical {
         {
             try
             {
-                Player.platWallet.balance = 900; //Enjoy
+                Player.platWallet.balance += 999; //Enjoy
             } catch { }
             if (SceneManager.GetActiveScene().name.ToLower()=="pvp")
             {
