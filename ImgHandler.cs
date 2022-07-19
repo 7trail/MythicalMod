@@ -26,7 +26,7 @@ namespace Mythical
 			string text = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path2);
 			return ImgHandler.LoadPNG(text);
 		}
-
+		
 		public static byte[] LoadByteArray(string path)
         {
 			string path2 = "Sprites/" + path + ".png";

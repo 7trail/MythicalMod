@@ -2,9 +2,12 @@
 using BepInEx.Configuration;
 using LegendAPI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Resources;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -54,6 +57,7 @@ namespace Mythical {
             //WindowIconTools.SetIcon(img.GetRawTextureData(), img.width, img.height, WindowIconKind.Big);
             //Screen.SetResolution(1200, 675, false);
 
+            newPlayerSprite = ImgHandler.LoadSprite("NewWizardGlow");
             cherrySprite = ImgHandler.LoadSprite("cherrytree", new Vector2(0.5f,0.1f));
             orangeSprite = ImgHandler.LoadSprite("orangetree", new Vector2(0.5f, 0.1f));
             Debug.Log("Cherry Blossom Tree sprite from https://opengameart.org/content/lpc-plant-repack. Cropped to one singular tree.");
@@ -220,7 +224,10 @@ namespace Mythical {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
             }
 
+            // Title screen additions
 
+            titleScreens.Add(ImgHandler.LoadSprite("bg1"));
+            titleScreens.Add(ImgHandler.LoadSprite("bg2"));
 
 
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
@@ -461,11 +468,9 @@ namespace Mythical {
                 }
             };
 
-            // Title screen additions
-
-            titleScreens.Add(ImgHandler.LoadSprite("bg1"));
-
             
+
+
             //List<Sprite> loadingTheListIDontNeedThisToAllocate = IconManager.TSBGSpriteList;
             On.IconManager.GetBGSprite += (On.IconManager.orig_GetBGSprite orig, int index) =>
             {
@@ -474,10 +479,21 @@ namespace Mythical {
                     hasAddedTitleCards = true;
                     List<Sprite> loadingTheListIDontNeedThisToAllocate = IconManager.TSBGSpriteList;
                     TitleScreen.bgCount += titleScreens.Count;
+
+                    List<Sprite> sprites = new List<Sprite>();
+
                     foreach (Sprite spr in titleScreens)
                     {
-                        IconManager.TSBGSpriteList.Add(spr);
+                        sprites.Add(spr);
                     }
+                    foreach(Sprite spr in IconManager.TSBGSpriteList)
+                    {
+                        sprites.Add(spr);
+                    }
+
+                    IconManager.tsbgSpriteList = sprites;
+
+
                 }
                 return orig(index);
             };
@@ -488,6 +504,37 @@ namespace Mythical {
             On.PvpController.ResetStage += PvpController_ResetStage;
             On.PvpController.ResetPlayers += PvpController_ResetPlayers;
             On.Player.SetPlayerOutfitColor += Us_AddOutfit;
+
+            On.GameProgressBoard.SetPlayerColors += (On.GameProgressBoard.orig_SetPlayerColors orig, GameProgressBoard self) =>
+             {
+                 if (newPalette != null)
+                 {
+                     self.p1PieceImage.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                     self.p1PieceImage.material.SetTexture("_Palette", newPalette);
+                 }
+                 orig(self);
+                 
+             };
+
+            On.OutfitMenu.LoadMenu += (On.OutfitMenu.orig_LoadMenu orig, OutfitMenu self, Player p) =>
+            {
+                self.outfitImage.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                self.outfitImage.material.SetTexture("_Palette", newPalette);
+                orig(self, p);
+            };
+            
+            On.DeathSummaryUI.Activate += (On.DeathSummaryUI.orig_Activate orig, DeathSummaryUI self, float f) => {
+                orig(self,f);
+                if (newPalette != null)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        self.playerRefs[i].outfitImage.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                        self.playerRefs[i].outfitImage.material.SetTexture("_Palette", newPalette);
+                    }
+                }
+            };
+
             On.WardrobeUI.LoadOutfits += (On.WardrobeUI.orig_LoadOutfits orig, WardrobeUI self) =>
             {
                 orig(self);
@@ -551,8 +598,17 @@ namespace Mythical {
                 self.wrRef.outfitImageArray[i].material.SetTexture("_Palette", newPalette);
                 orig(self, o, i);
             };
+            
             On.OutfitMenu.LoadMenu += (On.OutfitMenu.orig_LoadMenu orig , OutfitMenu self, Player p) => { orig(self, p); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
             On.OutfitMenu.SwapFocus += (On.OutfitMenu.orig_SwapFocus orig, OutfitMenu self, bool n) => { orig(self, n); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
+
+            /*On.Player.InitComponents += (On.Player.orig_InitComponents orig, Player self) =>
+            {
+                orig(self);
+                Debug.Log("Old Sprite Name: " + self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite.name);
+                self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite = newPlayerSprite;
+                Debug.Log("Set new palette: "+ self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite.name);
+            };*/
 
             // Stage effects
 
@@ -568,18 +624,26 @@ namespace Mythical {
             {
                 if (StageEffects) { orig(self); }
             };
+
+            // Music
+
+            LoadSong("Title","Sprites/Title.ogg");
+
             On.SoundManager.PlayBGM += (On.SoundManager.orig_PlayBGM orig, string str) =>
             {
                 if (!hasSwappedAudioClips)
                 {
                     hasSwappedAudioClips = true;
                     //SoundManager.bgmDict["Boss"].clip = ImgHandler.LoadClip("");
-                    //SoundManager.bgmDict["TitleScreen"].clip = ImgHandler.LoadClip("");
+                    SoundManager.bgmDict["TitleScreen"].clip = clipDict["Title"];
                     //SoundManager.bgmDict["Hub"].clip = ImgHandler.LoadClip("");
                 }
                 orig(str);
             };
         }
+
+        public static Sprite newPlayerSprite;
+
         public static Dictionary<int, string> pvpItems = new Dictionary<int, string>();
         public bool hasSwappedAudioClips = false;
         public bool hasAddedPalettes = false;
@@ -637,19 +701,19 @@ namespace Mythical {
             Texture2D tex = (Texture2D) self.spriteMaterial.GetTexture("_Palette");
             if (newPalette == null)
             {
-                Debug.Log("1");
+                //Debug.Log("1");
                 newPalette = tex;
                 if (!hasAddedPalettes)
                 {
-                    Debug.Log("2");
+                    //Debug.Log("2");
                     hasAddedPalettes = true;
                     Texture2D t = newPalette;
                     Texture2D newT;
                     int h = t.height;
-                    Debug.Log("3");
+                    //Debug.Log("3");
                     foreach (Texture2D te in palettes)
                     {
-                        Debug.Log("Iterating over " + te.name);
+                        //Debug.Log("Iterating over " + te.name);
                         newT = new Texture2D(newPalette.width, newPalette.height + 2,TextureFormat.RGBA32,false);
                         newT = FillColorAlpha(newT);
                         for(int x = 1; x < newT.width; x++)
@@ -659,7 +723,7 @@ namespace Mythical {
                                 newT.SetPixel(x, y, newPalette.GetPixel(x, y));
                             }
                         }
-                        Debug.Log("Out of loop for " + te.name);
+                       // Debug.Log("Out of loop for " + te.name);
                         for (int x = 1; x < newT.width; x++)
                         {
                             newT.SetPixel(x, h, te.GetPixel(x, h));
@@ -669,7 +733,7 @@ namespace Mythical {
                             newT.SetPixel(x, h+1, te.GetPixel(x, h+1));
                         }
 
-                        Debug.Log("Out of loop 2 for " + te.name);
+                        //Debug.Log("Out of loop 2 for " + te.name);
                         newT.filterMode = FilterMode.Point;
                         newT.Apply();
                         newPalette = newT;
@@ -682,6 +746,9 @@ namespace Mythical {
             {
                 self.spriteMaterial.SetFloat("_PaletteCount", 32 + palettes.Count);
                 self.spriteMaterial.SetTexture("_Palette", newPalette);
+                
+
+
             }
 
             //orig(self, mod, givenStatus);
@@ -895,6 +962,23 @@ namespace Mythical {
         {
 
         }
+        public void LoadSong(string title, string path)
+        {
+            path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path);
+            StartCoroutine(LoadSongCoroutine(title,path));
+        }
+
+        IEnumerator LoadSongCoroutine(string title, string path)
+        {
+            string url = string.Format("file://{0}", path);
+            WWW www = new WWW(url);
+            yield return www;
+
+            AudioClip song = www.GetAudioClip(false, false);
+            clipDict[title] = song;
+        }
+
+        public static Dictionary<string, AudioClip> clipDict = new Dictionary<string, AudioClip>();
 
     }
 }
