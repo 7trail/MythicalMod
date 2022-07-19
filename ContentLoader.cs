@@ -2,9 +2,12 @@
 using BepInEx.Configuration;
 using LegendAPI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Resources;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,7 +42,13 @@ namespace Mythical {
         // now, close these two Notes regions so the script looks little nicer to work with 
         #endregion
         public List<Texture2D> palettes = new List<Texture2D>();
+        public List<Sprite> titleScreens = new List<Sprite>();
+        public bool hasAddedTitleCards;
         // This Awake() function will run at the very start when the mod is initialized
+
+        public Sprite cherrySprite;
+        public Sprite orangeSprite;
+
         void Awake() {
 
             //Skills.Awake();
@@ -47,6 +56,14 @@ namespace Mythical {
             //UnityEngine.Texture2D img = ImgHandler.LoadTex2D("icon");
             //WindowIconTools.SetIcon(img.GetRawTextureData(), img.width, img.height, WindowIconKind.Big);
             //Screen.SetResolution(1200, 675, false);
+
+            newPlayerSprite = ImgHandler.LoadSprite("NewWizardGlow");
+            cherrySprite = ImgHandler.LoadSprite("cherrytree", new Vector2(0.5f,0.1f));
+            orangeSprite = ImgHandler.LoadSprite("orangetree", new Vector2(0.5f, 0.1f));
+            Debug.Log("Cherry Blossom Tree sprite from https://opengameart.org/content/lpc-plant-repack. Cropped to one singular tree.");
+            Debug.Log("Cherry Orange Tree sprite from https://opengameart.org/content/lpc-orange-trees. Cropped to one singular tree.");
+        
+
             OutfitInfo outfitInfo = new OutfitInfo();
             outfitInfo.name = "Sovereign";
             outfitInfo.outfit = new global::Outfit("Mythical::Sovereign", 32, new List<global::OutfitModStat>
@@ -75,7 +92,7 @@ namespace Mythical {
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
-            outfitInfo9.customDesc = ((bool b) => "The All Seeing End");
+            outfitInfo9.customDesc = ((bool b) => "The All Seeing Eye");
             outfitInfo9.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
@@ -86,13 +103,13 @@ namespace Mythical {
             outfitInfo8.outfit = new global::Outfit("Mythical::Terror", 35, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
+            }, false, false); 
             outfitInfo8.customDesc = ((bool b) => "The Worst Of The Best");
             outfitInfo8.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
             Outfits.Register(outfitInfo8);
-
+             
             OutfitInfo outfitInfo7 = new OutfitInfo();
             outfitInfo7.name = "Scholar";
             outfitInfo7.outfit = new global::Outfit("Mythical::Scholar", 36, new List<global::OutfitModStat>
@@ -189,14 +206,30 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
-            //palettes.Add(ImgHandler.LoadTex2D("test"));
-            //palettes.Add(ImgHandler.LoadTex2D("sovereign"));
-            //palettes.Add(ImgHandler.LoadTex2D("crimson"));
-            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic" };
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Empress";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Empress", 44, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Designed by Cerberus!");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress" };
             foreach(string robeName in robeNames)
             {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
             }
+
+            // Title screen additions
+
+            titleScreens.Add(ImgHandler.LoadSprite("bg1"));
+            titleScreens.Add(ImgHandler.LoadSprite("bg2"));
+
+
             // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
             /*
             Debug.Log("Loading Outfits");
@@ -408,9 +441,100 @@ namespace Mythical {
             AddBlobBoss();
             */
 
+            // Disable Drops
+
+            On.Destructible.Break += (On.Destructible.orig_Break orig, Destructible self) =>
+            {
+                if (self.name.Contains("NoPickups") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Spell Drops Disabled",3f);
+                    Debug.Log("No drops");
+                    SpawnPickups = false;
+                }
+                if (self.name.Contains("NoEffects") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Stage Effects Disabled", 3f);
+                    Debug.Log("No effects");
+                    StageEffects = false;
+                }
+                orig(self);
+            };
+
+            On.PvpController.HandleSkillSpawn += (On.PvpController.orig_HandleSkillSpawn orig, PvpController self) =>
+            {
+                if (SpawnPickups)
+                {
+                    orig(self);
+                }
+            };
+
+            
+
+
+            //List<Sprite> loadingTheListIDontNeedThisToAllocate = IconManager.TSBGSpriteList;
+            On.IconManager.GetBGSprite += (On.IconManager.orig_GetBGSprite orig, int index) =>
+            {
+                if (!hasAddedTitleCards)
+                {
+                    hasAddedTitleCards = true;
+                    List<Sprite> loadingTheListIDontNeedThisToAllocate = IconManager.TSBGSpriteList;
+                    TitleScreen.bgCount += titleScreens.Count;
+
+                    List<Sprite> sprites = new List<Sprite>();
+
+                    foreach (Sprite spr in titleScreens)
+                    {
+                        sprites.Add(spr);
+                    }
+                    foreach(Sprite spr in IconManager.TSBGSpriteList)
+                    {
+                        sprites.Add(spr);
+                    }
+
+                    IconManager.tsbgSpriteList = sprites;
+
+
+                }
+                return orig(index);
+            };
+            
+
+            //Palettes
+
             On.PvpController.ResetStage += PvpController_ResetStage;
             On.PvpController.ResetPlayers += PvpController_ResetPlayers;
             On.Player.SetPlayerOutfitColor += Us_AddOutfit;
+
+            On.GameProgressBoard.SetPlayerColors += (On.GameProgressBoard.orig_SetPlayerColors orig, GameProgressBoard self) =>
+             {
+                 if (newPalette != null)
+                 {
+                     self.p1PieceImage.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                     self.p1PieceImage.material.SetTexture("_Palette", newPalette);
+                 }
+                 orig(self);
+                 
+             };
+
+            On.OutfitMenu.LoadMenu += (On.OutfitMenu.orig_LoadMenu orig, OutfitMenu self, Player p) =>
+            {
+                self.outfitImage.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                self.outfitImage.material.SetTexture("_Palette", newPalette);
+                orig(self, p);
+            };
+            
+            On.DeathSummaryUI.Activate += (On.DeathSummaryUI.orig_Activate orig, DeathSummaryUI self, float f) => {
+                orig(self,f);
+                if (newPalette != null)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        self.playerRefs[i].outfitImage.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                        self.playerRefs[i].outfitImage.material.SetTexture("_Palette", newPalette);
+                    }
+                }
+            };
+
             On.WardrobeUI.LoadOutfits += (On.WardrobeUI.orig_LoadOutfits orig, WardrobeUI self) =>
             {
                 orig(self);
@@ -474,13 +598,102 @@ namespace Mythical {
                 self.wrRef.outfitImageArray[i].material.SetTexture("_Palette", newPalette);
                 orig(self, o, i);
             };
+            
             On.OutfitMenu.LoadMenu += (On.OutfitMenu.orig_LoadMenu orig , OutfitMenu self, Player p) => { orig(self, p); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
             On.OutfitMenu.SwapFocus += (On.OutfitMenu.orig_SwapFocus orig, OutfitMenu self, bool n) => { orig(self, n); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
-        }
-        public static Dictionary<int, string> pvpItems = new Dictionary<int, string>();
 
+            /*On.Player.InitComponents += (On.Player.orig_InitComponents orig, Player self) =>
+            {
+                orig(self);
+                Debug.Log("Old Sprite Name: " + self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite.name);
+                self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite = newPlayerSprite;
+                Debug.Log("Set new palette: "+ self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite.name);
+            };*/
+
+            // Stage effects
+
+            On.PvpController.ApplyAirBuffs += (On.PvpController.orig_ApplyAirBuffs orig, PvpController self) =>
+            {
+                if (StageEffects) { orig(self); }
+            };
+            On.PvpController.ApplyFireBuffs += (On.PvpController.orig_ApplyFireBuffs orig, PvpController self) =>
+            {
+                if (StageEffects) { orig(self); }
+            };
+            On.PvpController.ApplyEarthBuffs += (On.PvpController.orig_ApplyEarthBuffs orig, PvpController self) =>
+            {
+                if (StageEffects) { orig(self); }
+            };
+
+            // Music
+
+            LoadSong("Title","Sprites/Title.ogg");
+
+            On.SoundManager.PlayBGM += (On.SoundManager.orig_PlayBGM orig, string str) =>
+            {
+                if (!hasSwappedAudioClips)
+                {
+                    hasSwappedAudioClips = true;
+                    //SoundManager.bgmDict["Boss"].clip = ImgHandler.LoadClip("");
+                    SoundManager.bgmDict["TitleScreen"].clip = clipDict["Title"];
+                    //SoundManager.bgmDict["Hub"].clip = ImgHandler.LoadClip("");
+                }
+                orig(str);
+            };
+        }
+
+        public static Sprite newPlayerSprite;
+
+        public static Dictionary<int, string> pvpItems = new Dictionary<int, string>();
+        public bool hasSwappedAudioClips = false;
         public bool hasAddedPalettes = false;
+        public static bool SpawnPickups = true;
+        public static bool StageEffects = true;
         public Texture2D newPalette = null;
+        public bool inPVPScene { get
+            {
+                return SceneManager.GetActiveScene().name.ToLower() == "pvp";
+            } }
+        public void OnLevelWasLoaded()
+        {
+            try
+            {
+                Player.platWallet.balance += 999; //Enjoy
+            }
+            catch { }
+            if (inPVPScene)
+            {
+                GameObject mimi = MimicNpc.Prefab;
+
+                Instantiate(mimi, new Vector3(0, 5, 0), Quaternion.identity);
+
+                SpawnPickups = true;
+                StageEffects = true;
+                GameObject noPickups = Instantiate(MetalBarrelDeco.Prefab, new Vector3(-9, -1, 0), Quaternion.identity);
+                noPickups.name = "NoPickups";
+                noPickups.transform.localScale = Vector3.one * 0.75f;
+                noPickups.GetComponentInChildren<SpriteRenderer>().sprite = cherrySprite;
+                noPickups.GetComponent<Health>().healthStat.SetInitialBaseValue(100);
+                noPickups.GetComponent<Health>().healthStat.CurrentValue=100;
+
+                GameObject noEffects = Instantiate(MetalBarrelDeco.Prefab, new Vector3(9, -1, 0), Quaternion.identity);
+                noEffects.name = "NoEffects";
+                noEffects.transform.localScale = Vector3.one * 0.75f;
+                noEffects.GetComponentInChildren<SpriteRenderer>().sprite = orangeSprite;
+                noEffects.GetComponent<Health>().healthStat.SetInitialBaseValue(100);
+                noEffects.GetComponent<Health>().healthStat.CurrentValue = 100;
+
+                foreach (GameObject obj in GameObject.FindObjectsOfType<GameObject>())
+                {
+                    if (obj.name.ToLower() == "loadoutnpc" || obj.name.ToLower().Contains("trainingdummy"))
+                    {
+                        Destroy(obj);
+                    }
+                }
+
+            }
+        }
+
 
         public void Us_AddOutfit(On.Player.orig_SetPlayerOutfitColor orig, Player self, NumVarStatMod mod, bool givenStatus)
         {
@@ -488,19 +701,19 @@ namespace Mythical {
             Texture2D tex = (Texture2D) self.spriteMaterial.GetTexture("_Palette");
             if (newPalette == null)
             {
-                Debug.Log("1");
+                //Debug.Log("1");
                 newPalette = tex;
                 if (!hasAddedPalettes)
                 {
-                    Debug.Log("2");
+                    //Debug.Log("2");
                     hasAddedPalettes = true;
                     Texture2D t = newPalette;
                     Texture2D newT;
                     int h = t.height;
-                    Debug.Log("3");
+                    //Debug.Log("3");
                     foreach (Texture2D te in palettes)
                     {
-                        Debug.Log("Iterating over " + te.name);
+                        //Debug.Log("Iterating over " + te.name);
                         newT = new Texture2D(newPalette.width, newPalette.height + 2,TextureFormat.RGBA32,false);
                         newT = FillColorAlpha(newT);
                         for(int x = 1; x < newT.width; x++)
@@ -510,7 +723,7 @@ namespace Mythical {
                                 newT.SetPixel(x, y, newPalette.GetPixel(x, y));
                             }
                         }
-                        Debug.Log("Out of loop for " + te.name);
+                       // Debug.Log("Out of loop for " + te.name);
                         for (int x = 1; x < newT.width; x++)
                         {
                             newT.SetPixel(x, h, te.GetPixel(x, h));
@@ -520,7 +733,7 @@ namespace Mythical {
                             newT.SetPixel(x, h+1, te.GetPixel(x, h+1));
                         }
 
-                        Debug.Log("Out of loop 2 for " + te.name);
+                        //Debug.Log("Out of loop 2 for " + te.name);
                         newT.filterMode = FilterMode.Point;
                         newT.Apply();
                         newPalette = newT;
@@ -533,6 +746,9 @@ namespace Mythical {
             {
                 self.spriteMaterial.SetFloat("_PaletteCount", 32 + palettes.Count);
                 self.spriteMaterial.SetTexture("_Palette", newPalette);
+                
+
+
             }
 
             //orig(self, mod, givenStatus);
@@ -740,23 +956,29 @@ namespace Mythical {
             DialogueCreator.RegisterDialogue("mod",DialogueCreator.GenerateDialog(new List<string>() {"Among us sus", "Among us sus?", "Among us sus!" }));
         }
 
-        public void OnLevelWasLoaded()
-        {
-            try
-            {
-                Player.platWallet.balance = 900; //Enjoy
-            } catch { }
-            if (SceneManager.GetActiveScene().name.ToLower()=="pvp")
-            {
-                GameObject mimi = MimicNpc.Prefab;
-                Instantiate(mimi, new Vector3(0, 9, 0), Quaternion.identity);
-            }
-        }
+        
 
         public static void MakeStatMod(string id, float value, int priority=10, VarStatModType scaling = VarStatModType.Additive, bool thing = false)
         {
 
         }
+        public void LoadSong(string title, string path)
+        {
+            path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path);
+            StartCoroutine(LoadSongCoroutine(title,path));
+        }
+
+        IEnumerator LoadSongCoroutine(string title, string path)
+        {
+            string url = string.Format("file://{0}", path);
+            WWW www = new WWW(url);
+            yield return www;
+
+            AudioClip song = www.GetAudioClip(false, false);
+            clipDict[title] = song;
+        }
+
+        public static Dictionary<string, AudioClip> clipDict = new Dictionary<string, AudioClip>();
 
     }
 }

@@ -26,7 +26,7 @@ namespace Mythical
 			string text = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path2);
 			return ImgHandler.LoadPNG(text);
 		}
-
+		
 		public static byte[] LoadByteArray(string path)
         {
 			string path2 = "Sprites/" + path + ".png";
@@ -34,6 +34,14 @@ namespace Mythical
 			return ImgHandler.LoadPNG(text).GetRawTextureData();
 		}
 		// Token: 0x06000014 RID: 20 RVA: 0x000022C4 File Offset: 0x000004C4
+
+		public static AudioClip LoadClip(string path,int samples, int channels, int freq)
+        {
+			string path2 = "Sprites/" + path ;
+			return AudioClip.Create(path2,samples,channels,freq,false);
+			
+		}
+
 		public static Sprite LoadSprite(string path)
 		{
 			Texture2D texture2D = LoadTex2D(path);
@@ -44,6 +52,18 @@ namespace Mythical
 			sprite.name = path;
 			return sprite;
 		}
+		public static Sprite LoadSprite(string path, Vector2 pivot)
+		{
+			Texture2D texture2D = LoadTex2D(path);
+			texture2D.name = path;
+			texture2D.filterMode = FilterMode.Point;
+			Rect rect = new Rect(0f, 0f, (float)texture2D.width, (float)texture2D.height);
+			Sprite sprite = Sprite.Create(texture2D, rect, pivot, 16f);
+			sprite.name = path;
+			return sprite;
+		}
+
+
 
 	}
 }
