@@ -2,13 +2,16 @@
 using BepInEx.Configuration;
 using LegendAPI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Resources;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using XUnity.ResourceRedirector;
 namespace Mythical {
 
     #region BepInPlugin Notes
@@ -41,11 +44,11 @@ namespace Mythical {
         public List<Texture2D> palettes = new List<Texture2D>();
         public List<Sprite> titleScreens = new List<Sprite>();
         public bool hasAddedTitleCards;
+        public static bool ChaosDrops = false;
         // This Awake() function will run at the very start when the mod is initialized
 
         public Sprite cherrySprite;
         public Sprite orangeSprite;
-
         void Awake() {
 
             //Skills.Awake();
@@ -54,58 +57,41 @@ namespace Mythical {
             //WindowIconTools.SetIcon(img.GetRawTextureData(), img.width, img.height, WindowIconKind.Big);
             //Screen.SetResolution(1200, 675, false);
 
-            cherrySprite = ImgHandler.LoadSprite("cherrytree", new Vector2(0.5f,0.1f));
-            orangeSprite = ImgHandler.LoadSprite("orangetree", new Vector2(0.5f, 0.1f));
+            // LETS FUCKING GO
+            
+
+
+            newPlayerSprite = ImgHandler.LoadSprite("NewWizardGlow");
+            cherrySprite = ImgHandler.LoadSprite("tree1", new Vector2(0.5f,0.2f));
+            orangeSprite = ImgHandler.LoadSprite("tree2", new Vector2(0.5f, 0.2f));
             Debug.Log("Cherry Blossom Tree sprite from https://opengameart.org/content/lpc-plant-repack. Cropped to one singular tree.");
             Debug.Log("Cherry Orange Tree sprite from https://opengameart.org/content/lpc-orange-trees. Cropped to one singular tree.");
-        
+
 
             OutfitInfo outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Sovereign";
-            outfitInfo.outfit = new global::Outfit("Mythical::Sovereign", 32, new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, true, false);
-            outfitInfo.customDesc = ((bool b) => "Designed by Cerberus!");
-            outfitInfo.customMod = ((player, b, b2) => {});
-            Outfits.Register(outfitInfo);
-
-            outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Crimson";
-            outfitInfo.outfit = new global::Outfit("Mythical::Crimson", 33, new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, true, false);
-            outfitInfo.customDesc = ((bool b) => "Designed by only_going_up_fr0m_here!");
-            outfitInfo.customMod = ((player, b, b2) => { });
-            Outfits.Register(outfitInfo);
-
-
-            // New ones
-            OutfitInfo outfitInfo9 = new OutfitInfo();
-            outfitInfo9.name = "Vision";
-            outfitInfo9.outfit = new global::Outfit("Mythical::Vision", 34, new List<global::OutfitModStat>
+            outfitInfo.name = "Walter";
+            outfitInfo.outfit = new global::Outfit("Mythical::Walter", 41, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
-            outfitInfo9.customDesc = ((bool b) => "The All Seeing Eye");
-            outfitInfo9.customMod = delegate (global::Player player, bool b, bool b2)
+            outfitInfo.customDesc = ((bool b) => "The Living Menace.");
+            outfitInfo.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
-            Outfits.Register(outfitInfo9);
+            Outfits.Register(outfitInfo);
 
-            OutfitInfo outfitInfo8 = new OutfitInfo();
-            outfitInfo8.name = "Terror";
-            outfitInfo8.outfit = new global::Outfit("Mythical::Terror", 35, new List<global::OutfitModStat>
+            OutfitInfo outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Guardian";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Guardian", 42, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false); 
-            outfitInfo8.customDesc = ((bool b) => "The Worst Of The Best");
-            outfitInfo8.customMod = delegate (global::Player player, bool b, bool b2)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "The Defender");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
-            Outfits.Register(outfitInfo8);
-             
+            Outfits.Register(outfitInfo2);
+
             OutfitInfo outfitInfo7 = new OutfitInfo();
             outfitInfo7.name = "Scholar";
             outfitInfo7.outfit = new global::Outfit("Mythical::Scholar", 36, new List<global::OutfitModStat>
@@ -142,8 +128,10 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo5);
 
+            
+
             OutfitInfo outfitInfo4 = new OutfitInfo();
-            outfitInfo4.name = "Tycoon";
+            outfitInfo4.name = "Tycoon";  
             outfitInfo4.outfit = new global::Outfit("Mythical::Tycoon", 39, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
@@ -166,29 +154,30 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo3);
 
-            outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Walter";
-            outfitInfo.outfit = new global::Outfit("Mythical::Walter", 41, new List<global::OutfitModStat>
+            OutfitInfo outfitInfo8 = new OutfitInfo();
+            outfitInfo8.name = "Terror";
+            outfitInfo8.outfit = new global::Outfit("Mythical::Terror", 35, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
-            outfitInfo.customDesc = ((bool b) => "The Living Menace.");
-            outfitInfo.customMod = delegate (global::Player player, bool b, bool b2)
+            outfitInfo8.customDesc = ((bool b) => "The Worst Of The Best");
+            outfitInfo8.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
-            Outfits.Register(outfitInfo);
+            Outfits.Register(outfitInfo8);
 
-            OutfitInfo outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Guardian";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Guardian", 42, new List<global::OutfitModStat>
+            // New ones
+            OutfitInfo outfitInfo9 = new OutfitInfo();
+            outfitInfo9.name = "Vision";
+            outfitInfo9.outfit = new global::Outfit("Mythical::Vision", 34, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "The Defender");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            outfitInfo9.customDesc = ((bool b) => "The All Seeing Eye");
+            outfitInfo9.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
-            Outfits.Register(outfitInfo2);
+            Outfits.Register(outfitInfo9);
 
             outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Archaic";
@@ -201,6 +190,30 @@ namespace Mythical {
             {
             };
             Outfits.Register(outfitInfo2);
+
+            outfitInfo = new OutfitInfo();
+            outfitInfo.name = "Crimson";
+            outfitInfo.outfit = new global::Outfit("Mythical::Crimson", 33, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, true, false);
+            outfitInfo.customDesc = ((bool b) => "Designed by only_going_up_fr0m_here!");
+            outfitInfo.customMod = ((player, b, b2) => { });
+            Outfits.Register(outfitInfo);
+
+            
+
+
+            outfitInfo = new OutfitInfo();
+            outfitInfo.name = "Sovereign";
+            outfitInfo.outfit = new global::Outfit("Mythical::Sovereign", 32, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, true, false);
+            outfitInfo.customDesc = ((bool b) => "Designed by Cerberus!");
+            outfitInfo.customMod = ((player, b, b2) => {});
+            Outfits.Register(outfitInfo);
+            
 
             outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Empress";
@@ -220,219 +233,10 @@ namespace Mythical {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
             }
 
+            // Title screen additions
 
-
-
-            // This is the just a first little tester code to see if our mod is running on WoL. You'll see it in the BepInEx console
-            /*
-            Debug.Log("Loading Outfits");
-
-            OutfitInfo outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Vagrant";
-            outfitInfo.outfit = new global::Outfit("Mythical::Vagrant", 15, new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(global::OutfitModStat.OutfitModType.HealAmount, 0f, 0.2f, 0f, false),
-                new global::OutfitModStat(global::OutfitModStat.OutfitModType.CritChance, 0f, 0.2f, 0f, false)
-            }, true, false);
-            Outfits.Register(outfitInfo);
-
-            outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Showman";
-            outfitInfo.outfit = new global::Outfit("Mythical::Showman", 30, new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(global::OutfitModStat.OutfitModType.Damage, 0f, 0.1f, 0f, false),
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo.customDesc = ((bool b) => "Start with more money, rich boy ;)");
-            outfitInfo.customMod = ((player, b, b2) => {
-                if (b)
-                {
-                    Player.goldWallet.balance += 100;
-                } else
-                {
-                    Player.goldWallet.balance -= 100;
-                }
-            });
-
-            Outfits.Register(outfitInfo);
-
-            outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Handyman";
-            outfitInfo.outfit = new global::Outfit("Mythical::Handyman", 27, new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(global::OutfitModStat.OutfitModType.Speed, 0f, 0.1f, 0f, false),
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo.customDesc = ((bool b) => "Pits will no longer spawn in rooms!");
-            outfitInfo.customMod = ((player, b, b2) => {
-                Level.removeAllPits = b;
-            });
-
-            Outfits.Register(outfitInfo);
-
-            outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Hoarder";
-            outfitInfo.outfit = new global::Outfit("Mythical::Hoarder", 22, new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(global::OutfitModStat.OutfitModType.Speed, 0f, -0.1f, 0f, false),
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo.customDesc = ((bool b) => "You can carry six more items!");
-            outfitInfo.customMod = ((player, b, b2) => {
-                if (b)
-                {
-                    On.Inventory.AddItem_Item_bool_bool += Inventory_AddItem;
-                } else
-                {
-                    On.Inventory.AddItem_Item_bool_bool -= Inventory_AddItem;
-                }
-            });
-
-            Outfits.Register(outfitInfo);
-
-
-            ItemInfo monsterTooth = new ItemInfo();
-            monsterTooth.name = "MonsterTooth";
-            monsterTooth.item = new MonsterTooth();
-            monsterTooth.tier = 1;
-
-            TextManager.ItemInfo itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Monster Tooth";
-            itemInfo.description = "Gain health when killing an enemy!";
-            itemInfo.itemID = MonsterTooth.staticID;
-
-            Sprite spr = ImgHandler.LoadSprite("tooth");
-
-            monsterTooth.text = itemInfo;
-            monsterTooth.icon = (spr != null ? spr : null);
-
-            Items.Register(monsterTooth);
-
-            ItemInfo behemoth = new ItemInfo();
-            behemoth.name = "BrilliantBehemoth";
-            behemoth.item = new Behemoth();
-            behemoth.tier = 1;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Brilliant Behemoth";
-            itemInfo.description = "Chance to create explosions on hit, BUT deal less damage!";
-            itemInfo.itemID = Behemoth.staticID;
-
-            spr = ImgHandler.LoadSprite("cannon");
-
-            behemoth.text = itemInfo;
-            behemoth.icon = (spr != null ? spr : null);
-
-            Items.Register(behemoth);
-
-            ItemInfo sage = new ItemInfo();
-            sage.name = "InvisibleOnLowHealth";
-            sage.item = new InvisibleOnLowHealth();
-            sage.tier = 2;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sage's Armor";
-            itemInfo.description = "Become invulnerable at low health!";
-            itemInfo.itemID = InvisibleOnLowHealth.staticID;
-
-            spr = ImgHandler.LoadSprite("sage");
-
-            sage.text = itemInfo;
-            sage.icon = (spr != null ? spr : null);
-
-            Items.Register(sage);
-
-            ItemInfo midas = new ItemInfo();
-            midas.name = "MidasRage";
-            midas.item = new MidasRage();
-            midas.tier = 2;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Rage of Midas";
-            itemInfo.description = "Destructibles drop more gold more frequently!";
-            itemInfo.itemID = MidasRage.staticID;
-
-            midas.text = itemInfo;
-            midas = midas.loadSprite("midas");
-
-            Items.Register(midas); //Here is where all the funny anti element relics come in ------------
-
-            ItemInfo gemChest = new ItemInfo();
-            gemChest.name = "GemChestRelic";
-            gemChest.item = new GemChestRelic();
-            gemChest.tier = 1;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Locked Gem Chest";
-            itemInfo.description = "Gets heavier as you progress through the trials! Drop from inventory to open.";
-            itemInfo.itemID = GemChestRelic.staticID;
-
-            gemChest.text = itemInfo;
-            gemChest = gemChest.loadSprite("gemchest");
-            Items.Register(gemChest);
-
-            ItemInfo atkSpeedUp = new ItemInfo();
-            atkSpeedUp.name = "atkSpeedUpRelic";
-            atkSpeedUp.item = new AttackSpeedUpItem();
-            atkSpeedUp.tier = 1;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Energy Drink";
-            itemInfo.description = "Increases spell activation speed!";
-            itemInfo.itemID = AttackSpeedUpItem.staticID;
-
-            atkSpeedUp.text = itemInfo;
-            atkSpeedUp = atkSpeedUp.loadSprite("atkSpeedUp");
-            Items.Register(atkSpeedUp);
-
-            ItemInfo unEnhance = new ItemInfo();
-            unEnhance.name = UnEnhanceRelic.staticID;
-            unEnhance.item = new UnEnhanceRelic();
-            unEnhance.tier = 1;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Power Drain";
-            itemInfo.description = "Unenhance all current arcana, but greatly reduce cooldowns!";
-            itemInfo.itemID = UnEnhanceRelic.staticID;
-
-            unEnhance.text = itemInfo;
-            unEnhance = unEnhance.loadSprite("unEnhance");
-            Items.Register(unEnhance);
-
-            ItemInfo allOrNothing = new ItemInfo();
-            allOrNothing.name = AllOrNothing.staticID;
-            allOrNothing.item = new AllOrNothing();
-            allOrNothing.tier = 1;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "All Or Nothing";
-            itemInfo.description = "Idea by BurnVolcano! You have a 50 percent chance to deal triple damage, but deal no damage otherwise!";
-            itemInfo.itemID = AllOrNothing.staticID;
-
-            allOrNothing.text = itemInfo;
-            allOrNothing = allOrNothing.loadSprite("allOrNothing");
-            Items.Register(allOrNothing);
-
-            ItemInfo rootChanceUp = new ItemInfo();
-            rootChanceUp.name = RootChanceUp.staticID;
-            rootChanceUp.item = new RootChanceUp();
-            rootChanceUp.tier = 1;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Petrified Root";
-            itemInfo.description = "Adds a chance to root foes!";
-            itemInfo.itemID = RootChanceUp.staticID;
-
-            rootChanceUp.text = itemInfo;
-            rootChanceUp = rootChanceUp.loadSprite("rootChanceUp");
-            Items.Register(rootChanceUp);
-
-
-            LoadAntiRelics();
-            //DialogueCreator.Init();
-            //MakeNewDialogueTest();
-            AddBlobBoss();
-            */
+            titleScreens.Add(ImgHandler.LoadSprite("bg1"));
+            titleScreens.Add(ImgHandler.LoadSprite("bg2"));
 
             // Disable Drops
 
@@ -461,11 +265,9 @@ namespace Mythical {
                 }
             };
 
-            // Title screen additions
-
-            titleScreens.Add(ImgHandler.LoadSprite("bg1"));
-
             
+
+
             //List<Sprite> loadingTheListIDontNeedThisToAllocate = IconManager.TSBGSpriteList;
             On.IconManager.GetBGSprite += (On.IconManager.orig_GetBGSprite orig, int index) =>
             {
@@ -474,10 +276,21 @@ namespace Mythical {
                     hasAddedTitleCards = true;
                     List<Sprite> loadingTheListIDontNeedThisToAllocate = IconManager.TSBGSpriteList;
                     TitleScreen.bgCount += titleScreens.Count;
+
+                    List<Sprite> sprites = new List<Sprite>();
+
                     foreach (Sprite spr in titleScreens)
                     {
-                        IconManager.TSBGSpriteList.Add(spr);
+                        sprites.Add(spr);
                     }
+                    foreach(Sprite spr in IconManager.TSBGSpriteList)
+                    {
+                        sprites.Add(spr);
+                    }
+
+                    IconManager.tsbgSpriteList = sprites;
+
+
                 }
                 return orig(index);
             };
@@ -488,6 +301,37 @@ namespace Mythical {
             On.PvpController.ResetStage += PvpController_ResetStage;
             On.PvpController.ResetPlayers += PvpController_ResetPlayers;
             On.Player.SetPlayerOutfitColor += Us_AddOutfit;
+
+            On.GameProgressBoard.SetPlayerColors += (On.GameProgressBoard.orig_SetPlayerColors orig, GameProgressBoard self) =>
+             {
+                 if (newPalette != null)
+                 {
+                     self.p1PieceImage.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                     self.p1PieceImage.material.SetTexture("_Palette", newPalette);
+                 }
+                 orig(self);
+                 
+             };
+
+            On.OutfitMenu.LoadMenu += (On.OutfitMenu.orig_LoadMenu orig, OutfitMenu self, Player p) =>
+            {
+                self.outfitImage.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                self.outfitImage.material.SetTexture("_Palette", newPalette);
+                orig(self, p);
+            };
+            
+            On.DeathSummaryUI.Activate += (On.DeathSummaryUI.orig_Activate orig, DeathSummaryUI self, float f) => {
+                orig(self,f);
+                if (newPalette != null)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        self.playerRefs[i].outfitImage.material.SetFloat("_PaletteCount", 32 + palettes.Count);
+                        self.playerRefs[i].outfitImage.material.SetTexture("_Palette", newPalette);
+                    }
+                }
+            };
+
             On.WardrobeUI.LoadOutfits += (On.WardrobeUI.orig_LoadOutfits orig, WardrobeUI self) =>
             {
                 orig(self);
@@ -551,8 +395,17 @@ namespace Mythical {
                 self.wrRef.outfitImageArray[i].material.SetTexture("_Palette", newPalette);
                 orig(self, o, i);
             };
+            
             On.OutfitMenu.LoadMenu += (On.OutfitMenu.orig_LoadMenu orig , OutfitMenu self, Player p) => { orig(self, p); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
             On.OutfitMenu.SwapFocus += (On.OutfitMenu.orig_SwapFocus orig, OutfitMenu self, bool n) => { orig(self, n); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
+
+            /*On.Player.InitComponents += (On.Player.orig_InitComponents orig, Player self) =>
+            {
+                orig(self);
+                Debug.Log("Old Sprite Name: " + self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite.name);
+                self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite = newPlayerSprite;
+                Debug.Log("Set new palette: "+ self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite.name);
+            };*/
 
             // Stage effects
 
@@ -568,33 +421,154 @@ namespace Mythical {
             {
                 if (StageEffects) { orig(self); }
             };
+
+            // Music
+            /*
+            LoadSong("Title","Sprites/Vaporwave.ogg");
+            LoadSong("PVPHub", "Sprites/Trap.ogg");
+            LoadSong("PVP", "Sprites/Rock.ogg");
+
             On.SoundManager.PlayBGM += (On.SoundManager.orig_PlayBGM orig, string str) =>
             {
                 if (!hasSwappedAudioClips)
                 {
                     hasSwappedAudioClips = true;
-                    //SoundManager.bgmDict["Boss"].clip = ImgHandler.LoadClip("");
-                    //SoundManager.bgmDict["TitleScreen"].clip = ImgHandler.LoadClip("");
-                    //SoundManager.bgmDict["Hub"].clip = ImgHandler.LoadClip("");
+                    SoundManager.bgmDict["Boss"].clip = clipDict["PVP"];
+                    SoundManager.bgmDict["Hub"].clip = clipDict["PVPHub"];
+                    SoundManager.bgmDict["TitleScreen"].clip = clipDict["Title"];
                 }
                 orig(str);
+            };*/
+
+            //THE NEW FUCKING SPRITESHEET
+
+            
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Sprites/Player");
+            
+
+            On.Player.Start += (On.Player.orig_Start orig,Player self) => {
+                orig(self);
+                Debug.Log(IconManager.WizardSpriteList.Count);
+                Debug.Log(IconManager.WizardSprites.Count);
+                int l = IconManager.wizardSpriteList.Count;
+                IconManager.wizardSpriteList = new List<Sprite>();
+                string[] files = Directory.GetFiles(path);
+                int i = 0;
+                foreach (string str in files)
+                {
+                    
+                    string n = Path.GetFileNameWithoutExtension(str);
+                    Sprite spr = ImgHandler.LoadSprite("Player/" + n);
+                    IconManager.wizardSpriteList.Add(spr);
+                    string n2 = n.Replace("NewWizard", "").Trim();
+                    Debug.Log("Loading File " + i + "/" + l + " Named: " +n2);
+                    IconManager.wizardSprites[n2] = spr;
+                    if (n2 == "Portrait")
+                    {
+                        DialogManager.portraitSprites["Player"] = spr;
+                    }
+                    i++;
+                }
             };
+
+            On.Player.Update += (On.Player.orig_Update orig, Player self) =>
+            {
+                orig(self);
+                self.spriteRenderer.sprite = IconManager.wizardSprites[self.spriteRenderer.sprite.name];
+            };
+            /* No Longer Necessary
+             
+            On.Player.Start += (On.Player.orig_Start orig, Player self) =>
+            {
+                orig(self);
+                for (int i = 0; i < IconManager.WizardSpriteList.Count; i++)
+                {
+                    //IconManager.wizardSprites[playerSprites[i].name] = playerSprites[i];
+                    string text = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Exports/");
+                    Debug.Log("Saved File Here: " + text);
+                    SaveSubSprite(ExtractAndName(IconManager.WizardSpriteList[i]), text);
+                }
+            };
+            */
+            //Insignia of Legend Changes
+
+            On.PlayerWinItem.SetEventHandlers += (On.PlayerWinItem.orig_SetEventHandlers orig, PlayerWinItem self, bool b) =>
+            {
+                orig(self,b);
+                ChaosDrops = b;
+            };
+
+            On.GameController.Start += (On.GameController.orig_Start orig, GameController self) =>
+            {
+                orig(self);
+                On.LootManager.GetSkillID += (On.LootManager.orig_GetSkillID orig2, bool l, bool s) =>
+                {
+                    if (ChaosDrops && inAPVPScene && UnityEngine.Random.value<0.25f)
+                    {
+                        return LootManager.chaosSkillList[UnityEngine.Random.Range(0, LootManager.chaosSkillList.Count)];
+                    }
+                    else
+                    {
+                        return orig2(l, s);
+                    }
+
+                    return "";
+                };
+            };
+
+            //Adjustments
+            /*On.PlatWallet.ctor += (On.PlatWallet.orig_ctor orig, PlatWallet self, int i) =>
+            {
+                orig(self,i);
+                self.maxBalance = 9999;
+                self.balance = 9999;
+            };*/
+            
         }
+
+        public static Sprite[] playerSprites;
+        public static AssetBundle playerBundle;
+        public static Sprite newPlayerSprite;
+
         public static Dictionary<int, string> pvpItems = new Dictionary<int, string>();
         public bool hasSwappedAudioClips = false;
         public bool hasAddedPalettes = false;
         public static bool SpawnPickups = true;
         public static bool StageEffects = true;
         public Texture2D newPalette = null;
+
+        private static Texture2D ExtractAndName(Sprite sprite)
+        {
+            var output = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+            var r = sprite.textureRect;
+            var pixels = sprite.texture.GetPixels((int)r.x, (int)r.y, (int)r.width, (int)r.height);
+            output.SetPixels(pixels);
+            output.Apply();
+            output.name = sprite.texture.name + " " + sprite.name;
+            return output;
+        }
+        private static void SaveSubSprite(Texture2D tex, string saveToDirectory)
+        {
+            if (!System.IO.Directory.Exists(saveToDirectory)) System.IO.Directory.CreateDirectory(saveToDirectory);
+            System.IO.File.WriteAllBytes(System.IO.Path.Combine(saveToDirectory, tex.name + ".png"), tex.EncodeToPNG());
+        }
+
         public bool inPVPScene { get
             {
                 return SceneManager.GetActiveScene().name.ToLower() == "pvp";
             } }
+        public bool inAPVPScene
+        {
+            get
+            {
+                return SceneManager.GetActiveScene().name.ToLower().Contains("pvp");
+            }
+        }
         public void OnLevelWasLoaded()
         {
             try
             {
-                Player.platWallet.balance += 999; //Enjoy
+                Player.platWallet.balance = Player.platWallet.maxBalance; //Enjoy
             }
             catch { }
             if (inPVPScene)
@@ -637,19 +611,19 @@ namespace Mythical {
             Texture2D tex = (Texture2D) self.spriteMaterial.GetTexture("_Palette");
             if (newPalette == null)
             {
-                Debug.Log("1");
+                //Debug.Log("1");
                 newPalette = tex;
                 if (!hasAddedPalettes)
                 {
-                    Debug.Log("2");
+                    //Debug.Log("2");
                     hasAddedPalettes = true;
                     Texture2D t = newPalette;
                     Texture2D newT;
                     int h = t.height;
-                    Debug.Log("3");
+                    //Debug.Log("3");
                     foreach (Texture2D te in palettes)
                     {
-                        Debug.Log("Iterating over " + te.name);
+                        //Debug.Log("Iterating over " + te.name);
                         newT = new Texture2D(newPalette.width, newPalette.height + 2,TextureFormat.RGBA32,false);
                         newT = FillColorAlpha(newT);
                         for(int x = 1; x < newT.width; x++)
@@ -659,7 +633,7 @@ namespace Mythical {
                                 newT.SetPixel(x, y, newPalette.GetPixel(x, y));
                             }
                         }
-                        Debug.Log("Out of loop for " + te.name);
+                       // Debug.Log("Out of loop for " + te.name);
                         for (int x = 1; x < newT.width; x++)
                         {
                             newT.SetPixel(x, h, te.GetPixel(x, h));
@@ -669,7 +643,7 @@ namespace Mythical {
                             newT.SetPixel(x, h+1, te.GetPixel(x, h+1));
                         }
 
-                        Debug.Log("Out of loop 2 for " + te.name);
+                        //Debug.Log("Out of loop 2 for " + te.name);
                         newT.filterMode = FilterMode.Point;
                         newT.Apply();
                         newPalette = newT;
@@ -682,6 +656,9 @@ namespace Mythical {
             {
                 self.spriteMaterial.SetFloat("_PaletteCount", 32 + palettes.Count);
                 self.spriteMaterial.SetTexture("_Palette", newPalette);
+                
+
+
             }
 
             //orig(self, mod, givenStatus);
@@ -709,7 +686,8 @@ namespace Mythical {
             {
                 if (pvpItems.ContainsKey(i))
                 {
-                    p.inventory.GetItem(pvpItems[i]);
+
+                    p.inventory.AddItem(p.inventory.GetItem(pvpItems[i]));
                 }
                 i++;
             }
@@ -777,124 +755,39 @@ namespace Mythical {
             //return orig(self, item, show, true);
         }
 
-        public static void LoadAntiRelics()
+        public void LoadSong(string title, string path)
         {
-            ItemInfo frost = new ItemInfo();
-            frost.name = "frostCrit";
-            frost.item = new IceCrit();
-            frost.tier = 3;
-
-            TextManager.ItemInfo itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Antifrost";
-            itemInfo.description = "Attacks against Frost enemies are guaranteed to be critical!";
-            itemInfo.itemID = FrostCrit.staticID;
-
-            frost.text = itemInfo;
-            frost = frost.loadSprite("antifrost");
-
-            Items.Register(frost);
-
-            ItemInfo flame = new ItemInfo();
-            flame.name = "flameCrit";
-            flame.item = new FlameCrit();
-            flame.tier = 3;
-
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Anti-Flame";
-            itemInfo.description = "Attacks against flame enemies are guaranteed to be critical!";
-            itemInfo.itemID = "flameCrit";
-
-            flame.text = itemInfo;
-            flame = flame.loadSprite("antiflame");
-
-            Items.Register(flame);
-
-            ItemInfo earth = new ItemInfo();
-            earth.name = "earthCrit";
-            earth.item = new EarthCrit();
-            earth.tier = 2;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Anti-Earth";
-            itemInfo.description = "Attacks against earth enemies are guaranteed to be critical!";
-            itemInfo.itemID = "earthCrit";
-
-            earth.text = itemInfo;
-            earth = earth.loadSprite("antiearth");
-
-            Items.Register(earth);
-
-            ItemInfo wind = new ItemInfo();
-            wind.name = "windCrit";
-            wind.item = new WindCrit();
-            wind.tier = 2;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Anti-Wind";
-            itemInfo.description = "Attacks against wind enemies are guaranteed to be critical!";
-            itemInfo.itemID = "windCrit";
-
-            wind.text = itemInfo;
-            wind = wind.loadSprite("antiwind");
-
-            Items.Register(wind);
-
-            ItemInfo thunder = new ItemInfo();
-            thunder.name = "thunderCrit";
-            thunder.item = new ThunderCrit();
-            thunder.tier = 4;
-
-            itemInfo = new TextManager.ItemInfo();
-            itemInfo.displayName = "Sanctum of Anti-Thunder";
-            itemInfo.description = "Attacks against thunder enemies are guaranteed to be critical!";
-            itemInfo.itemID = "thunderCrit";
-
-            thunder.text = itemInfo;
-            thunder = thunder.loadSprite("antithunder");
-
-            Items.Register(thunder);
+            path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path);
+            StartCoroutine(LoadSongCoroutine(title,path));
+            /*
+            string url = string.Format("file://{0}", path);
+            WWW www = new WWW(url);
+            AudioClip song = www.GetAudioClipCompressed(false, AudioType.OGGVORBIS);
+            song.name = title + " (CUSTOM)";
+            Debug.Log("Got Clip: " + song.name);
+            if (song != null)
+            {
+                Debug.Log("WOOHOO IT LOADED");
+            }
+            clipDict[title] = song;*/
         }
 
-        public static void AddBlobBoss()
+        IEnumerator LoadSongCoroutine(string title, string path)
         {
-            On.ExitRoomEventHandler.Start += addToPool;
-        }
-        public static void addToPool(On.ExitRoomEventHandler.orig_Start orig, ExitRoomEventHandler self)
-        {
-            self.miniBossGroupList.Add(
-                new List<Enemy.EName>
-                {
-                    Enemy.EName.SuperBlob,
-                    Enemy.EName.Blob,
-                    Enemy.EName.BlobRoller,
-                    Enemy.EName.BlobSpitter
-                }
-            );
-            self.miniBossGroupList.Add(
-                new List<Enemy.EName>
-                {
-                    Enemy.EName.SuperMovingStatue,
-                    Enemy.EName.MovingStatue,
-                    Enemy.EName.EnemyTurret,
-                    Enemy.EName.MovingStatue
-                }
-            );
-            ExitRoomEventHandler.miniBossGroupCount = 9;
-            orig(self);
-        }
-        public static EnemyHealthBar bar;
-        public static void MakeNewDialogueTest()
-        {
-            DialogueCreator.RegisterDialogue("mod",DialogueCreator.GenerateDialog(new List<string>() {"Among us sus", "Among us sus?", "Among us sus!" }));
+            Debug.Log("Starting song routine");
+            string url = string.Format("file:///{0}", path);
+            using (WWW www = new WWW(url))
+            {
+                yield return www;
+                AudioClip song = www.GetAudioClipCompressed(false, AudioType.OGGVORBIS);
+                song.name = title + " (CUSTOM)";
+                clipDict[title] = song;
+            }
+           
+            
         }
 
-        
-
-        public static void MakeStatMod(string id, float value, int priority=10, VarStatModType scaling = VarStatModType.Additive, bool thing = false)
-        {
-
-        }
+        public static Dictionary<string, AudioClip> clipDict = new Dictionary<string, AudioClip>();
 
     }
 }

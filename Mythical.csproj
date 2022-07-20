@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="AirChannelDashGood.cs" />
     <Compile Include="AllOrNothing.cs" />
+    <Compile Include="AssetRedirector.cs" />
     <Compile Include="AttackInfoHolderMythical.cs" />
     <Compile Include="AttackSpeedUpItem.cs" />
     <Compile Include="Behemoth.cs" />
@@ -97,6 +98,15 @@
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>lib\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="XUnity.Common">
+      <HintPath>lib\XUnity_ResourceRedirector\core\XUnity.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="XUnity.ResourceRedirector">
+      <HintPath>lib\XUnity_ResourceRedirector\plugins\XUnity.ResourceRedirector\XUnity.ResourceRedirector.dll</HintPath>
+    </Reference>
+    <Reference Include="XUnity.ResourceRedirector.BepIn-5x">
+      <HintPath>lib\XUnity_ResourceRedirector\plugins\XUnity.ResourceRedirector\XUnity.ResourceRedirector.BepIn-5x.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
