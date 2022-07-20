@@ -18,6 +18,7 @@ namespace Mythical
 			byte[] data = File.ReadAllBytes(filePath);
 			texture2D.LoadImage(data);
 			texture2D.Apply();
+			//Debug.Log("Loading with color format " + texture2D.format);
 			return texture2D;
 		}
 		public static Texture2D LoadTex2D(string path)

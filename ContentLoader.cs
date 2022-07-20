@@ -48,6 +48,7 @@ namespace Mythical {
         // This Awake() function will run at the very start when the mod is initialized
 
         public Sprite cherrySprite;
+        public Sprite basePalette;
         public Sprite orangeSprite;
         void Awake() {
 
@@ -58,10 +59,10 @@ namespace Mythical {
             //Screen.SetResolution(1200, 675, false);
 
             // LETS FUCKING GO
+
             
-
-
-            newPlayerSprite = ImgHandler.LoadSprite("NewWizardGlow");
+            basePalette = ImgHandler.LoadSprite("Base");
+            newPlayerSprite = ImgHandler.LoadTex2D("Walter2");
             cherrySprite = ImgHandler.LoadSprite("tree1", new Vector2(0.5f,0.2f));
             orangeSprite = ImgHandler.LoadSprite("tree2", new Vector2(0.5f, 0.2f));
             Debug.Log("Cherry Blossom Tree sprite from https://opengameart.org/content/lpc-plant-repack. Cropped to one singular tree.");
@@ -227,7 +228,19 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
-            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress" };
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Despair";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Despair", 45, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "ABANDON ALL HOPE");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair" };
             foreach(string robeName in robeNames)
             {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
@@ -440,63 +453,8 @@ namespace Mythical {
                 orig(str);
             };*/
 
-            //THE NEW FUCKING SPRITESHEET
 
             
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Sprites/Player");
-            
-
-            On.Player.Start += (On.Player.orig_Start orig,Player self) => {
-                orig(self);
-                if (!loadedWizSprites) { 
-                    loadedWizSprites=true;
-                    Debug.Log(IconManager.WizardSpriteList.Count);
-                    Debug.Log(IconManager.WizardSprites.Count);
-                    int l = IconManager.wizardSpriteList.Count;
-                    IconManager.wizardSpriteList = new List<Sprite>();
-                    string[] files = Directory.GetFiles(path);
-                    int i = 0;
-                    foreach (string str in files)
-                    {
-                    
-                        string n = Path.GetFileNameWithoutExtension(str);
-                        Sprite spr = ImgHandler.LoadSprite("Player/" + n);
-                        IconManager.wizardSpriteList.Add(spr);
-                        string n2 = n.Replace("NewWizard", "").Trim();
-                        Debug.Log("Loading File " + i + "/" + l + " Named: " +n2);
-                        IconManager.wizardSprites[n2] = spr;
-                        if (n2 == "Portrait")
-                        {
-                            DialogManager.portraitSprites["Player"] = spr;
-                        }
-                        i++;
-                    }
-                }
-            };
-
-            On.Player.Update += (On.Player.orig_Update orig, Player self) =>
-            {
-                orig(self);
-
-                if (newPlayerDict.ContainsKey(self.gameObject))
-                {
-                    
-                } else
-                {
-                    GameObject newObj = new GameObject("New Player Renderer");
-                    newObj.transform.parent=self.gameObject.transform;
-                    newObj.transform.localPosition=self.spriteRenderer.transform.localPosition;
-                    newObj.AddComponent<SpriteRenderer>();
-                    SpriteRenderer sr = newObj.GetComponent<SpriteRenderer>();
-                    sr.material=self.spriteMaterial;
-                    
-                    newPlayerDict[self.gameObject]=sr;
-                    self.spriteRenderer=sr;
-                }
-                
-                newPlayerDict[self.gameObject].sprite = IconManager.wizardSprites[self.spriteRenderer.sprite.name];
-
-            };
             /* No Longer Necessary
              
             On.Player.Start += (On.Player.orig_Start orig, Player self) =>
@@ -532,8 +490,15 @@ namespace Mythical {
                     {
                         return orig2(l, s);
                     }
+                };
 
-                    return "";
+                On.LootManager.DropSkill += (On.LootManager.orig_DropSkill orig3, Vector3 v, int a, string id, float l, float s, HashSet<ElementType> set, bool life, bool emp) =>
+                {
+                    if (inAPVPScene && LootManager.chaosSkillList.Contains(id))
+                    {
+                        emp = true;
+                    }
+                    orig3(v, a, id, l, s, set, life, emp);
                 };
             };
 
@@ -549,7 +514,7 @@ namespace Mythical {
 
         public static Sprite[] playerSprites;
         public static AssetBundle playerBundle;
-        public static Sprite newPlayerSprite;
+        public static Texture2D newPlayerSprite;
 
         public static Dictionary<int, string> pvpItems = new Dictionary<int, string>();
         public bool hasSwappedAudioClips = false;
@@ -560,6 +525,7 @@ namespace Mythical {
         public Texture2D newPalette = null;
 
         public static Dictionary<GameObject,SpriteRenderer> newPlayerDict = new Dictionary<GameObject, SpriteRenderer>();
+
 
         private static Texture2D ExtractAndName(Sprite sprite)
         {
@@ -598,7 +564,7 @@ namespace Mythical {
             if (inPVPScene)
             {
                 GameObject mimi = MimicNpc.Prefab;
-
+                pvpItems = new Dictionary<int, string>();
                 Instantiate(mimi, new Vector3(0, 5, 0), Quaternion.identity);
 
                 SpawnPickups = true;
@@ -608,7 +574,7 @@ namespace Mythical {
                 noPickups.transform.localScale = Vector3.one * 0.75f;
                 noPickups.GetComponentInChildren<SpriteRenderer>().sprite = cherrySprite;
                 noPickups.GetComponent<Health>().healthStat.SetInitialBaseValue(100);
-                noPickups.GetComponent<Health>().healthStat.CurrentValue=100;
+                noPickups.GetComponent<Health>().healthStat.CurrentValue = 100;
 
                 GameObject noEffects = Instantiate(MetalBarrelDeco.Prefab, new Vector3(9, -1, 0), Quaternion.identity);
                 noEffects.name = "NoEffects";
@@ -626,13 +592,60 @@ namespace Mythical {
                 }
 
             }
+
+            List<string> Destroynames = new List<string>() { "overdrive", "hazard","spawner" };
+            if (inAPVPScene && SceneManager.GetActiveScene().name.ToLower().Contains("arena")) {
+                if (!StageEffects)
+                {
+                    foreach (GameObject o in FindObjectsOfType<GameObject>())
+                    {
+                        if (o.transform.root.name.ToLower() == "pvprooms")
+                        {
+                            foreach (string s in Destroynames)
+                            {
+                                if (o.name.ToLower().Contains(s))
+                                {
+                                    Destroy(o);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0; i < 2; i++)
+                {
+                    if (GameController.playerScripts[i].inventory.itemDict.Count > 0)
+                    {
+                        if (GameController.playerScripts[i].inventory.itemDict.ElementAt(0).Key == "TokenShuffler")
+                        {
+                            GameController.playerScripts[i].RandomizeBuild(true, true, true);
+                        }
+                    }
+                }
+
+            }
+
         }
 
+        public Texture2D EXPOSED;
 
         public void Us_AddOutfit(On.Player.orig_SetPlayerOutfitColor orig, Player self, NumVarStatMod mod, bool givenStatus)
         {
             orig(self, mod, givenStatus);
-            Texture2D tex = (Texture2D) self.spriteMaterial.GetTexture("_Palette");
+
+            if (!loadedWizSprites)
+            {
+                loadedWizSprites = true;
+                
+                Texture2D text = new Texture2D(1, 1); text.LoadImage(File.ReadAllBytes(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Sprites/Walter2.png")));
+                Texture2D texture2 = self.spriteRenderer.sprite.texture;
+                texture2.SetPixels32(text.GetPixels32());
+                texture2.Apply();
+                EXPOSED = texture2;
+                GameUI.BroadcastNoticeMessage("Special Thanks to Rayman, Holy Grind, and Cerberus", 3f);
+            }
+
+            Texture2D tex = basePalette.texture;// (Texture2D) self.spriteMaterial.GetTexture("_Palette");
             if (newPalette == null)
             {
                 //Debug.Log("1");
@@ -711,7 +724,9 @@ namespace Mythical {
                 if (pvpItems.ContainsKey(i))
                 {
 
-                    p.inventory.AddItem(p.inventory.GetItem(pvpItems[i]));
+                    //p.inventory.AddItem(p.inventory.GetItem(pvpItems[i]));
+                    p.GiveDesignatedItem(pvpItems[i]);
+                    
                 }
                 i++;
             }
@@ -725,7 +740,7 @@ namespace Mythical {
             {
                 if (p.inventory.itemDict.Count > 0)
                 {
-                    pvpItems[i] = p.inventory.itemDict.ElementAt(i).Key;
+                    pvpItems[i] = p.inventory.itemDict.ElementAt(0).Key;
                 }
                 i++;
             }
