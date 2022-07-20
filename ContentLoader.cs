@@ -448,33 +448,54 @@ namespace Mythical {
 
             On.Player.Start += (On.Player.orig_Start orig,Player self) => {
                 orig(self);
-                Debug.Log(IconManager.WizardSpriteList.Count);
-                Debug.Log(IconManager.WizardSprites.Count);
-                int l = IconManager.wizardSpriteList.Count;
-                IconManager.wizardSpriteList = new List<Sprite>();
-                string[] files = Directory.GetFiles(path);
-                int i = 0;
-                foreach (string str in files)
-                {
-                    
-                    string n = Path.GetFileNameWithoutExtension(str);
-                    Sprite spr = ImgHandler.LoadSprite("Player/" + n);
-                    IconManager.wizardSpriteList.Add(spr);
-                    string n2 = n.Replace("NewWizard", "").Trim();
-                    Debug.Log("Loading File " + i + "/" + l + " Named: " +n2);
-                    IconManager.wizardSprites[n2] = spr;
-                    if (n2 == "Portrait")
+                if (!loadedWizSprites) { 
+                    loadedWizSprites=true;
+                    Debug.Log(IconManager.WizardSpriteList.Count);
+                    Debug.Log(IconManager.WizardSprites.Count);
+                    int l = IconManager.wizardSpriteList.Count;
+                    IconManager.wizardSpriteList = new List<Sprite>();
+                    string[] files = Directory.GetFiles(path);
+                    int i = 0;
+                    foreach (string str in files)
                     {
-                        DialogManager.portraitSprites["Player"] = spr;
+                    
+                        string n = Path.GetFileNameWithoutExtension(str);
+                        Sprite spr = ImgHandler.LoadSprite("Player/" + n);
+                        IconManager.wizardSpriteList.Add(spr);
+                        string n2 = n.Replace("NewWizard", "").Trim();
+                        Debug.Log("Loading File " + i + "/" + l + " Named: " +n2);
+                        IconManager.wizardSprites[n2] = spr;
+                        if (n2 == "Portrait")
+                        {
+                            DialogManager.portraitSprites["Player"] = spr;
+                        }
+                        i++;
                     }
-                    i++;
                 }
             };
 
             On.Player.Update += (On.Player.orig_Update orig, Player self) =>
             {
                 orig(self);
-                self.spriteRenderer.sprite = IconManager.wizardSprites[self.spriteRenderer.sprite.name];
+
+                if (newPlayerDict.ContainsKey(self.gameObject))
+                {
+                    
+                } else
+                {
+                    GameObject newObj = new GameObject("New Player Renderer");
+                    newObj.transform.parent=self.gameObject.transform;
+                    newObj.transform.localPosition=self.spriteRenderer.transform.localPosition;
+                    newObj.AddComponent<SpriteRenderer>();
+                    SpriteRenderer sr = newObj.GetComponent<SpriteRenderer>();
+                    sr.material=self.spriteMaterial;
+                    
+                    newPlayerDict[self.gameObject]=sr;
+                    self.spriteRenderer=sr;
+                }
+                
+                newPlayerDict[self.gameObject].sprite = IconManager.wizardSprites[self.spriteRenderer.sprite.name];
+
             };
             /* No Longer Necessary
              
@@ -535,7 +556,10 @@ namespace Mythical {
         public bool hasAddedPalettes = false;
         public static bool SpawnPickups = true;
         public static bool StageEffects = true;
+        public static bool loadedWizSprites=false;
         public Texture2D newPalette = null;
+
+        public static Dictionary<GameObject,SpriteRenderer> newPlayerDict = new Dictionary<GameObject, SpriteRenderer>();
 
         private static Texture2D ExtractAndName(Sprite sprite)
         {
