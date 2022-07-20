@@ -80,3 +80,9 @@ C:\Users\t1239901_s\Source\Repos\MythicalMod\obj\Debug\Mythical.csproj.CoreCompi
 C:\Users\t1239901_s\Source\Repos\MythicalMod\obj\Debug\Mythical.csproj.CopyComplete
 C:\Users\t1239901_s\Source\Repos\MythicalMod\obj\Debug\Mythical.dll
 C:\Users\t1239901_s\Source\Repos\MythicalMod\obj\Debug\Mythical.pdb
+C:\Users\t1239901_s\source\repos\MythicalMod\bin\Debug\XUnity.Common.dll
+C:\Users\t1239901_s\source\repos\MythicalMod\bin\Debug\XUnity.ResourceRedirector.BepIn-5x.dll
+C:\Users\t1239901_s\source\repos\MythicalMod\bin\Debug\XUnity.ResourceRedirector.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\XUnity.Common.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\XUnity.ResourceRedirector.BepIn-5x.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\XUnity.ResourceRedirector.dll
