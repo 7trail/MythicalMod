@@ -500,6 +500,9 @@ namespace Mythical {
                     }
                     orig3(v, a, id, l, s, set, life, emp);
                 };
+
+                // Chaos arena changes
+                //ChaosArenaChanges.Init();
             };
 
             //Adjustments
@@ -599,7 +602,7 @@ namespace Mythical {
                 {
                     foreach (GameObject o in FindObjectsOfType<GameObject>())
                     {
-                        if (o.transform.root.name.ToLower() == "pvprooms")
+                        if (o.transform.root!=null && o.transform.root.name.ToLower() == "pvprooms")
                         {
                             foreach (string s in Destroynames)
                             {
@@ -612,16 +615,32 @@ namespace Mythical {
                     }
                 }
 
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < GameController.players.Count; i++)
                 {
-                    if (GameController.playerScripts[i].inventory.itemDict.Count > 0)
+                    Player p = GameController.players[i].GetComponent<Player>();
+                    if (p.inventory != null)
                     {
-                        if (GameController.playerScripts[i].inventory.itemDict.ElementAt(0).Key == "TokenShuffler")
+                        if (p.inventory.itemDict.Count > 0)
                         {
-                            GameController.playerScripts[i].RandomizeBuild(true, true, true);
+                            string relic = p.inventory.itemDict.ElementAt(0).Key;
+                            if (relic == "TokenShuffler")
+                            {
+                                p.RandomizeBuild(true, true, true);
+                            } else if (relic == "TokenCursed")
+                            {
+                                for (int k= 0; k < 6; k++)
+                                {
+                                    if (p.assignedSkills[k] != null)
+                                    {
+                                        p.RemoveSkill(p.assignedSkills[k]);
+                                    }
+                                }
+                                
+                            }
                         }
                     }
                 }
+
 
             }
 
