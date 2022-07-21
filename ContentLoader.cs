@@ -202,7 +202,17 @@ namespace Mythical {
             outfitInfo.customMod = ((player, b, b2) => { });
             Outfits.Register(outfitInfo);
 
-            
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Nemesis";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Nemesis", 46, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Wizard's Vestige");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
 
 
             outfitInfo = new OutfitInfo();
@@ -240,7 +250,9 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
-            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair" };
+            
+
+            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis" };
             foreach(string robeName in robeNames)
             {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
@@ -502,7 +514,7 @@ namespace Mythical {
                 };
 
                 // Chaos arena changes
-                //ChaosArenaChanges.Init();
+                ChaosArenaChanges.Init();
             };
 
             //Adjustments
@@ -566,20 +578,29 @@ namespace Mythical {
             catch { }
             if (inPVPScene)
             {
+                GameObject area = GameObject.Find("StagingArea");
+                area.transform.Find("Interactables").transform.parent = null;
+                area.transform.localScale = new Vector3(1.2f, 1, 1);
+                area.transform.Translate(-5,0,0);
+
+
+                ChaosArenaChanges.ResetTileSet();
+                ChaosArenaChanges.AddCustomArenaPortals();
+
                 GameObject mimi = MimicNpc.Prefab;
                 pvpItems = new Dictionary<int, string>();
                 Instantiate(mimi, new Vector3(0, 5, 0), Quaternion.identity);
 
                 SpawnPickups = true;
                 StageEffects = true;
-                GameObject noPickups = Instantiate(MetalBarrelDeco.Prefab, new Vector3(-9, -1, 0), Quaternion.identity);
+                GameObject noPickups = Instantiate(MetalBarrelDeco.Prefab, new Vector3(-11, -1, 0), Quaternion.identity);
                 noPickups.name = "NoPickups";
                 noPickups.transform.localScale = Vector3.one * 0.75f;
                 noPickups.GetComponentInChildren<SpriteRenderer>().sprite = cherrySprite;
                 noPickups.GetComponent<Health>().healthStat.SetInitialBaseValue(100);
                 noPickups.GetComponent<Health>().healthStat.CurrentValue = 100;
 
-                GameObject noEffects = Instantiate(MetalBarrelDeco.Prefab, new Vector3(9, -1, 0), Quaternion.identity);
+                GameObject noEffects = Instantiate(MetalBarrelDeco.Prefab, new Vector3(11, -1, 0), Quaternion.identity);
                 noEffects.name = "NoEffects";
                 noEffects.transform.localScale = Vector3.one * 0.75f;
                 noEffects.GetComponentInChildren<SpriteRenderer>().sprite = orangeSprite;
@@ -615,31 +636,7 @@ namespace Mythical {
                     }
                 }
 
-                for (int i = 0; i < GameController.players.Count; i++)
-                {
-                    Player p = GameController.players[i].GetComponent<Player>();
-                    if (p.inventory != null)
-                    {
-                        if (p.inventory.itemDict.Count > 0)
-                        {
-                            string relic = p.inventory.itemDict.ElementAt(0).Key;
-                            if (relic == "TokenShuffler")
-                            {
-                                p.RandomizeBuild(true, true, true);
-                            } else if (relic == "TokenCursed")
-                            {
-                                for (int k= 0; k < 6; k++)
-                                {
-                                    if (p.assignedSkills[k] != null)
-                                    {
-                                        p.RemoveSkill(p.assignedSkills[k]);
-                                    }
-                                }
-                                
-                            }
-                        }
-                    }
-                }
+                ApplyPvpTokens();
 
 
             }
@@ -647,6 +644,44 @@ namespace Mythical {
         }
 
         public Texture2D EXPOSED;
+
+        public void ApplyPvpTokens()
+        {
+            for (int i = 0; i < GameController.players.Count; i++)
+            {
+                Player p = GameController.players[i].GetComponent<Player>();
+                if (p.inventory != null)
+                {
+                    if (p.inventory.itemDict.Count > 0)
+                    {
+                        string relic = p.inventory.itemDict.ElementAt(0).Key;
+                        if (relic == "TokenShuffler")
+                        {
+                            p.RandomizeBuild(true, true, true);
+                        }
+                        else if (relic == "TokenCursed")
+                        {
+                            for (int k = 0; k < 6; k++)
+                            {
+                                if (p.assignedSkills[k] != null)
+                                {
+                                    p.RemoveSkill(p.assignedSkills[k]);
+                                }
+                            }
+
+                            p.AssignSkillSlot(1, "Dash", false, false);
+
+                        } else if (relic == "TokenBanker")
+                        {
+                            string id = LootManager.GetSkillID(false, false);
+                            p.AssignSkillSlot(4, id, false, false);
+                            id = LootManager.GetSkillID(false, false);
+                            p.AssignSkillSlot(5, id, false, false);
+                        }
+                    }
+                }
+            }
+        }
 
         public void Us_AddOutfit(On.Player.orig_SetPlayerOutfitColor orig, Player self, NumVarStatMod mod, bool givenStatus)
         {
@@ -749,6 +784,8 @@ namespace Mythical {
                 }
                 i++;
             }
+
+            ApplyPvpTokens();
         }
 
         public void PvpController_ResetStage(On.PvpController.orig_ResetStage orig, PvpController self, bool b)
