@@ -214,6 +214,18 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Lotus";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Lotus", 47, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Dying Petals");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
 
             outfitInfo = new OutfitInfo();
             outfitInfo.name = "Sovereign";
@@ -250,9 +262,21 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
-            
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Psion";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Psion", 48, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Meow You See Me..");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
 
-            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis" };
+
+
+            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion" };
             foreach(string robeName in robeNames)
             {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
@@ -536,6 +560,7 @@ namespace Mythical {
         public bool hasAddedPalettes = false;
         public static bool SpawnPickups = true;
         public static bool StageEffects = true;
+        public static bool MonoElementDrops = false;
         public static bool loadedWizSprites=false;
         public Texture2D newPalette = null;
 
