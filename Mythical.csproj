@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mythical</RootNamespace>
-    <AssemblyName>Mythical</AssemblyName>
+    <AssemblyName>Tournament Edition</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -43,6 +43,7 @@
     <Compile Include="AttackSpeedUpItem.cs" />
     <Compile Include="Behemoth.cs" />
     <Compile Include="ChaosArenaChanges.cs" />
+    <Compile Include="CursedRelics.cs" />
     <Compile Include="DialogueCreator.cs" />
     <Compile Include="FrostCrit.cs" />
     <Compile Include="GemChestRelic.cs" />
