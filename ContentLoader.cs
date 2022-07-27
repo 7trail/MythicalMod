@@ -261,16 +261,6 @@ namespace Mythical {
             Outfits.Register(outfitInfo2);
 
 
-            outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Sovereign";
-            outfitInfo.outfit = new global::Outfit("Mythical::Sovereign", 32, new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, true, false);
-            outfitInfo.customDesc = ((bool b) => "Designed by Cerberus!");
-            outfitInfo.customMod = ((player, b, b2) => {});
-            Outfits.Register(outfitInfo);
-            
 
             outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Empress";
@@ -283,6 +273,55 @@ namespace Mythical {
             {
             };
             Outfits.Register(outfitInfo2);
+
+
+            outfitInfo = new OutfitInfo();
+            outfitInfo.name = "Sovereign";
+            outfitInfo.outfit = new global::Outfit("Mythical::Sovereign", 32, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, true, false);
+            outfitInfo.customDesc = ((bool b) => "Designed by Cerberus!");
+            outfitInfo.customMod = ((player, b, b2) => { });
+            Outfits.Register(outfitInfo);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Atlas";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Earth", 53, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Aspect of Earth");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Suman";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Thunder", 51, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Aspect of Thunder");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Freiya";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Frost", 52, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Aspect of Frost");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            
 
             outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Despair";
@@ -308,41 +347,7 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Suman";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Thunder",51, new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Aspect of Thunder");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Freiya";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Frost", 52, new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Aspect of Frost");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Atlas";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Earth", 53, new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Aspect of Earth");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            Outfits.Register(outfitInfo2);
+            
 
 
 
