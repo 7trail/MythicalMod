@@ -58,22 +58,6 @@ namespace Mythical
 			global::PoolManager.GetPoolItem<global::ParticleEffect>("SmokeEmitter").Emit(new int?(6), new Vector3?(givenPosition), null, null, 0f, null, null);
 			global::CameraController.ShakeCamera(0.25f, false);
 		}
-		private void CreateImplosion()
-		{
-			this.currentWB = WindBurst.CreateBurst(this.spawnPosition, this.parent.skillCategory, this.skillID, 1, this.burstScale);
-			this.currentWB.emitParticles = false;
-			//PoolManager.GetPoolItem<ParticleEffect>("WindBurstEffect").Emit(new int?(3), new Vector3?(this.spawnPosition), null, null, 0f, null, null);
-			PoolManager.GetPoolItem<ParticleEffect>("SmokeEmitter").Emit(new int?(1), new Vector3?(this.spawnPosition), this.implosionOverride, new Vector3?(new Vector3(0f, 0f, UnityEngine.Random.Range(0f, 33f))), 0f, null, null);
-			PoolManager.GetPoolItem<ParticleEffect>("SmokeEmitter").Emit(new int?(1), new Vector3?(this.spawnPosition), this.implosionOverride, new Vector3?(new Vector3(0f, 0f, UnityEngine.Random.Range(180f, 213f))), 0f, null, null);
-			PoolManager.GetPoolItem<ParticleEffect>("SmokeEmitter").Emit(new int?(1), new Vector3?(this.spawnPosition), this.implosionOverride, new Vector3?(new Vector3(0f, 0f, UnityEngine.Random.Range(0f, 360f))), 0f, null, null);
-			PoolManager.GetPoolItem<ParticleEffect>("SmokeEmitter").Emit(new int?(1), new Vector3?(this.spawnPosition), this.implosionOverrideLarge, new Vector3?(new Vector3(0f, 0f, UnityEngine.Random.Range(0f, 360f))), 0f, null, null);
-			DustEmitter poolItem = PoolManager.GetPoolItem<DustEmitter>();
-			int particleCount = 150;
-			float scale = 2f;
-			Vector3? emitPosition = new Vector3?(this.spawnPosition);
-			poolItem.EmitCircle(particleCount, scale, -8f, -1f, emitPosition, null);
-		}
-
 
 		public new static string staticID = "Mythical::FireStorm";
 

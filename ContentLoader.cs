@@ -237,6 +237,18 @@ namespace Mythical {
             Outfits.Register(outfitInfo2);
 
             outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Jade";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Jade", 50, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Green Demon");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Lotus";
             outfitInfo2.outfit = new global::Outfit("Mythical::Lotus", 47, new List<global::OutfitModStat>
             {
@@ -296,9 +308,45 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Suman";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Thunder",51, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Aspect of Thunder");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Freiya";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Frost", 52, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Aspect of Frost");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Atlas";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Earth", 53, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Aspect of Earth");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
 
 
-            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona" };
+
+            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona","jade","thunder","frost","earth" };
             foreach(string robeName in robeNames)
             {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
@@ -363,6 +411,18 @@ namespace Mythical {
                     Debug.Log("Mono Drops");
                     MonoElementDrops = true;
                 }
+                if (self.name.Contains("BestTo3") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Match Will Be Best To 3", 3f);
+                    Debug.Log("Best To 3");
+                    BestTo3 = true;
+                }
+                if (self.name.Contains("Depletion") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Health Will Drain", 3f);
+                    Debug.Log("Depletion");
+                    Depletion = true;
+                }
                 orig(self);
             };
 
@@ -374,7 +434,14 @@ namespace Mythical {
                 }
             };
 
-            
+            On.PvpController.Start += (On.PvpController.orig_Start orig, PvpController self) =>
+            {
+                orig(self);
+                if (BestTo3)
+                {
+                    self.maxRoundCount += 2;
+                }
+            };
 
 
             //List<Sprite> loadingTheListIDontNeedThisToAllocate = IconManager.TSBGSpriteList;
@@ -651,7 +718,7 @@ namespace Mythical {
                 {
                     foreach (KeyValuePair<GameObject, string> pair in announcementPairs)
                     {
-                        if (pair.Key)
+                        if (pair.Key!=null)
                         {
                             if (Vector3.Distance(GameController.players[0].transform.position, pair.Key.transform.position) < 4)
                             {
@@ -665,8 +732,29 @@ namespace Mythical {
                     }
                 }
             }
-        }
+            foreach(KeyValuePair<GameObject,string> p in toRemove)
+            {
+                Destroy(p.Key);
+            }
 
+            if (inAPVPScene && SceneManager.GetActiveScene().name.ToLower().Contains("arena"))
+            {
+                if (Depletion)
+                {
+                    if (Time.time > nextTime)
+                    {
+                        nextTime = Time.time + 1f;
+                        foreach (GameObject player in GameController.players)
+                        {
+                            SoundManager.PlayAudio("ImpactPhysicalHeavy",1,false,0.25f);
+                            player.GetComponent<Player>().health.CurrentHealthValue-=10;
+                        }
+                    }
+                }
+            }
+
+        }
+        float nextTime = 0.25f;
 
         public static Sprite[] playerSprites;
         public static AssetBundle playerBundle;
@@ -678,6 +766,8 @@ namespace Mythical {
         public static bool SpawnPickups = true;
         public static bool StageEffects = true;
         public static bool StageHazards = true;
+        public static bool BestTo3 = false;
+        public static bool Depletion = false;
         public static bool MonoElementDrops = false;
         public static bool addedGMHooks = false;
         public static bool loadedWizSprites=false;
@@ -747,7 +837,8 @@ namespace Mythical {
                 StageEffects = true;
                 StageHazards = true;
                 MonoElementDrops = false;
-
+                Depletion = false;
+                BestTo3 = false;
 
                 GameObject noPickups = Instantiate(Tree.Prefab, new Vector3(-11, -3, 0), Quaternion.identity);
                 noPickups.name = "NoPickups";
@@ -765,6 +856,21 @@ namespace Mythical {
                 monoDrops.name = "MonoDrops";
                 announcementPairs[monoDrops] = "Only drops spells of types already held! (Currently basics only for performance sake)";
 
+                GameObject bestTo3 = Instantiate(Tree.Prefab, new Vector3(8, 3, 0), Quaternion.identity);
+                bestTo3.name = "BestTo3";
+                announcementPairs[bestTo3] = "Makes matches best to 3 instead of best to 2!";
+
+                //GameObject depletion = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
+                //depletion.name = "Depletion";
+                //announcementPairs[depletion] = "Player health will slowly decay!";
+
+                foreach(Tree tree in FindObjectsOfType<Tree>())
+                {
+                    tree.health.healthStat.BaseValue = 100;
+                    tree.health.healthStat.CurrentValue = 100;
+                }
+
+
                 foreach (GameObject obj in GameObject.FindObjectsOfType<GameObject>())
                 {
                     if (obj.name.ToLower() == "loadoutnpc" || obj.name.ToLower().Contains("trainingdummy"))
@@ -779,7 +885,7 @@ namespace Mythical {
             if (inAPVPScene && SceneManager.GetActiveScene().name.ToLower().Contains("arena")) {
 
                 monoskills = new List<string>();
-                
+                nextTime = Time.time + 5;
                 if (!StageEffects || !StageHazards)
                 {
                     if (!StageEffects) { Destroynames.Add("overdrive");Destroynames.Add("enemy"); }
@@ -820,7 +926,7 @@ namespace Mythical {
                         string relic = p.inventory.itemDict.ElementAt(0).Key;
                         if (relic == "TokenShuffler")
                         {
-                            p.RandomizeBuild(true, true, true);
+                            p.RandomizeBuild(true, false, true);
                         }
                         else if (relic == "TokenCursed")
                         {

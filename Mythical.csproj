@@ -58,6 +58,7 @@
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
     <Compile Include="UnEnhanceRelic.cs" />
+    <Compile Include="UsePoisonBlast.cs" />
     <Compile Include="WindowIconTools.cs" />
     <Compile Include="ZephyrNerf.cs" />
   </ItemGroup>
@@ -125,6 +126,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NewBubbleBarrageData.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StatData2.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AttackInfo2.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
