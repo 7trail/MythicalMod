@@ -60,6 +60,7 @@ namespace Mythical {
 
             // LETS FUCKING GO
 
+            ContestantChanges.Init();
             
             basePalette = ImgHandler.LoadSprite("Base");
             newPlayerSprite = ImgHandler.LoadTex2D("Walter2");
@@ -359,10 +360,26 @@ namespace Mythical {
 
             // Title screen additions
 
+            DateTime date1 = new DateTime(2022, 7, 29, 0, 0, 0);
+            DateTime date3 = new DateTime(2022, 7, 31, 0, 0, 0);
+            DateTime date2 = DateTime.Now;
+            int result = DateTime.Compare(date1, date2);
+            int result2 = DateTime.Compare(date3, date2);
+            if (result<0&&result2>=0)
+            {
+                titleScreens.Add(ImgHandler.LoadSprite("bg4"));
+            }
             titleScreens.Add(ImgHandler.LoadSprite("bg1"));
             titleScreens.Add(ImgHandler.LoadSprite("bg2"));
             titleScreens.Add(ImgHandler.LoadSprite("bg3"));
+            
 
+            if (result2<0)
+            {
+                titleScreens.Add(ImgHandler.LoadSprite("bg4"));
+            }
+            titleScreens.Add(ImgHandler.LoadSprite("bg5"));
+            titleScreens.Add(ImgHandler.LoadSprite("bg6"));
             // Item Spawner revisions
 
             On.ItemSpawner.Reset += (On.ItemSpawner.orig_Reset orig, ItemSpawner self) =>
@@ -418,7 +435,7 @@ namespace Mythical {
                 }
                 if (self.name.Contains("BestTo3") && inPVPScene)
                 {
-                    GameUI.BroadcastNoticeMessage("Match Will Be Best To 3", 3f);
+                    GameUI.BroadcastNoticeMessage("Match Will Be First To 3", 3f);
                     Debug.Log("Best To 3");
                     BestTo3 = true;
                 }
@@ -428,7 +445,55 @@ namespace Mythical {
                     Debug.Log("Depletion");
                     Depletion = true;
                 }
+                if (self.name.Contains("SpawnMB") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Bosses Will Spawn", 3f);
+                    Debug.Log("Spawn Bosses");
+                    SpawnMiniBoss = true;
+                }
                 orig(self);
+            };
+
+            On.GameController.TogglePvpMode += (On.GameController.orig_TogglePvpMode orig, bool b) =>
+            {
+                orig(b);
+                if (!b)
+                {
+                    Debug.Log("Killing all Mbosses");
+                    foreach (MiniBoss mb in FindObjectsOfType<MiniBoss>())
+                    {
+                        mb.health.CurrentHealthValue = -1;
+                        mb.fsm.QueueChangeState("Dead", false);
+                        mb.health.AnnounceDeathEvent(mb);
+                    }
+                    Debug.Log("Killing all Bosses");
+                    foreach (Boss mb in FindObjectsOfType<Boss>())
+                    {
+                        mb.health.CurrentHealthValue = -1;
+                        mb.fsm.QueueChangeState("Dead", false);
+                        mb.health.AnnounceDeathEvent(mb);
+                        Destroy(mb.gameObject, 5);
+                    }
+                }
+                if (b && SpawnMiniBoss)
+                {
+                    List<string> elements = new List<string>() { "Fire", "Earth", "Lightning", "Ice", "Air" };
+                    List<Enemy.EName> bosses = new List<Enemy.EName>() { Enemy.EName.SuperKnight, Enemy.EName.SuperMage, Enemy.EName.SuperLancer, Enemy.EName.SuperArcher, Enemy.EName.SuperRogue, Enemy.EName.SuperCoffin};
+                    Debug.Log("Spawning Mbosses");
+                    Enemy.Spawn(bosses[UnityEngine.Random.Range(0, bosses.Count)], ChaosArenaChanges.offset + Vector3.up * 6).chestLootTableID=String.Empty ;
+                    Enemy.Spawn(bosses[UnityEngine.Random.Range(0, bosses.Count)], ChaosArenaChanges.offset - Vector3.up * 6).chestLootTableID = String.Empty;
+                    Debug.Log("Spawning Boss");
+                    //string str = elements[UnityEngine.Random.Range(0, 5)];
+                    string str = "Final";
+                    try
+                    {
+
+                        Boss boss = UnityEngine.Object.Instantiate<GameObject>(ChaosBundle.Get(bossPrefabFilePaths[str + "Boss"]), ChaosArenaChanges.offset, Quaternion.identity).GetComponent<Boss>();
+                        boss.fsm.ChangeState(boss.bossReadyState.name, false);
+                        boss.chestLootTableID = String.Empty;
+                    }
+                    catch { }
+                }
             };
 
             On.PvpController.HandleSkillSpawn += (On.PvpController.orig_HandleSkillSpawn orig, PvpController self) =>
@@ -700,7 +765,10 @@ namespace Mythical {
                 }
             };
 
-            
+            On.TitleScreen.AllowMultiplayer += (On.TitleScreen.orig_AllowMultiplayer orig, TitleScreen self) =>
+            {
+                return true;
+            };
 
             //Adjustments
             /*On.PlatWallet.ctor += (On.PlatWallet.orig_ctor orig, PlatWallet self, int i) =>
@@ -711,11 +779,16 @@ namespace Mythical {
             };*/
 
 
-
         }
-
+        public static bool SpawnMiniBoss = false;
         public void Update()
         {
+
+            /*if (Input.GetKeyDown(KeyCode.K))
+            {
+                Enemy.Spawn("Contestant", GameController.players[0].transform.position);
+            }*/
+            
             List<KeyValuePair<GameObject, string>> toRemove = new List<KeyValuePair<GameObject, string>>();
             if (GameController.Instance != null)
             {
@@ -815,6 +888,7 @@ namespace Mythical {
             try
             {
                 Player.platWallet.balance = Player.platWallet.maxBalance; //Enjoy
+                
             }
             catch { }
             if (inPVPScene)
@@ -826,8 +900,8 @@ namespace Mythical {
                 GameObject.Find("Npcs").transform.Translate(0, 2, 0);
                 GameObject.Find("ExitPortalDisabled").transform.Translate(0, -3, 0);
                 Destroy(GameObject.Find("WallPillars"));
-                area.transform.localScale = new Vector3(1.2f, 1.2f, 1);
-                area.transform.Translate(-5,5,0);
+                area.transform.localScale = new Vector3(1.4f, 1.2f, 1);
+                area.transform.Translate(-10,5,0);
                 
 
 
@@ -844,6 +918,7 @@ namespace Mythical {
                 MonoElementDrops = false;
                 Depletion = false;
                 BestTo3 = false;
+                SpawnMiniBoss = false;
 
                 GameObject noPickups = Instantiate(Tree.Prefab, new Vector3(-11, -3, 0), Quaternion.identity);
                 noPickups.name = "NoPickups";
@@ -853,28 +928,33 @@ namespace Mythical {
                 noEffects.name = "NoEffects";
                 announcementPairs[noEffects] = "Disable the arenas' special effects!";
 
-                GameObject noHazards = Instantiate(Tree.Prefab, new Vector3(-15, 3, 0), Quaternion.identity);
+                GameObject noHazards = Instantiate(Tree.Prefab, new Vector3(19, 3, 0), Quaternion.identity);
                 noHazards.name = "NoHazards";
                 announcementPairs[noHazards] = "Disable the arenas' dangerous hazards!";
 
-                GameObject monoDrops = Instantiate(Tree.Prefab, new Vector3(15, 3, 0), Quaternion.identity);
+                GameObject monoDrops = Instantiate(Tree.Prefab, new Vector3(-19, 3, 0), Quaternion.identity);
                 monoDrops.name = "MonoDrops";
                 announcementPairs[monoDrops] = "Only drops spells of types already held! (Currently basics only for performance sake)";
 
                 GameObject bestTo3 = Instantiate(Tree.Prefab, new Vector3(8, 3, 0), Quaternion.identity);
                 bestTo3.name = "BestTo3";
-                announcementPairs[bestTo3] = "Makes matches best to 3 instead of best to 2!";
+                announcementPairs[bestTo3] = "Makes matches first to 3 instead of first to 2!";
+
+                GameObject spawnMB = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
+                spawnMB.name = "SpawnMB";
+                announcementPairs[spawnMB] = "Spawn strong foes at the start of each round!";
 
                 //GameObject depletion = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
                 //depletion.name = "Depletion";
                 //announcementPairs[depletion] = "Player health will slowly decay!";
 
-                foreach(Tree tree in FindObjectsOfType<Tree>())
+                foreach (Tree tree in FindObjectsOfType<Tree>())
                 {
                     tree.health.healthStat.BaseValue = 100;
-                    tree.health.healthStat.CurrentValue = 100;
+                    tree.health.CurrentHealthValue = 100;
                 }
 
+                
 
                 foreach (GameObject obj in GameObject.FindObjectsOfType<GameObject>())
                 {
@@ -889,6 +969,7 @@ namespace Mythical {
             List<string> Destroynames = new List<string>() {};
             if (inAPVPScene && SceneManager.GetActiveScene().name.ToLower().Contains("arena")) {
 
+                
                 monoskills = new List<string>();
                 nextTime = Time.time + 5;
                 if (!StageEffects || !StageHazards)
@@ -1177,7 +1258,33 @@ namespace Mythical {
         }
 
         public static Dictionary<string, AudioClip> clipDict = new Dictionary<string, AudioClip>();
-
+        Dictionary<string, string> bossPrefabFilePaths = new Dictionary<string, string>
+        {
+            {
+                "IceBoss",
+                "Assets/Prefabs/Bosses/IceBoss.prefab"
+            },
+            {
+                "FireBoss",
+                "Assets/Prefabs/Bosses/FireBoss.prefab"
+            },
+            {
+                "EarthBoss",
+                "Assets/Prefabs/Bosses/EarthBoss.prefab"
+            },
+            {
+                "AirBoss",
+                "Assets/Prefabs/Bosses/AirBoss.prefab"
+            },
+            {
+                "LightningBoss",
+                "Assets/Prefabs/Bosses/LightningBoss.prefab"
+            },
+            {
+                "FinalBoss",
+                "Assets/Prefabs/Bosses/FinalBoss.prefab"
+            }
+        };
     }
 }
 

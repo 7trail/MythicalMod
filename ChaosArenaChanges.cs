@@ -22,7 +22,7 @@ namespace Mythical
         public static Texture2D chosenArena=null;
         public static Texture2D arenaTextureReference = null;
         public static Texture2D arenaTextureCarbonCopy = null;
-        static Vector3 offset = new Vector3(25, -22, 0);
+        public static Vector3 offset = new Vector3(25, -22, 0);
         static int arenaCount = 3;
         static int customTilesetCount = 1;
         static bool soloPortals = true;

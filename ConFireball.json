@@ -1,0 +1,11 @@
+{
+	"ID": [ "ConFireball" ],
+	"elementType": [ "Fire" ],
+	"targetNames": [ "AllyHurtBox", "DestructibleHurtBox" ],
+	"sameAttackImmunityTime": [ 0.125 ],
+	"hitStunDurationModifier": [ 1.125, 2, 1.5 ],
+	"knockbackMultiplier": [ 35, 10, 50 ],
+	"damage": [ 50 ],
+	"cooldown": [ 5 ],
+	"overdriveSingleIncrease": [ true ]
+}
