@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mythical</RootNamespace>
-    <AssemblyName>Mythical</AssemblyName>
+    <AssemblyName>Tournament Edition</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -56,6 +56,7 @@
     <Compile Include="MonsterTooth.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
+    <Compile Include="StatusBarMod.cs" />
     <Compile Include="UnEnhanceRelic.cs" />
     <Compile Include="WindowIconTools.cs" />
     <Compile Include="ZephyrNerf.cs" />
