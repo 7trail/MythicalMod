@@ -60,6 +60,7 @@ namespace Mythical {
 
             // LETS FUCKING GO
 
+            ContestantChanges.Init();
             
             basePalette = ImgHandler.LoadSprite("Base");
             newPlayerSprite = ImgHandler.LoadTex2D("Walter2");
@@ -68,6 +69,16 @@ namespace Mythical {
             Debug.Log("Cherry Blossom Tree sprite from https://opengameart.org/content/lpc-plant-repack. Cropped to one singular tree.");
             Debug.Log("Cherry Orange Tree sprite from https://opengameart.org/content/lpc-orange-trees. Cropped to one singular tree.");
 
+            OutfitInfo sev = new OutfitInfo();
+            sev.name = "Replica";
+            sev.outfit = new Outfit("Mythical::Replica", 0, new List<OutfitModStat>
+                {
+                    new OutfitModStat(OutfitModStat.OutfitModType.Health, 0f, 0.05f, 0f, false),
+                    new OutfitModStat(OutfitModStat.OutfitModType.Speed, 0f, 0.1f, 0f, false),
+                    new OutfitModStat(OutfitModStat.OutfitModType.Evade, 0.05f, 0f, 0f, false),
+                    new OutfitModStat(OutfitModStat.OutfitModType.Cooldown, 0f, -0.1f, 0f, false)
+                },false,false);
+            Outfits.Register(sev);
 
             OutfitInfo outfitInfo = new OutfitInfo();
             outfitInfo.name = "Walter";
@@ -215,12 +226,50 @@ namespace Mythical {
             Outfits.Register(outfitInfo2);
 
             outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Ayona";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Ayona", 49, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Spirit of Light!");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Jade";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Jade", 50, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Green Demon");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Lotus";
             outfitInfo2.outfit = new global::Outfit("Mythical::Lotus", 47, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
             outfitInfo2.customDesc = ((bool b) => "Dying Petals");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Empress";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Empress", 44, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Designed by Cerberus!");
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
@@ -234,21 +283,46 @@ namespace Mythical {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, true, false);
             outfitInfo.customDesc = ((bool b) => "Designed by Cerberus!");
-            outfitInfo.customMod = ((player, b, b2) => {});
+            outfitInfo.customMod = ((player, b, b2) => { });
             Outfits.Register(outfitInfo);
-            
 
             outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Empress";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Empress", 44, new List<global::OutfitModStat>
+            outfitInfo2.name = "Atlas";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Earth", 53, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Designed by Cerberus!");
+            outfitInfo2.customDesc = ((bool b) => "Aspect of Earth");
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
             Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Suman";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Thunder", 51, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Aspect of Thunder");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Freiya";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Frost", 52, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Aspect of Frost");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            
 
             outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Despair";
@@ -274,9 +348,11 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
+            
 
 
-            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion" };
+
+            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona","jade","thunder","frost","earth" };
             foreach(string robeName in robeNames)
             {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
@@ -284,13 +360,55 @@ namespace Mythical {
 
             // Title screen additions
 
+            DateTime date1 = new DateTime(2022, 7, 29, 0, 0, 0);
+            DateTime date3 = new DateTime(2022, 7, 31, 0, 0, 0);
+            DateTime date2 = DateTime.Now;
+            int result = DateTime.Compare(date1, date2);
+            int result2 = DateTime.Compare(date3, date2);
+            if (result<0&&result2>=0)
+            {
+                titleScreens.Add(ImgHandler.LoadSprite("bg4"));
+            }
             titleScreens.Add(ImgHandler.LoadSprite("bg1"));
             titleScreens.Add(ImgHandler.LoadSprite("bg2"));
+            titleScreens.Add(ImgHandler.LoadSprite("bg3"));
+            
+
+            if (result2<0)
+            {
+                titleScreens.Add(ImgHandler.LoadSprite("bg4"));
+            }
+            titleScreens.Add(ImgHandler.LoadSprite("bg5"));
+            titleScreens.Add(ImgHandler.LoadSprite("bg6"));
+            // Item Spawner revisions
+
+            On.ItemSpawner.Reset += (On.ItemSpawner.orig_Reset orig, ItemSpawner self) =>
+            {
+                foreach (ItemSpawner.ItemPoolEntry itemPoolEntry in self.itemPoolDict.Values)
+                {
+                    foreach (PickupItem pickupItem in itemPoolEntry.itemArray)
+                    {
+                        try
+                        {
+                            pickupItem.Disable();
+                        }
+                        catch
+                        {
+                            //Debug.Log("Cleaning up item failed");
+                        }
+                    }
+                }
+            };
+
 
             // Disable Drops
 
             On.Destructible.Break += (On.Destructible.orig_Break orig, Destructible self) =>
             {
+                if (announcementPairs.ContainsKey(self.gameObject))
+                {
+                    announcementPairs.Remove(self.gameObject);
+                }
                 if (self.name.Contains("NoPickups") && inPVPScene)
                 {
                     GameUI.BroadcastNoticeMessage("Spell Drops Disabled",3f);
@@ -303,7 +421,79 @@ namespace Mythical {
                     Debug.Log("No effects");
                     StageEffects = false;
                 }
+                if (self.name.Contains("NoHazards") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Stage Hazards Disabled", 3f);
+                    Debug.Log("No hazards");
+                    StageHazards = false;
+                }
+                if (self.name.Contains("MonoDrops") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Mono Element Drops", 3f);
+                    Debug.Log("Mono Drops");
+                    MonoElementDrops = true;
+                }
+                if (self.name.Contains("BestTo3") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Match Will Be First To 3", 3f);
+                    Debug.Log("Best To 3");
+                    BestTo3 = true;
+                }
+                if (self.name.Contains("Depletion") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Health Will Drain", 3f);
+                    Debug.Log("Depletion");
+                    Depletion = true;
+                }
+                if (self.name.Contains("SpawnMB") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Bosses Will Spawn", 3f);
+                    Debug.Log("Spawn Bosses");
+                    SpawnMiniBoss = true;
+                }
                 orig(self);
+            };
+
+            On.GameController.TogglePvpMode += (On.GameController.orig_TogglePvpMode orig, bool b) =>
+            {
+                orig(b);
+                if (!b)
+                {
+                    Debug.Log("Killing all Mbosses");
+                    foreach (MiniBoss mb in FindObjectsOfType<MiniBoss>())
+                    {
+                        mb.health.CurrentHealthValue = -1;
+                        mb.fsm.QueueChangeState("Dead", false);
+                        mb.health.AnnounceDeathEvent(mb);
+                    }
+                    Debug.Log("Killing all Bosses");
+                    foreach (Boss mb in FindObjectsOfType<Boss>())
+                    {
+                        mb.health.CurrentHealthValue = -1;
+                        mb.fsm.QueueChangeState("Dead", false);
+                        mb.health.AnnounceDeathEvent(mb);
+                        Destroy(mb.gameObject, 5);
+                    }
+                }
+                if (b && SpawnMiniBoss)
+                {
+                    List<string> elements = new List<string>() { "Fire", "Earth", "Lightning", "Ice", "Air" };
+                    List<Enemy.EName> bosses = new List<Enemy.EName>() { Enemy.EName.SuperKnight, Enemy.EName.SuperMage, Enemy.EName.SuperLancer, Enemy.EName.SuperArcher, Enemy.EName.SuperRogue, Enemy.EName.SuperCoffin};
+                    Debug.Log("Spawning Mbosses");
+                    Enemy.Spawn(bosses[UnityEngine.Random.Range(0, bosses.Count)], ChaosArenaChanges.offset + Vector3.up * 6).chestLootTableID=String.Empty ;
+                    Enemy.Spawn(bosses[UnityEngine.Random.Range(0, bosses.Count)], ChaosArenaChanges.offset - Vector3.up * 6).chestLootTableID = String.Empty;
+                    Debug.Log("Spawning Boss");
+                    //string str = elements[UnityEngine.Random.Range(0, 5)];
+                    string str = "Final";
+                    try
+                    {
+
+                        Boss boss = UnityEngine.Object.Instantiate<GameObject>(ChaosBundle.Get(bossPrefabFilePaths[str + "Boss"]), ChaosArenaChanges.offset, Quaternion.identity).GetComponent<Boss>();
+                        boss.fsm.ChangeState(boss.bossReadyState.name, false);
+                        boss.chestLootTableID = String.Empty;
+                    }
+                    catch { }
+                }
             };
 
             On.PvpController.HandleSkillSpawn += (On.PvpController.orig_HandleSkillSpawn orig, PvpController self) =>
@@ -314,7 +504,14 @@ namespace Mythical {
                 }
             };
 
-            
+            On.PvpController.Start += (On.PvpController.orig_Start orig, PvpController self) =>
+            {
+                orig(self);
+                if (BestTo3)
+                {
+                    self.maxRoundCount += 2;
+                }
+            };
 
 
             //List<Sprite> loadingTheListIDontNeedThisToAllocate = IconManager.TSBGSpriteList;
@@ -470,7 +667,7 @@ namespace Mythical {
             {
                 if (StageEffects) { orig(self); }
             };
-
+            
             // Music
             /*
             LoadSong("Title","Sprites/Vaporwave.ogg");
@@ -522,6 +719,28 @@ namespace Mythical {
                     {
                         return LootManager.chaosSkillList[UnityEngine.Random.Range(0, LootManager.chaosSkillList.Count)];
                     }
+                    else if (MonoElementDrops && inAPVPScene)
+                    {
+                        
+                        List<ElementType> usableElements = new List<ElementType>();
+                        if (monoskills.Count==0)
+                        {
+                            for (int i = 0; i < GameController.players.Count; i++)
+                            {
+                                usableElements.Add(GameController.players[i].GetComponent<Player>().assignedSkills[0].element);
+                            }
+
+                            for (int i = 0; i < LootManager.completeSkillList.Count; i++)
+                            {
+                                if (usableElements.Contains(GameController.players[0].GetComponent<Player>().GetSkill(LootManager.completeSkillList[i]).element))
+                                {
+                                   // Debug.Log("Added " + LootManager.completeSkillList[i]);
+                                    monoskills.Add(LootManager.completeSkillList[i]);
+                                }
+                            }
+                        }
+                        return monoskills[UnityEngine.Random.Range(0, monoskills.Count)];
+                    }
                     else
                     {
                         return orig2(l, s);
@@ -538,7 +757,17 @@ namespace Mythical {
                 };
 
                 // Chaos arena changes
-                ChaosArenaChanges.Init();
+                if (!addedGMHooks)
+                {
+                    addedGMHooks = true;
+                    ChaosArenaChanges.Init();
+                    CursedRelics.Init();
+                }
+            };
+
+            On.TitleScreen.AllowMultiplayer += (On.TitleScreen.orig_AllowMultiplayer orig, TitleScreen self) =>
+            {
+                return true;
             };
 
             //Adjustments
@@ -548,8 +777,62 @@ namespace Mythical {
                 self.maxBalance = 9999;
                 self.balance = 9999;
             };*/
-            
+
+
         }
+        public static bool SpawnMiniBoss = false;
+        public void Update()
+        {
+
+            /*if (Input.GetKeyDown(KeyCode.K))
+            {
+                Enemy.Spawn("Contestant", GameController.players[0].transform.position);
+            }*/
+            
+            List<KeyValuePair<GameObject, string>> toRemove = new List<KeyValuePair<GameObject, string>>();
+            if (GameController.Instance != null)
+            {
+                if (GameController.players!=null&&GameController.players.Count > 0)
+                {
+                    foreach (KeyValuePair<GameObject, string> pair in announcementPairs)
+                    {
+                        if (pair.Key!=null)
+                        {
+                            if (Vector3.Distance(GameController.players[0].transform.position, pair.Key.transform.position) < 4)
+                            {
+                                GameUI.BroadcastNoticeMessage(pair.Value, 1f);
+                            }
+                        }
+                        else
+                        {
+                            toRemove.Add(pair);
+                        }
+                    }
+                }
+            }
+            foreach(KeyValuePair<GameObject,string> p in toRemove)
+            {
+                Destroy(p.Key);
+            }
+
+            if (inAPVPScene && SceneManager.GetActiveScene().name.ToLower().Contains("arena"))
+            {
+                if (Depletion)
+                {
+                    if (Time.time > nextTime)
+                    {
+                        nextTime = Time.time + 1f;
+                        foreach (GameObject player in GameController.players)
+                        {
+                            SoundManager.PlayAudio("ImpactPhysicalHeavy",1,false,0.25f);
+                            player.GetComponent<Player>().health.CurrentHealthValue-=10;
+                        }
+                    }
+                }
+            }
+
+        }
+        float nextTime = 0.25f;
 
         public static Sprite[] playerSprites;
         public static AssetBundle playerBundle;
@@ -560,10 +843,14 @@ namespace Mythical {
         public bool hasAddedPalettes = false;
         public static bool SpawnPickups = true;
         public static bool StageEffects = true;
+        public static bool StageHazards = true;
+        public static bool BestTo3 = false;
+        public static bool Depletion = false;
         public static bool MonoElementDrops = false;
+        public static bool addedGMHooks = false;
         public static bool loadedWizSprites=false;
         public Texture2D newPalette = null;
-
+        List<string> monoskills = new List<string>();
         public static Dictionary<GameObject,SpriteRenderer> newPlayerDict = new Dictionary<GameObject, SpriteRenderer>();
 
 
@@ -594,19 +881,28 @@ namespace Mythical {
                 return SceneManager.GetActiveScene().name.ToLower().Contains("pvp");
             }
         }
+        public static GameObject interactableParent;
+        Dictionary<GameObject, string> announcementPairs = new Dictionary<GameObject, string>();
         public void OnLevelWasLoaded()
         {
             try
             {
                 Player.platWallet.balance = Player.platWallet.maxBalance; //Enjoy
+                
             }
             catch { }
             if (inPVPScene)
             {
                 GameObject area = GameObject.Find("StagingArea");
-                area.transform.Find("Interactables").transform.parent = null;
-                area.transform.localScale = new Vector3(1.2f, 1, 1);
-                area.transform.Translate(-5,0,0);
+                interactableParent = area.transform.Find("Interactables").gameObject;
+                interactableParent.transform.parent = null;
+                interactableParent.transform.Translate(0, 3, 0);
+                GameObject.Find("Npcs").transform.Translate(0, 2, 0);
+                GameObject.Find("ExitPortalDisabled").transform.Translate(0, -3, 0);
+                Destroy(GameObject.Find("WallPillars"));
+                area.transform.localScale = new Vector3(1.4f, 1.2f, 1);
+                area.transform.Translate(-10,5,0);
+                
 
 
                 ChaosArenaChanges.ResetTileSet();
@@ -614,23 +910,51 @@ namespace Mythical {
 
                 GameObject mimi = MimicNpc.Prefab;
                 pvpItems = new Dictionary<int, string>();
-                Instantiate(mimi, new Vector3(0, 5, 0), Quaternion.identity);
+                Instantiate(mimi, new Vector3(0, 8, 0), Quaternion.identity);
 
                 SpawnPickups = true;
                 StageEffects = true;
-                GameObject noPickups = Instantiate(MetalBarrelDeco.Prefab, new Vector3(-11, -1, 0), Quaternion.identity);
-                noPickups.name = "NoPickups";
-                noPickups.transform.localScale = Vector3.one * 0.75f;
-                noPickups.GetComponentInChildren<SpriteRenderer>().sprite = cherrySprite;
-                noPickups.GetComponent<Health>().healthStat.SetInitialBaseValue(100);
-                noPickups.GetComponent<Health>().healthStat.CurrentValue = 100;
+                StageHazards = true;
+                MonoElementDrops = false;
+                Depletion = false;
+                BestTo3 = false;
+                SpawnMiniBoss = false;
 
-                GameObject noEffects = Instantiate(MetalBarrelDeco.Prefab, new Vector3(11, -1, 0), Quaternion.identity);
+                GameObject noPickups = Instantiate(Tree.Prefab, new Vector3(-11, -3, 0), Quaternion.identity);
+                noPickups.name = "NoPickups";
+                announcementPairs[noPickups] = "Disable spell drops!";
+
+                GameObject noEffects = Instantiate(Tree.Prefab, new Vector3(11, -3, 0), Quaternion.identity);
                 noEffects.name = "NoEffects";
-                noEffects.transform.localScale = Vector3.one * 0.75f;
-                noEffects.GetComponentInChildren<SpriteRenderer>().sprite = orangeSprite;
-                noEffects.GetComponent<Health>().healthStat.SetInitialBaseValue(100);
-                noEffects.GetComponent<Health>().healthStat.CurrentValue = 100;
+                announcementPairs[noEffects] = "Disable the arenas' special effects!";
+
+                GameObject noHazards = Instantiate(Tree.Prefab, new Vector3(19, 3, 0), Quaternion.identity);
+                noHazards.name = "NoHazards";
+                announcementPairs[noHazards] = "Disable the arenas' dangerous hazards!";
+
+                GameObject monoDrops = Instantiate(Tree.Prefab, new Vector3(-19, 3, 0), Quaternion.identity);
+                monoDrops.name = "MonoDrops";
+                announcementPairs[monoDrops] = "Only drops spells of types already held! (Currently basics only for performance sake)";
+
+                GameObject bestTo3 = Instantiate(Tree.Prefab, new Vector3(8, 3, 0), Quaternion.identity);
+                bestTo3.name = "BestTo3";
+                announcementPairs[bestTo3] = "Makes matches first to 3 instead of first to 2!";
+
+                GameObject spawnMB = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
+                spawnMB.name = "SpawnMB";
+                announcementPairs[spawnMB] = "Spawn strong foes at the start of each round!";
+
+                //GameObject depletion = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
+                //depletion.name = "Depletion";
+                //announcementPairs[depletion] = "Player health will slowly decay!";
+
+                foreach (Tree tree in FindObjectsOfType<Tree>())
+                {
+                    tree.health.healthStat.BaseValue = 100;
+                    tree.health.CurrentHealthValue = 100;
+                }
+
+                
 
                 foreach (GameObject obj in GameObject.FindObjectsOfType<GameObject>())
                 {
@@ -641,11 +965,17 @@ namespace Mythical {
                 }
 
             }
-
-            List<string> Destroynames = new List<string>() { "overdrive", "hazard","spawner" };
+            
+            List<string> Destroynames = new List<string>() {};
             if (inAPVPScene && SceneManager.GetActiveScene().name.ToLower().Contains("arena")) {
-                if (!StageEffects)
+
+                
+                monoskills = new List<string>();
+                nextTime = Time.time + 5;
+                if (!StageEffects || !StageHazards)
                 {
+                    if (!StageEffects) { Destroynames.Add("overdrive");Destroynames.Add("enemy"); }
+                    if (!StageHazards) { Destroynames.Add("hazard"); }
                     foreach (GameObject o in FindObjectsOfType<GameObject>())
                     {
                         if (o.transform.root!=null && o.transform.root.name.ToLower() == "pvprooms")
@@ -682,7 +1012,7 @@ namespace Mythical {
                         string relic = p.inventory.itemDict.ElementAt(0).Key;
                         if (relic == "TokenShuffler")
                         {
-                            p.RandomizeBuild(true, true, true);
+                            p.RandomizeBuild(true, false, true);
                         }
                         else if (relic == "TokenCursed")
                         {
@@ -721,7 +1051,7 @@ namespace Mythical {
                 texture2.SetPixels32(text.GetPixels32());
                 texture2.Apply();
                 EXPOSED = texture2;
-                GameUI.BroadcastNoticeMessage("Special Thanks to Rayman, Holy Grind, and Cerberus", 3f);
+                StartCoroutine("BootUpCredits");
             }
 
             Texture2D tex = basePalette.texture;// (Texture2D) self.spriteMaterial.GetTexture("_Palette");
@@ -815,15 +1145,28 @@ namespace Mythical {
 
         public void PvpController_ResetStage(On.PvpController.orig_ResetStage orig, PvpController self, bool b)
         {
-            pvpItems.Clear();
+            pvpItems = new Dictionary<int, string>();
             int i = 0;
-            foreach(Player p in GameController.activePlayers)
+            try
             {
-                if (p.inventory.itemDict.Count > 0)
+                if (GameController.activePlayers != null)
                 {
-                    pvpItems[i] = p.inventory.itemDict.ElementAt(0).Key;
+                    foreach (Player p in GameController.activePlayers)
+                    {
+                        if (p.inventory != null && p.inventory.itemDict != null)
+                        {
+                            if (p.inventory.itemDict.Count > 0)
+                            {
+                                pvpItems[i] = p.inventory.itemDict.ElementAt(0).Key;
+                            }
+                        }
+                        i++;
+                    }
                 }
-                i++;
+            }
+            catch(Exception e)
+            {
+                Debug.Log("AVERTED ERROR: " + e.Message);
             }
             orig(self,b);
         }
@@ -907,8 +1250,41 @@ namespace Mythical {
             
         }
 
-        public static Dictionary<string, AudioClip> clipDict = new Dictionary<string, AudioClip>();
+        IEnumerator BootUpCredits()
+        {
+            GameUI.BroadcastNoticeMessage("Wizard of Legend: Tournament Edition by only_going_up_fr0m_here", 3f);
+            yield return new WaitForSeconds(3);
+            GameUI.BroadcastNoticeMessage("Special Thanks to Rayman, Holy Grind, RandomlyAwesome, and Cerberus", 3f);
+        }
 
+        public static Dictionary<string, AudioClip> clipDict = new Dictionary<string, AudioClip>();
+        Dictionary<string, string> bossPrefabFilePaths = new Dictionary<string, string>
+        {
+            {
+                "IceBoss",
+                "Assets/Prefabs/Bosses/IceBoss.prefab"
+            },
+            {
+                "FireBoss",
+                "Assets/Prefabs/Bosses/FireBoss.prefab"
+            },
+            {
+                "EarthBoss",
+                "Assets/Prefabs/Bosses/EarthBoss.prefab"
+            },
+            {
+                "AirBoss",
+                "Assets/Prefabs/Bosses/AirBoss.prefab"
+            },
+            {
+                "LightningBoss",
+                "Assets/Prefabs/Bosses/LightningBoss.prefab"
+            },
+            {
+                "FinalBoss",
+                "Assets/Prefabs/Bosses/FinalBoss.prefab"
+            }
+        };
     }
 }
 

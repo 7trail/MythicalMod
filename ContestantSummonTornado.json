@@ -1,0 +1,9 @@
+{
+	"ID": [ "ContestantSummonTornado" ],
+	"elementType": [ "Air" ],
+	"targetNames": [ "AllyHurtBox", "DestructibleHurtBox" ],
+	"knockbackMultiplier": [ -1, 50, 1, 50 ],
+	"damage": [ 8, 10, 8, 10 ],
+	"cooldown": [ 6 ],
+	"hitCount": [ 5 ]
+}

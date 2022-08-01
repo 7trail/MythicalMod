@@ -22,10 +22,10 @@ namespace Mythical
         public static Texture2D chosenArena=null;
         public static Texture2D arenaTextureReference = null;
         public static Texture2D arenaTextureCarbonCopy = null;
-        static Vector3 offset = new Vector3(25, -22, 0);
+        public static Vector3 offset = new Vector3(25, -22, 0);
         static int arenaCount = 3;
         static int customTilesetCount = 1;
-        static bool soloPortals = false;
+        static bool soloPortals = true;
         public static int arenaTileID = 0;
         public static Material mainMaterial;
 
@@ -39,8 +39,8 @@ namespace Mythical
             tilesets.Add(new ArenaDef()
             {
                 name = "Purple",
-                description = "\"Test\"",
-                position = new Vector3(-19, -5.5f, 0),
+                description = "vague attempt at a stage",
+                position = new Vector3(-19, -6.5f, 0),
                 tileset = ImgHandler.LoadTex2D("Arenas/tileset1", true),
                 layout= ImgHandler.LoadTex2D("Arenas/arena1"),
                 id = 0
@@ -50,7 +50,7 @@ namespace Mythical
             {
                 name = "Hell",
                 description = "Misery and Torment",
-                position = new Vector3(20, -5.5f, 0),
+                position = new Vector3(20, -6.5f, 0),
                 tileset = ImgHandler.LoadTex2D("Arenas/tileset2", true),
                 layout = ImgHandler.LoadTex2D("Arenas/arena2"),
                 element = ElementType.Fire,
@@ -61,6 +61,7 @@ namespace Mythical
             On.PvpController.SetStageLayout += (On.PvpController.orig_SetStageLayout orig, PvpController self) =>
             {
                 orig(self);
+                if (!ContentLoader.StageEffects) { self.forceEmpowerDrop = false; }
                 Debug.Log("Layout hook");
                 if (PvpController.selectedRoomName == "DefaultRoom" || PvpController.selectedRoomName == "Neutral")
                 {
@@ -245,7 +246,7 @@ namespace Mythical
             {
                 Debug.Log("Adding portal for " + arena.name);
 
-                Vector3 pos = new Vector3(0, 12, 0);
+                Vector3 pos = new Vector3(0, 15, 0);
                 GameObject portal = GameObject.Instantiate(arenaPortal, pos+arena.position, arenaPortal.transform.rotation);
                 GameObject.Instantiate(statue, pos + arena.position + Vector3.up * 1.5f, statue.transform.rotation);
                 ExitPortal exitPortal = portal.GetComponent<ExitPortal>();
@@ -272,7 +273,7 @@ namespace Mythical
             }
 
             GameObject statue = null;
-            List<string> Destroynames = new List<string>() { "spawner", "statue" };
+            List<string> Destroynames = new List<string>() { "enemy", "statue" };
             foreach (GameObject o in GameObject.FindObjectsOfType<GameObject>())
             {
                 foreach (string s in Destroynames)

@@ -1,0 +1,12 @@
+{
+	"ID": [ "ConThrow" ],
+	"elementType": [ "Air" ],
+	"targetNames": [ "AllyHurtBox", "DestructibleHurtBox" ],
+	"sameAttackImmunityTime": [ 1 ],
+	"knockbackMultiplier": [ 15 ],
+	"knockbackOverwrite": [ true ],
+	"damage": [ 15, 15, 10 ],
+	"cooldown": [ 3.25 ],
+	"overdriveProgressMultiplier": [ 1.5 ],
+	"overdriveSingleIncrease": [ true ]
+}
