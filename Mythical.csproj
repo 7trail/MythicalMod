@@ -60,6 +60,7 @@
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
     <Compile Include="StatusBarMod.cs" />
+    <Compile Include="UltraCouncilChallenge.cs" />
     <Compile Include="UnEnhanceRelic.cs" />
     <Compile Include="UsePoisonBlast.cs" />
     <Compile Include="WindowIconTools.cs" />

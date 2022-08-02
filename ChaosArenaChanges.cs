@@ -41,17 +41,28 @@ namespace Mythical
                 name = "Purple",
                 description = "vague attempt at a stage",
                 position = new Vector3(-19, -6.5f, 0),
-                tileset = ImgHandler.LoadTex2D("Arenas/tileset1", true),
+                //tileset = ImgHandler.LoadTex2D("Arenas/tileset1", true),
                 layout= ImgHandler.LoadTex2D("Arenas/arena1"),
                 id = 0
             });
-
+            /*
             tilesets.Add(new ArenaDef()
             {
                 name = "Hell",
                 description = "Misery and Torment",
                 position = new Vector3(20, -6.5f, 0),
-                tileset = ImgHandler.LoadTex2D("Arenas/tileset2", true),
+                //tileset = ImgHandler.LoadTex2D("Arenas/tileset2", true),
+                layout = ImgHandler.LoadTex2D("Arenas/arena2"),
+                element = ElementType.Fire,
+                id = 1
+            });*/
+
+            tilesets.Add(new ArenaDef()
+            {
+                name = "Domicile",
+                description = "Face the Ultra Council Challenge!",
+                position = new Vector3(20, -6.5f, 0),
+                //tileset = ImgHandler.LoadTex2D("Arenas/tileset2", true),
                 layout = ImgHandler.LoadTex2D("Arenas/arena2"),
                 element = ElementType.Fire,
                 id = 1
@@ -90,9 +101,20 @@ namespace Mythical
                 if (arenaTileID >= 0)
                 {
                     Debug.Log("Setting Tileset");
-                    arenaTextureCarbonCopy.SetPixels32(tilesets[arenaTileID].tileset.GetPixels32());
-                    arenaTextureCarbonCopy.Apply();
+                    if (tilesets[arenaTileID].tileset != null)
+                    {
+                        arenaTextureCarbonCopy.SetPixels32(tilesets[arenaTileID].tileset.GetPixels32());
+                        arenaTextureCarbonCopy.Apply();
+                    }
                     EditStage();
+                    Pathfinder.GenerateNodeMap(self.selectedRoom.tileGrid);
+
+                    // Ultra Council Challenge spawn
+                    if (tilesets[arenaTileID].name=="Domicile" && ContentLoader.StageEffects)
+                    {
+                        self.gameObject.AddComponent<UltraCouncilChallenge>().self=self;
+                    }
+
                 } else
                 {
                     ResetTileSet();
@@ -314,6 +336,7 @@ namespace Mythical
                 }
             }
             GameObject.Destroy(statue);
+            
         }
 
 
