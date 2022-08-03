@@ -22,7 +22,15 @@ namespace Mythical
                     foreach (GameObject tr in self.GetComponentsInChildren<GameObject>())
                     {
 
-                        tr.transform.position += Vector3.up * dist;
+                        tr.transform.position += Vector3.up * (dist % 100);
+                        if (dist <= -100)
+                        {
+                            tr.transform.position += Vector3.left * 150;
+                        }
+                        else
+                        {
+                            tr.transform.position -= Vector3.left * 150;
+                        }
                     }
                     //dist += 50;
                 }
@@ -55,7 +63,7 @@ namespace Mythical
                 if (allDead)
                 {
                     success = true;
-                    GameController.stageTitleUI.AnnounceFight("YOU WIN");
+                    GameController.stageTitleUI.AnnounceVictory("YOU WIN");
                     PlayerPrefs.SetInt("mythical::UCC", 1);
                     PlayerPrefs.Save();
                     StartCoroutine("ResetMatch");
@@ -73,6 +81,9 @@ namespace Mythical
         
         public IEnumerator ResetMatch()
         {
+            TimeScaleController.StandardFreezeIntoEaseOutTimeScale();
+            SoundManager.PlayAudio("Explosion2", 1f, false, -1f, -1f);
+            SoundManager.PlayAudio("FloorVictory", 1f, false, -1f, -1f);
             bool inputDetected = false;
             int selection = 0;
             self.confirmImage.sprite = GameUI.GetInputSprite(scheme, "Confirm");
@@ -159,15 +170,18 @@ namespace Mythical
             failure = false;
             success = false;
             yield return new WaitForSeconds(1.5f);
-            
-            
+
+            SoundManager.PlayAudio("Woosh", 1f, false, -1f, -1f);
             GameController.stageTitleUI.AnnounceFight("Ultra");
             yield return new WaitForSeconds(1f);
+            SoundManager.PlayAudio("Woosh", 1f, false, -1f, -1f);
             GameController.stageTitleUI.AnnounceFight("Council");
             yield return new WaitForSeconds(1f);
+            SoundManager.PlayAudio("Woosh", 1f, false, -1f, -1f);
             GameController.stageTitleUI.AnnounceFight("Challenge");
             List<string> elements = new List<string>() { "Fire", "Earth", "Ice", "Air" };
             yield return new WaitForSeconds(2f);
+            SoundManager.PlayAudio("MetalBell", 1f, false, -1f, -1f);
             GameController.stageTitleUI.AnnounceFight("GO!");
             self.TogglePlayerInvulnerable(false);
             foreach (string str in elements)
@@ -188,7 +202,14 @@ namespace Mythical
                     foreach(RectTransform r in boss.healthBar.GetComponentsInChildren<RectTransform>())
                     {
                         //Debug.Log("Moved by " + dist);
-                        r.position += Vector3.up * dist;
+                        r.position += Vector3.up * (dist%100);
+                        if (dist <= -100)
+                        {
+                            r.position += Vector3.left * 150;
+                        } else
+                        {
+                            r.position -= Vector3.left * 150;
+                        }
                     }
                     dist -= 50;
                 }

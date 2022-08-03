@@ -48,6 +48,22 @@ namespace Mythical
             skillInfo.elementType = ElementType.Earth;
 
             Skills.Register(skillInfo);
+            
+            skillInfo = new Skills.SkillInfo("Poison Beam");
+            skillInfo.ID = "Mythical::UsePoisonBeam";
+            skillInfo.description = "Hello! This is the part where I kill you!";
+            skillInfo.empowered = "Kill you faster";
+            skillInfo.cooldown = 1;
+            skillInfo.chargeCooldown = 0;
+            skillInfo.startingCharges = 10;
+            skillInfo.newState = typeof(UsePoisonBeam);
+            skillInfo.isNewSkill = true;
+            skillInfo.skillIcon = Extensions.loadSprite("poisonBeam");
+            //skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
+            skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData3.json");
+            skillInfo.elementType = ElementType.Earth;
+
+            Skills.Register(skillInfo);
 
             /*skillInfo = new Skills.SkillInfo("Evading Zephyr");
             skillInfo.ID = "UseWindDefense";

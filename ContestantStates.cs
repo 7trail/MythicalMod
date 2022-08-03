@@ -8,6 +8,7 @@ using System.Collections;
 
 namespace Mythical
 {
+	
 	public class ContestantAirShieldState : Enemy.SkillState
 	{
 		// Token: 0x060016FB RID: 5883 RVA: 0x000C7910 File Offset: 0x000C5D10

@@ -350,6 +350,102 @@ namespace Mythical {
             Outfits.Register(outfitInfo2);
 
             outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Academic";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Academic", 56, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Everyone Starts Somewhere");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Camo";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Camo", 57, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Lie In Wait");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Cope";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Cope", 58, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Seethe");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Intangible";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Intangible", 59, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Bespoke Arrogance");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Jupiter";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Jupiter", 60, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "To The Stars");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Malachite";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Malachite", 61, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "The Bright");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Opal";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Opal", 62, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Pearlescent Beauty");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Roar";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Roar", 63, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Shouts of Covetous");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Goddess";
             outfitInfo2.outfit = new global::Outfit("Mythical::Goddess", 54, new List<global::OutfitModStat>
             {
@@ -365,8 +461,23 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Challenger";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Challenger", 55, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Awarded to the Lucky Few who successfully completed the Ultra Council Challenge!");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            outfitInfo2.unlockCondition = () =>
+            {
+                return PlayerPrefs.GetInt("mythical::UCC", 0) == 1;
+            };
+            Outfits.Register(outfitInfo2);
 
-            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona","jade","thunder","frost","earth","goddess" };
+            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona","jade","thunder","frost","earth","goddess","challenger","academic","camo","cope","intangible","jupiter","malachite","opal","roar" };
             foreach(string robeName in robeNames)
             {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
@@ -420,6 +531,7 @@ namespace Mythical {
 
             On.Destructible.Break += (On.Destructible.orig_Break orig, Destructible self) =>
             {
+                Debug.Log("Checking if Destructible broke");
                 if (announcementPairs.ContainsKey(self.gameObject))
                 {
                     announcementPairs.Remove(self.gameObject);
@@ -723,52 +835,53 @@ namespace Mythical {
             On.GameController.Start += (On.GameController.orig_Start orig, GameController self) =>
             {
                 orig(self);
-                On.LootManager.GetSkillID += (On.LootManager.orig_GetSkillID orig2, bool l, bool s) =>
-                {
-                    if (ChaosDrops && inAPVPScene && UnityEngine.Random.value<0.25f)
-                    {
-                        return LootManager.chaosSkillList[UnityEngine.Random.Range(0, LootManager.chaosSkillList.Count)];
-                    }
-                    else if (MonoElementDrops && inAPVPScene)
-                    {
-                        
-                        List<ElementType> usableElements = new List<ElementType>();
-                        if (monoskills.Count==0)
-                        {
-                            for (int i = 0; i < GameController.players.Count; i++)
-                            {
-                                usableElements.Add(GameController.players[i].GetComponent<Player>().assignedSkills[0].element);
-                            }
-
-                            for (int i = 0; i < LootManager.completeSkillList.Count; i++)
-                            {
-                                if (usableElements.Contains(GameController.players[0].GetComponent<Player>().GetSkill(LootManager.completeSkillList[i]).element))
-                                {
-                                   // Debug.Log("Added " + LootManager.completeSkillList[i]);
-                                    monoskills.Add(LootManager.completeSkillList[i]);
-                                }
-                            }
-                        }
-                        return monoskills[UnityEngine.Random.Range(0, monoskills.Count)];
-                    }
-                    else
-                    {
-                        return orig2(l, s);
-                    }
-                };
-
-                On.LootManager.DropSkill += (On.LootManager.orig_DropSkill orig3, Vector3 v, int a, string id, float l, float s, HashSet<ElementType> set, bool life, bool emp) =>
-                {
-                    if (inAPVPScene && LootManager.chaosSkillList.Contains(id))
-                    {
-                        emp = true;
-                    }
-                    orig3(v, a, id, l, s, set, life, emp);
-                };
-
                 // Chaos arena changes
                 if (!addedGMHooks)
                 {
+                    On.LootManager.GetSkillID += (On.LootManager.orig_GetSkillID orig2, bool l, bool s) =>
+                    {
+                        if (ChaosDrops && inAPVPScene && UnityEngine.Random.value < 0.25f)
+                        {
+                            return LootManager.chaosSkillList[UnityEngine.Random.Range(0, LootManager.chaosSkillList.Count)];
+                        }
+                        else if (MonoElementDrops && inAPVPScene)
+                        {
+
+                            List<ElementType> usableElements = new List<ElementType>();
+                            if (monoskills.Count == 0)
+                            {
+                                for (int i = 0; i < GameController.players.Count; i++)
+                                {
+                                    usableElements.Add(GameController.players[i].GetComponent<Player>().assignedSkills[0].element);
+                                }
+
+                                for (int i = 0; i < LootManager.completeSkillList.Count; i++)
+                                {
+                                    if (usableElements.Contains(GameController.players[0].GetComponent<Player>().GetSkill(LootManager.completeSkillList[i]).element))
+                                    {
+                                        // Debug.Log("Added " + LootManager.completeSkillList[i]);
+                                        monoskills.Add(LootManager.completeSkillList[i]);
+                                    }
+                                }
+                            }
+                            return monoskills[UnityEngine.Random.Range(0, monoskills.Count)];
+                        }
+                        else
+                        {
+                            return orig2(l, s);
+                        }
+                    };
+
+                    On.LootManager.DropSkill += (On.LootManager.orig_DropSkill orig3, Vector3 v, int a, string id, float l, float s, HashSet<ElementType> set, bool life, bool emp) =>
+                    {
+                        if (inAPVPScene && LootManager.chaosSkillList.Contains(id))
+                        {
+                            emp = true;
+                        }
+                        orig3(v, a, id, l, s, set, life, emp);
+                    };
+
+
                     addedGMHooks = true;
                     ChaosArenaChanges.Init();
                     CursedRelics.Init();
@@ -1045,6 +1158,9 @@ namespace Mythical {
                             p.AssignSkillSlot(4, id, false, false);
                             id = LootManager.GetSkillID(false, false);
                             p.AssignSkillSlot(5, id, false, false);
+                        } else if (relic=="TokenTailor")
+                        {
+                            UpgradePlayer.Upgrade(p);
                         }
                     }
                 }

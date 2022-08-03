@@ -28,7 +28,7 @@ namespace Mythical
                     /*On.Contestant.Start += (On.Contestant.orig_Start orig2, Contestant self) =>
                     {
                         orig2(self);
-                        self.fsm.ReplaceState("Tornado",new ContestantAirShieldState("Tornado",self.fsm,self));
+                        self.fsm.ReplaceState("Tornado",new ContestantThunderSpreadState("Tornado",self.fsm,self));
                     };*/
 
 
