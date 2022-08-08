@@ -270,7 +270,7 @@ namespace Mythical {
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Designed by Cerberus!");
+            outfitInfo2.customDesc = ((bool b) => "Aspect of Fire");
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
@@ -283,7 +283,7 @@ namespace Mythical {
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, true, false);
-            outfitInfo.customDesc = ((bool b) => "Designed by Cerberus!");
+            outfitInfo.customDesc = ((bool b) => "Aspect of Wind");
             outfitInfo.customMod = ((player, b, b2) => { });
             Outfits.Register(outfitInfo);
 
@@ -439,7 +439,19 @@ namespace Mythical {
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Shouts of Covetous");
+            outfitInfo2.customDesc = ((bool b) => "Shouts of Arcanus");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Icarus";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Icarus", 64, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Melt'em Down!");
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
@@ -477,7 +489,7 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
-            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona","jade","thunder","frost","earth","goddess","challenger","academic","camo","cope","intangible","jupiter","malachite","opal","roar" };
+            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona","jade","thunder","frost","earth","goddess","challenger","academic","camo","cope","intangible","jupiter","malachite","opal","roar","icarus" };
             foreach(string robeName in robeNames)
             {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
@@ -505,6 +517,7 @@ namespace Mythical {
             }
             titleScreens.Add(ImgHandler.LoadSprite("bg5"));
             titleScreens.Add(ImgHandler.LoadSprite("bg6"));
+            titleScreens.Add(ImgHandler.LoadSprite("bg7"));
             /*
             // Item Spawner revisions
 
@@ -578,6 +591,18 @@ namespace Mythical {
                     Debug.Log("Spawn Bosses");
                     SpawnMiniBoss = true;
                 }
+                if (self.name.Contains("NoBuffs") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Bosses Will Spawn", 3f);
+                    Debug.Log("Disable Buffs");
+
+                    foreach (Player p in GameController.activePlayers)
+                    {
+                        Outfit.GetAvailableOutfit(p.outfitID).SetMods(false,false);
+                    }
+
+                    SpawnMiniBoss = true;
+                }
                 orig(self);
             };
 
@@ -612,7 +637,7 @@ namespace Mythical {
                     Enemy.Spawn(bosses[UnityEngine.Random.Range(0, bosses.Count)], ChaosArenaChanges.offset - Vector3.up * 6).chestLootTableID = String.Empty;
                     //Debug.Log("Spawning Boss");
                     //string str = elements[UnityEngine.Random.Range(0, 5)];
-                    string str = "Final";
+                    /*string str = "Final";
                     try
                     {
 
@@ -620,7 +645,7 @@ namespace Mythical {
                         boss.fsm.ChangeState(boss.bossReadyState.name, false);
                         boss.chestLootTableID = String.Empty;
                     }
-                    catch { }
+                    catch { }*/
                 }
             };
 
@@ -893,9 +918,20 @@ namespace Mythical {
                 return true;
             };
 
-            On.Outfit.OutfitIsInUse += (On.Outfit.orig_OutfitIsInUse orig, string id, int playerID) =>
+            /*On.Outfit.OutfitIsInUse += (On.Outfit.orig_OutfitIsInUse orig, string id, int playerID) =>
             {
-                return GameDataManager.gameData.playerData[playerID].outfitName == id;
+                if (GameController.activePlayers.Length > 1)
+                {
+                    return GameDataManager.gameData.playerData[playerID].outfitName == id;
+                } else
+                {
+                    return orig(id, playerID);
+                }
+            };*/
+
+            On.Outfit.SetMods += (On.Outfit.orig_SetMods orig, Outfit self, bool b, bool b2) =>
+            {
+                orig(self, b&&(RobeBuffs), b2);
             };
 
             //Adjustments
@@ -908,6 +944,7 @@ namespace Mythical {
 
 
         }
+        public static bool RobeBuffs = true;
         public static bool SpawnMiniBoss = false;
         public void Update()
         {
@@ -1050,6 +1087,16 @@ namespace Mythical {
                     BestTo3 = false;
                     SpawnMiniBoss = false;
 
+                    if (!RobeBuffs)
+                    {
+                        foreach (Player p in GameController.activePlayers)
+                        {
+                            Outfit.GetAvailableOutfit(p.outfitID).SetMods(true, false);
+                        }
+                    }
+
+                    RobeBuffs = true;
+
                     GameObject noPickups = Instantiate(Tree.Prefab, new Vector3(-11, -3, 0), Quaternion.identity);
                     noPickups.name = "NoPickups";
                     announcementPairs[noPickups] = "Disable spell drops!";
@@ -1073,6 +1120,10 @@ namespace Mythical {
                     GameObject spawnMB = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
                     spawnMB.name = "SpawnMB";
                     announcementPairs[spawnMB] = "Spawn strong foes at the start of each round!";
+
+                    GameObject noBuffs = Instantiate(Tree.Prefab, new Vector3(-15, 5, 0), Quaternion.identity);
+                    noBuffs.name = "NoBuffs";
+                    announcementPairs[noBuffs] = "Disable robe buffs for the match!";
 
                     //GameObject depletion = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
                     //depletion.name = "Depletion";
