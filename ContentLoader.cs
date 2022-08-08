@@ -28,7 +28,7 @@ namespace Mythical {
     //     Customary to follow Semantic Versioning (major.minor.patch). 
     //         You don't have to, but you'll just look silly in front of everyone. It's ok. I won't make fun of you.
     #endregion
-    [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "0.1.0")]
+    [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "1.8.0")]
     public class ContentLoader : BaseUnityPlugin { 
         #region BaseUnityPlugin Notes
         // BaseUnityPlugin is the main class that gets loaded by bepin.
@@ -449,8 +449,9 @@ namespace Mythical {
             outfitInfo2.name = "Icarus";
             outfitInfo2.outfit = new global::Outfit("Mythical::Icarus", 64, new List<global::OutfitModStat>
             {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false),
+                new OutfitModStat(OutfitModStat.OutfitModType.Health,250,0,0,false)
+            }, false, false) ;
             outfitInfo2.customDesc = ((bool b) => "Melt'em Down!");
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
@@ -593,7 +594,7 @@ namespace Mythical {
                 }
                 if (self.name.Contains("NoBuffs") && inPVPScene)
                 {
-                    GameUI.BroadcastNoticeMessage("Bosses Will Spawn", 3f);
+                    GameUI.BroadcastNoticeMessage("Robe Effects Disabled", 3f);
                     Debug.Log("Disable Buffs");
 
                     foreach (Player p in GameController.activePlayers)
@@ -601,7 +602,7 @@ namespace Mythical {
                         Outfit.GetAvailableOutfit(p.outfitID).SetMods(false,false);
                     }
 
-                    SpawnMiniBoss = true;
+                    RobeBuffs = false;
                 }
                 orig(self);
             };
@@ -931,7 +932,7 @@ namespace Mythical {
 
             On.Outfit.SetMods += (On.Outfit.orig_SetMods orig, Outfit self, bool b, bool b2) =>
             {
-                orig(self, b&&(RobeBuffs), b2);
+                orig(self, b&&(RobeBuffs), b2 && (RobeBuffs));
             };
 
             //Adjustments
@@ -1058,6 +1059,18 @@ namespace Mythical {
             catch { }
             try
             {
+                if (SceneManager.GetActiveScene().name.ToLower()!="pvparena")
+                {
+                    if (!RobeBuffs)
+                    {
+                        foreach (Player p in GameController.activePlayers)
+                        {
+                            Outfit.GetAvailableOutfit(p.outfitID).SetMods(true, true);
+                        }
+                    }
+
+                    RobeBuffs = true;
+                }
                 if (inPVPScene)
                 {
                     GameObject area = GameObject.Find("StagingArea");
@@ -1087,15 +1100,7 @@ namespace Mythical {
                     BestTo3 = false;
                     SpawnMiniBoss = false;
 
-                    if (!RobeBuffs)
-                    {
-                        foreach (Player p in GameController.activePlayers)
-                        {
-                            Outfit.GetAvailableOutfit(p.outfitID).SetMods(true, false);
-                        }
-                    }
-
-                    RobeBuffs = true;
+                    
 
                     GameObject noPickups = Instantiate(Tree.Prefab, new Vector3(-11, -3, 0), Quaternion.identity);
                     noPickups.name = "NoPickups";
@@ -1105,11 +1110,11 @@ namespace Mythical {
                     noEffects.name = "NoEffects";
                     announcementPairs[noEffects] = "Disable the arenas' special effects!";
 
-                    GameObject noHazards = Instantiate(Tree.Prefab, new Vector3(19, 3, 0), Quaternion.identity);
+                    GameObject noHazards = Instantiate(Tree.Prefab, new Vector3(23, 3, 0), Quaternion.identity);
                     noHazards.name = "NoHazards";
                     announcementPairs[noHazards] = "Disable the arenas' dangerous hazards!";
 
-                    GameObject monoDrops = Instantiate(Tree.Prefab, new Vector3(-19, 3, 0), Quaternion.identity);
+                    GameObject monoDrops = Instantiate(Tree.Prefab, new Vector3(-23, 3, 0), Quaternion.identity);
                     monoDrops.name = "MonoDrops";
                     announcementPairs[monoDrops] = "Only drops spells of types already held! (Currently basics only for performance sake)";
 
@@ -1121,7 +1126,7 @@ namespace Mythical {
                     spawnMB.name = "SpawnMB";
                     announcementPairs[spawnMB] = "Spawn strong foes at the start of each round!";
 
-                    GameObject noBuffs = Instantiate(Tree.Prefab, new Vector3(-15, 5, 0), Quaternion.identity);
+                    GameObject noBuffs = Instantiate(Tree.Prefab, new Vector3(-16, 2, 0), Quaternion.identity);
                     noBuffs.name = "NoBuffs";
                     announcementPairs[noBuffs] = "Disable robe buffs for the match!";
 
