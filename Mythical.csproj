@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mythical</RootNamespace>
-    <AssemblyName>Tournament Edition</AssemblyName>
+    <AssemblyName>Mythical</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -42,10 +42,8 @@
     <Compile Include="AttackInfoHolderMythical.cs" />
     <Compile Include="AttackSpeedUpItem.cs" />
     <Compile Include="Behemoth.cs" />
-    <Compile Include="ChaosArenaChanges.cs" />
     <Compile Include="ContestantChanges.cs" />
     <Compile Include="ContestantStates.cs" />
-    <Compile Include="CursedRelics.cs" />
     <Compile Include="DialogueCreator.cs" />
     <Compile Include="FrostCrit.cs" />
     <Compile Include="GemChestRelic.cs" />
@@ -59,8 +57,6 @@
     <Compile Include="MonsterTooth.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="ModAccess.cs" />
-    <Compile Include="StatusBarMod.cs" />
-    <Compile Include="UltraCouncilChallenge.cs" />
     <Compile Include="UnEnhanceRelic.cs" />
     <Compile Include="UpgradePlayer.cs" />
     <Compile Include="UsePoisonBeam.cs" />
