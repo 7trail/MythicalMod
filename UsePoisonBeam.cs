@@ -13,13 +13,16 @@ namespace Mythical
 		{
 			this.hasSignatureVariant = true;
 			this.beamPrefab = AquaBeam.Prefab;
+			this.beamRange = 8f;
+			this.beamThickness = 1.5f;
+			//base.InitChargeSkillSettings(2, 0f, this.skillData, this);
 		}
 
 		// Token: 0x0600303A RID: 12346 RVA: 0x0017C634 File Offset: 0x0017AA34
 		public override void SetEmpowered(bool givenStatus, BoolVarStatMod givenMod)
 		{
 			base.SetEmpowered(givenStatus, givenMod);
-			this.beamThickness = ((!this.IsEmpowered) ? 1f : 1.5f);
+			this.beamThickness = ((!this.IsEmpowered) ? 1.5f : 2.25f);
 		}
 
 		// Token: 0x0600303B RID: 12347 RVA: 0x0017C65E File Offset: 0x0017AA5E
@@ -51,7 +54,7 @@ namespace Mythical
 						this.ultBeamArray[i] = this.CreateBeam(this.currentPosition, this.ultVecArray[i] * 1.25f, Player.UseAquaBeam.ultShotCount);
 						foreach (SpriteRenderer sr in this.currentBeam.GetComponentsInChildren<SpriteRenderer>())
 						{
-							sr.color = Color.green;
+							sr.color = Color.yellow;
 						}
 						this.ultBeamArray[i].setKnockbackOverwrite = (this.ultIndex == 0);
 					}
@@ -63,13 +66,13 @@ namespace Mythical
 					this.CreateBeam(this.currentPosition, this.targetVector, this.cooldownRef.chargeCount);
 					foreach (SpriteRenderer sr in this.currentBeam.GetComponentsInChildren<SpriteRenderer>())
 					{
-						sr.color = Color.green;
+						sr.color = Color.yellow;
 					}
 				}
 			}
 			return this.attackStarted;
 		}
-
+		
 		// Token: 0x0600303D RID: 12349 RVA: 0x0017C7D4 File Offset: 0x0017ABD4
 		public override void UpdateBeamVector()
 		{
@@ -121,7 +124,7 @@ namespace Mythical
 		}
 
 		// Token: 0x040033EA RID: 13290
-		public new static string staticID = "Mythical::UsePoisonBeam";
+		public new static string staticID = "Mythical::UseRadiantBeam";
 
 		// Token: 0x040033EB RID: 13291
 		private Beam[] ultBeamArray = new Beam[5];

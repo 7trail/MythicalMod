@@ -174,10 +174,10 @@ namespace Mythical
 		private static BoolVarStatMod fallMod = new BoolVarStatMod(Player.UseWindDefense.staticID, true, 10);
 
 		// Token: 0x04003BBA RID: 15290
-		private static NumVarStatMod evadeMod = new NumVarStatMod(Player.UseWindDefense.staticID, 1f, 0, VarStatModType.Override, false, false);
+		private static NumVarStatMod evadeMod = new NumVarStatMod(Player.UseWindDefense.staticID, 1f, 0, VarStatModType.Override, false);
 
 		// Token: 0x04003BBB RID: 15291
-		private static NumVarStatMod moveMod = new NumVarStatMod(Player.UseWindDefense.staticID, 0.4f, 10, VarStatModType.Multiplicative, false, false);
+		private static NumVarStatMod moveMod = new NumVarStatMod(Player.UseWindDefense.staticID, 0.4f, 10, VarStatModType.Multiplicative, false);
 
 		// Token: 0x04003BBC RID: 15292
 		private ParticleEffect currentEffect;

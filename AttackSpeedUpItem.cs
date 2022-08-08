@@ -12,7 +12,7 @@ namespace Mythical
 			this.ID = AttackSpeedUpItem.staticID;
 			this.category = global::Item.Category.Offense;
 
-			atkSpeed = new NumVarStatMod(this.ID, 0.1f, 11, VarStatModType.Multiplicative, false, false);
+			atkSpeed = new NumVarStatMod(this.ID, 0.1f, 11, VarStatModType.Multiplicative, false);
 			
 		}
 		public override void Activate()

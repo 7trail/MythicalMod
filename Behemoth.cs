@@ -17,7 +17,7 @@ namespace Mythical
 			this.ID = Behemoth.staticID;
 			this.category = global::Item.Category.Offense;
 			this.isCursed = true;
-			this.damageMod = new global::NumVarStatMod(this.ID, -0.3f, 10, VarStatModType.Multiplicative, false,false);
+			this.damageMod = new global::NumVarStatMod(this.ID, -0.3f, 10, VarStatModType.Multiplicative, false);
 		}
 
 		// Token: 0x0600000E RID: 14

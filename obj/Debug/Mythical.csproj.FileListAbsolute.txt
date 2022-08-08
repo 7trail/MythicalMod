@@ -86,3 +86,7 @@ C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Tournament Edition
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\Tournament Edition.dll
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\Tournament Edition.pdb
 C:\Users\t1239901_s\source\repos\7trail\MythicalMod\obj\Debug\Tournament Edition.pdb
+C:\Users\t1239901_s\source\repos\MythicalMod\bin\Debug\Rewired_Core.dll
+C:\Users\t1239901_s\source\repos\MythicalMod\bin\Debug\Rewired_Linux.dll
+C:\Users\t1239901_s\source\repos\MythicalMod\bin\Debug\Rewired_OSX.dll
+C:\Users\t1239901_s\source\repos\MythicalMod\bin\Debug\Rewired_Windows.dll

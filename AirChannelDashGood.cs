@@ -59,7 +59,7 @@ namespace Mythical
 			global::CameraController.ShakeCamera(0.25f, false);
 		}
 
-		public new static string staticID = "Mythical::FireStorm";
+		public new static string staticID = "Mythical::RadiantStorm";
 
 		private WindBurst currentWB;
 

@@ -16,7 +16,7 @@ namespace Mythical
 			this.isMeleeSkill = true;
 			//this.startCooldownOnEnter = false;
 			this.useSmartCD = true;
-			base.InitChargeSkillSettings(1, 0f, null, this);
+			//base.InitChargeSkillSettings(1, 0f, null, this);
 			this.SetAnimTimes(0.1f, 0.6f, 0.2f, 0.8f, 0.9f, 1f);
 		}
         
@@ -40,7 +40,9 @@ namespace Mythical
 			foreach(ParticleSystem system in currentFB.GetComponentsInChildren<ParticleSystem>())
             {
 				ParticleSystem.MainModule main = system.main;
-				main.startColor = Color.green;
+				main.startColor = Color.yellow;
+				ParticleSystem.ColorOverLifetimeModule coL = system.colorOverLifetime;
+				coL.color = Color.yellow;
             }
 			this.currentFB.attack.SetAttackInfo(this.parent.skillCategory, this.skillID, (!this.isUltimate) ? ((!this.IsEmpowered) ? 1 : 2) : 3, this.isUltimate);
 			this.currentFB.attack.knockbackOverwriteVector = this.inputVector;
@@ -113,7 +115,7 @@ namespace Mythical
 		}
 
 		// Token: 0x0400357A RID: 13690
-		public new static string staticID = "Mythical::UsePoisonBlast";
+		public new static string staticID = "Mythical::UseRadiantBlast";
 
 		// Token: 0x0400357B RID: 13691
 		private FireBlast currentFB;

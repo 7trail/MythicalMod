@@ -26,12 +26,29 @@ namespace Mythical
             On.Player.SkillState.ctor += Skill_ctor;
             On.FSM.AddState += FSM_AddState;
             On.Player.SkillState.InitChargeSkillSettings += SkillState_InitChargeSkillSettings;
-            On.Attack.SetAttackInfo_string_string_int_bool += Attack_SetAttackInfo_string_string_int_bool;
+            //On.Attack.SetAttackInfo_string_string_int_bool += Attack_SetAttackInfo_string_string_int_bool;
+
+            On.Attack.ExecuteAttack += (On.Attack.orig_ExecuteAttack orig, Attack self, Collider2D col) =>
+            {
+                orig(self,col);
+                Debug.Log(self.atkInfo.skillID + " has dealt " + self.atkInfo.damage + ", data says to deal " + self.statData.GetValue<int>(StatData.damageStr,self.atkInfo.skillLevel) + " at level " + self.atkInfo.skillLevel);
+            };
+            
+
             On.GameController.Awake += delegate (On.GameController.orig_Awake orig, GameController self)
             {
                 orig.Invoke(self);
                 On.LootManager.ResetAvailableSkills += CatalogSkills;
                 On.StatManager.LoadData += AddSkills;
+                On.StatManager.GetSkillData += (On.StatManager.orig_GetSkillData orig2, string cat, string id) =>
+                {
+                    if (skillsDict.ContainsKey(id))
+                    {
+                        Debug.Log(skillsDict[id].finalData.GetValue<int>(StatData.damageStr,0));
+                        return skillsDict[id].finalData;
+                    }
+                    return orig2(cat, id);
+                };
             };
             On.CooldownManager.Add += CooldownManager_Add;
 
@@ -90,6 +107,8 @@ namespace Mythical
                     {
                         info.data.Initialize();
                         StatData data = new StatData(info.data, text);
+                        customDataDict[info.ID] = data;
+                        info.finalData = data;
                         if (data == null) { Debug.Log("Uh oh, it's null!"); }
                         Debug.Log("1");
                         dictionary[data.GetValue<string>("ID", -1)] = data;
@@ -100,6 +119,9 @@ namespace Mythical
                 }
             }
         }
+
+        static Dictionary<string, StatData> customDataDict = new Dictionary<string, StatData>();
+
         private static void CatalogSkills(On.LootManager.orig_ResetAvailableSkills orig)
         {
             bool flag = badentrypointsignal.Contains("Loot");
@@ -149,10 +171,13 @@ namespace Mythical
             {
                 Debug.Log("Constructing modded skill");
                 SkillInfo info = skillsDict[self.skillID];
-
+                self.skillData = info.finalData;
 
                 //self.name = info.displayName;
-                self.InitChargeSkillSettings(info.startingCharges, info.chargeCooldown, self.skillData, self);
+                if (info.startingCharges > 1)
+                {
+                    self.InitChargeSkillSettings(info.startingCharges, info.chargeCooldown, self.skillData, self);
+                }
             }
         }
 
@@ -205,69 +230,78 @@ namespace Mythical
             orig(self, id, time, data, state);
         }
 
+        static List<Player> loadedPlayers = new List<Player>();
         
 
 
         private static void FSM_AddState(On.FSM.orig_AddState orig, FSM self, IState newState)
         {
 
-            if (!hasLoadedNewSpells)
+            bool b = true;
+            if (newState is Player.SkillState)
             {
-                if (IconManager.skillIcons == null)
+                foreach (Player p in loadedPlayers)
                 {
-                    IconManager.skillIcons = IconManager.SkillIcons;
-                }
-                if (TextManager.skillInfoDict == null)
-                {
-                    TextManager.skillInfoDict = new Dictionary<string, TextManager.SkillInfo>();
-                }
-                if (newState is Player.SkillState)
-                {
-                    hasLoadedNewSpells = true;
-                    foreach (SkillInfo skill in skillsDict.Values)
+                    if(p== ((Player.SkillState)newState).parent)
                     {
-                        if (skill.isNewSkill)
+                        b = false;
+                    }
+                }
+                if (b)
+                {
+                    loadedPlayers.Add(((Player.SkillState)newState).parent);
+                    if (IconManager.skillIcons == null)
+                    {
+                        IconManager.skillIcons = IconManager.SkillIcons;
+                    }
+                    if (TextManager.skillInfoDict == null)
+                    {
+                        TextManager.skillInfoDict = new Dictionary<string, TextManager.SkillInfo>();
+                    }
+                
+                        hasLoadedNewSpells = true;
+                        foreach (SkillInfo skill in skillsDict.Values)
                         {
-
-                            Debug.Log("Pre State2 thing");
-                            Player.SkillState state = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
-                            Debug.Log("State 2 thing 1");
-                            state.parent.skillsDict[state.skillID] = state;
-                            //state.isUnlocked = true;
-                            Debug.Log("State 2 thing 2");
-                            IState newState2 = (IState)state;
-                            Debug.Log("Post State2 thing");
-                            if (self.states.ContainsKey(newState2.name))
+                            if (skill.isNewSkill)
                             {
 
+                                Debug.Log("Pre State2 thing");
+                                Player.SkillState state = DefaultInitFunction(self, ((Player.SkillState)newState), skill);
+                                Debug.Log("State 2 thing 1");
+                                state.parent.skillsDict[state.skillID] = state;
+                                //state.isUnlocked = true;
+                                Debug.Log("State 2 thing 2");
+                                IState newState2 = (IState)state;
+                                Debug.Log("Post State2 thing");
+                                if (self.states.ContainsKey(newState2.name))
+                                {
+
+                                }
+                                else
+                                {
+                                    self.AddState((IState)newState2);
+                                }
+                                SetInfo(skill);
+                                Debug.Log("Post Add State");
+                                if (!((Player.SkillState)newState).parent.cooldownManager.cooldowns.ContainsKey(skill.ID))
+                                {
+                                    Debug.Log("Adding Cooldown State for " + skill.ID);
+                                    Player.SkillState state3 = (Player.SkillState)newState;
+                                    ((Player.SkillState)newState).parent.cooldownManager.Add(skill.ID, skill.cooldown, null, state3);
+                                    ((Player.SkillState)newState).parent.cooldownManager.cooldowns[skill.ID].maxTime = skill.cooldown;
+                                    ((Player.SkillState)newState).parent.cooldownManager.cooldowns[skill.ID].maxChargeStat = new NumVarStat((float)skill.startingCharges, true);
+                                }
+                                Debug.Log("Post Add State 2");
                             }
-                            else
-                            {
-                                self.AddState((IState)newState2);
-                            }
-                            SetInfo(skill);
-                            Debug.Log("Post Add State");
-                            if (!((Player.SkillState)newState).parent.cooldownManager.cooldowns.ContainsKey(skill.ID))
-                            {
-                                Debug.Log("Adding Cooldown State for " + skill.ID);
-                                Player.SkillState state3 = (Player.SkillState)newState;
-                                ((Player.SkillState)newState).parent.cooldownManager.Add(skill.ID, skill.cooldown, null, state3);
-                                ((Player.SkillState)newState).parent.cooldownManager.cooldowns[skill.ID].maxTime = skill.cooldown;
-                                ((Player.SkillState)newState).parent.cooldownManager.cooldowns[skill.ID].maxChargeStat = new NumVarStat((float)skill.startingCharges, true);
-                            }
-                            Debug.Log("Post Add State 2");
                         }
-                    }
 
-                    foreach (SpellBookUI ui in UnityEngine.MonoBehaviour.FindObjectsOfType<SpellBookUI>())
-                    {
-                        ui.LoadEleSkillDict(((Player.SkillState)newState).parent);
-                    }
-                    GameDataManager.gameData.PushSkillData();
+                        foreach (SpellBookUI ui in UnityEngine.MonoBehaviour.FindObjectsOfType<SpellBookUI>())
+                        {
+                            ui.LoadEleSkillDict(((Player.SkillState)newState).parent);
+                        }
+                        GameDataManager.gameData.PushSkillData();
+
                 }
-
-            }
-            if (newState is Player.SkillState) { 
                 string str = ((Player.SkillState)newState).skillID;
                 if (skillsDict.ContainsKey(str) && !skillsDict[str].isNewSkill)
                 {
@@ -290,26 +324,29 @@ namespace Mythical
         private static AttackInfo Attack_SetAttackInfo_string_string_int_bool(
             On.Attack.orig_SetAttackInfo_string_string_int_bool orig, Attack self, string newSkillCat, string newSkillID, int newSkillLevel, bool newIsUltimate)
         {
-
-            AttackInfo oldAttackInfo = orig(self, newSkillCat, newSkillID, newSkillLevel, newIsUltimate);
-
             if (skillsDict.ContainsKey(newSkillID) && skillsDict[newSkillID].atkChanges)
             {
-                Debug.Log("Attack info tweaks");
-                AttackInfo newAttackInfo = skillsDict[newSkillID].attackInfo;
+                
+                AttackInfo newAttackInfo = self.GenerateAttackInfo(customDataDict[newSkillID],newSkillLevel,newIsUltimate);//skillsDict[newSkillID].attackInfo;
                 if (newAttackInfo == null)
                 {
                     //Utils.loge.LogError("couldn't load attackinfo json");
-                    return oldAttackInfo;
+                    AttackInfo oldAttackInfo2 = orig(self, newSkillCat, newSkillID, newSkillLevel, newIsUltimate);
+                    return oldAttackInfo2;
                 }
-
-                replaceAttackInfo(oldAttackInfo, newAttackInfo);
+                Debug.Log("Attack info tweaks");
+                //replaceAttackInfo(oldAttackInfo, newAttackInfo);
 
                 //Utils.SaveJson(stinkyAttackInfo, "stink");
                 //Utils.SaveJson(sexyAttackInfo, "sexy");
-
+                self.statData = customDataDict[newSkillID];
+                self.atkInfo = newAttackInfo;
                 return newAttackInfo;
+            } else
+            {
+
             }
+            AttackInfo oldAttackInfo = orig(self, newSkillCat, newSkillID, newSkillLevel, newIsUltimate);
 
             return oldAttackInfo;
         }
@@ -414,6 +451,7 @@ namespace Mythical
             public Player.SkillState finalState;
             public AttackInfo attackInfo;
             public SkillStats data;
+            public StatData finalData;
             public int startingCharges;
             public float cooldown;
             public float chargeCooldown;
@@ -424,6 +462,7 @@ namespace Mythical
             public Sprite skillIcon;
             public bool isNewSkill;
             public bool atkChanges;
+            public bool generateAtkInfo = false;
 
             public SkillInfo(string name = "Default")
             {

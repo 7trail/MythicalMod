@@ -14,7 +14,7 @@ namespace Mythical
             this.isCursed = true;
             this.ID = staticID;
             emp = new BoolVarStatMod(staticID, true, 10);
-            cooldownReduction = new NumVarStatMod(staticID, -0.4f, 10, VarStatModType.Multiplicative, false, false);
+            cooldownReduction = new NumVarStatMod(staticID, -0.4f, 10, VarStatModType.Multiplicative, false);
         }
 
         public override void Activate()

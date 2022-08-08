@@ -893,6 +893,11 @@ namespace Mythical {
                 return true;
             };
 
+            On.Outfit.OutfitIsInUse += (On.Outfit.orig_OutfitIsInUse orig, string id, int playerID) =>
+            {
+                return GameDataManager.gameData.playerData[playerID].outfitName == id;
+            };
+
             //Adjustments
             /*On.PlatWallet.ctor += (On.PlatWallet.orig_ctor orig, PlatWallet self, int i) =>
             {
@@ -1231,9 +1236,6 @@ namespace Mythical {
             {
                 self.spriteMaterial.SetFloat("_PaletteCount", 32 + palettes.Count);
                 self.spriteMaterial.SetTexture("_Palette", newPalette);
-                
-
-
             }
 
             //orig(self, mod, givenStatus);

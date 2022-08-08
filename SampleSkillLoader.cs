@@ -16,8 +16,18 @@ namespace Mythical
             //ElementType element = Elements.Register(newElement);
             //Debug.Log("New element name: " + element.ToString());
 
-            Skills.SkillInfo skillInfo = new Skills.SkillInfo("Fire Storm");
-            skillInfo.ID = "Mythical::FireStorm";
+            ElementInfo newElement = new ElementInfo();
+            newElement.name = "Radiant";
+            newElement.color = Color.yellow;
+            newElement.weakTo = new List<ElementType>() { ElementType.Chaos};
+            newElement.icon = ImgHandler.LoadSprite("radiant");
+            newElement.iconInk = newElement.icon;
+            newElement.impactAudioID = "ImpactShield";
+            ElementType element = Elements.Register(newElement);
+
+
+            Skills.SkillInfo skillInfo = new Skills.SkillInfo("Retribution Storm");
+            skillInfo.ID = "Mythical::RadiantStorm";
             skillInfo.description = "Create an explosion where you dash!";
             skillInfo.empowered = "Create an explosion where you land as well!";
             skillInfo.cooldown = 2;
@@ -28,12 +38,12 @@ namespace Mythical
             skillInfo.skillIcon = Extensions.loadSprite("firestorm");
             skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
             skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData1.json");
-            skillInfo.elementType = ElementType.Fire;
+            skillInfo.elementType = element;
 
             Skills.Register(skillInfo);
 
-            skillInfo = new Skills.SkillInfo("Morning Breath");
-            skillInfo.ID = "Mythical::UsePoisonBlast";
+            skillInfo = new Skills.SkillInfo("Cloud of God");
+            skillInfo.ID = "Mythical::UseRadiantBlast";
             skillInfo.description = "Create a burst of poison!";
             skillInfo.empowered = "Poison is more powerful!";
             skillInfo.cooldown = 7;
@@ -45,23 +55,24 @@ namespace Mythical
             skillInfo.attackInfo = null;
             //skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo2.json");
             skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData2.json");
-            skillInfo.elementType = ElementType.Earth;
+            skillInfo.elementType = element;
 
             Skills.Register(skillInfo);
             
             skillInfo = new Skills.SkillInfo("Poison Beam");
-            skillInfo.ID = "Mythical::UsePoisonBeam";
+            skillInfo.ID = "Mythical::UseRadiantBeam";
             skillInfo.description = "Hello! This is the part where I kill you!";
             skillInfo.empowered = "Kill you faster";
-            skillInfo.cooldown = 1;
+            skillInfo.cooldown = 0.5f;
             skillInfo.chargeCooldown = 0;
-            skillInfo.startingCharges = 10;
+            skillInfo.startingCharges = 5;
             skillInfo.newState = typeof(UsePoisonBeam);
             skillInfo.isNewSkill = true;
+            skillInfo.atkChanges = true;
             skillInfo.skillIcon = Extensions.loadSprite("poisonBeam");
             //skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
             skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData3.json");
-            skillInfo.elementType = ElementType.Earth;
+            skillInfo.elementType = element;
 
             Skills.Register(skillInfo);
 
