@@ -24,7 +24,7 @@ namespace Mythical
 		}
 		public static Texture2D LoadTex2D(string path,bool pointFilter=false)
         {
-			string path2 = "Sprites/" + path + ".png";
+			string path2 = "SpritesMythic/" + path + ".png";
 			string text = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path2);
 			Texture2D texture2D = ImgHandler.LoadPNG(text,pointFilter);
 			if (pointFilter)
