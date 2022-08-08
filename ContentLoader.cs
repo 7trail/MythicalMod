@@ -28,7 +28,7 @@ namespace Mythical {
     //     Customary to follow Semantic Versioning (major.minor.patch). 
     //         You don't have to, but you'll just look silly in front of everyone. It's ok. I won't make fun of you.
     #endregion
-    [BepInPlugin("Amber.Mythical", "Mythical", "0.1.0")]
+    [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "0.1.0")]
     public class ContentLoader : BaseUnityPlugin { 
         #region BaseUnityPlugin Notes
         // BaseUnityPlugin is the main class that gets loaded by bepin.
