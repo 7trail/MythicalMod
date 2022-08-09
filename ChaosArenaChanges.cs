@@ -38,8 +38,8 @@ namespace Mythical
 
             tilesets.Add(new ArenaDef()
             {
-                name = "Purple",
-                description = "vague attempt at a stage",
+                name = "Dorm",
+                description = "Face the Contestant Assault!",
                 position = new Vector3(-19, -6.5f, 0),
                 //tileset = ImgHandler.LoadTex2D("Arenas/tileset1", true),
                 layout= ImgHandler.LoadTex2D("Arenas/arena1"),
@@ -110,9 +110,16 @@ namespace Mythical
                     Pathfinder.GenerateNodeMap(self.selectedRoom.tileGrid);
 
                     // Ultra Council Challenge spawn
-                    if (tilesets[arenaTileID].name=="Domicile" && ContentLoader.StageEffects)
+                    if (ContentLoader.StageEffects)
                     {
-                        self.gameObject.AddComponent<UltraCouncilChallenge>().self=self;
+                        switch (tilesets[arenaTileID].name) {
+                            case "Domicile":
+                                self.gameObject.AddComponent<UltraCouncilChallenge>().self = self;
+                                break;
+                            case "Dorm":
+                                self.gameObject.AddComponent<ContestantAssault>().self = self;
+                                break;
+                        }
                     }
 
                 } else
@@ -332,6 +339,12 @@ namespace Mythical
                             s.baseRenderer.sprite = s.baseVars.GetElementalSprite(s.element);
                             s.floorRenderer.sprite = s.floorVars.GetElementalSprite(s.element);
                         }
+
+                        foreach(SortSpriteLayer layer in s.GetComponentsInChildren<SortSpriteLayer>())
+                        {
+                            layer.enabled = true;
+                        }
+
                     }
                 }
             }

@@ -90,3 +90,7 @@ C:\Users\t1239901_s\source\repos\MythicalMod\bin\Debug\Rewired_Core.dll
 C:\Users\t1239901_s\source\repos\MythicalMod\bin\Debug\Rewired_Linux.dll
 C:\Users\t1239901_s\source\repos\MythicalMod\bin\Debug\Rewired_OSX.dll
 C:\Users\t1239901_s\source\repos\MythicalMod\bin\Debug\Rewired_Windows.dll
+C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\Rewired_Core.dll
+C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\Rewired_Linux.dll
+C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\Rewired_OSX.dll
+C:\Users\t1239901_s\source\repos\7trail\MythicalMod\bin\Debug\Rewired_Windows.dll

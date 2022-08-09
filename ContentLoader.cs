@@ -447,14 +447,36 @@ namespace Mythical {
 
             outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Icarus";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Icarus", 64, new List<global::OutfitModStat>
+            outfitInfo2.outfit = new global::Outfit("Mythical::Icarus2", 64, new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false),
                 new OutfitModStat(OutfitModStat.OutfitModType.Health,250,0,0,false)
             }, false, false) ;
-            outfitInfo2.customDesc = ((bool b) => "Melt'em Down!");
+            outfitInfo2.customDesc = ((bool b) => "Melt'em Down! Reward for completing the Contestant Assault.");
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
+            };
+            outfitInfo2.unlockCondition = () =>
+            {
+                return PlayerPrefs.GetInt("mythical::CA", 0) == 1;
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Gaia";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Gaia2", 65, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false),
+                new OutfitModStat(OutfitModStat.OutfitModType.Fall,0,0,0,true)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "The Bearer of Life! Reward for completing the Contestant Assault.");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+                player.regenDelay = b2 ? 3 : 8;
+            };
+            outfitInfo2.unlockCondition = () =>
+            {
+                return PlayerPrefs.GetInt("mythical::CA", 0) == 1;
             };
             Outfits.Register(outfitInfo2);
 
@@ -462,9 +484,11 @@ namespace Mythical {
             outfitInfo2.name = "Goddess";
             outfitInfo2.outfit = new global::Outfit("Mythical::Goddess", 54, new List<global::OutfitModStat>
             {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false),
+                new OutfitModStat(OutfitModStat.OutfitModType.Health,-200,0,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.Damage,0,0.2f,0,false)
             }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Awarded to the Lucky Few who successfully completed the Ultra Council Challenge!");
+            outfitInfo2.customDesc = ((bool b) => "Awarded to the Lucky Few who completed the Ultra Council Challenge!");
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
@@ -480,7 +504,7 @@ namespace Mythical {
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
             }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Awarded to the Lucky Few who successfully completed the Ultra Council Challenge!");
+            outfitInfo2.customDesc = ((bool b) => "Awarded to the Lucky Few who completed the Ultra Council Challenge!");
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
@@ -490,7 +514,7 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
-            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona","jade","thunder","frost","earth","goddess","challenger","academic","camo","cope","intangible","jupiter","malachite","opal","roar","icarus" };
+            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona","jade","thunder","frost","earth","goddess","challenger","academic","camo","cope","intangible","jupiter","malachite","opal","roar","icarus","gaia" };
             foreach(string robeName in robeNames)
             {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
@@ -629,6 +653,7 @@ namespace Mythical {
                     }
                     GameController.bosses.Clear();
                 }
+                
                 if (b && SpawnMiniBoss)
                 {
                     List<string> elements = new List<string>() { "Fire", "Earth", "Lightning", "Ice", "Air" };
@@ -817,25 +842,26 @@ namespace Mythical {
             };
             
             // Music
-            /*
-            LoadSong("Title","Sprites/Vaporwave.ogg");
-            LoadSong("PVPHub", "Sprites/Trap.ogg");
-            LoadSong("PVP", "Sprites/Rock.ogg");
-
-            On.SoundManager.PlayBGM += (On.SoundManager.orig_PlayBGM orig, string str) =>
-            {
-                if (!hasSwappedAudioClips)
-                {
-                    hasSwappedAudioClips = true;
-                    SoundManager.bgmDict["Boss"].clip = clipDict["PVP"];
-                    SoundManager.bgmDict["Hub"].clip = clipDict["PVPHub"];
-                    SoundManager.bgmDict["TitleScreen"].clip = clipDict["Title"];
-                }
-                orig(str);
-            };*/
-
-
             
+            LoadSong("TitleScreen","Sprites/Vaporwave.ogg");
+            LoadSong("Hub", "Sprites/Trap.ogg");
+            LoadSong("Boss", "Sprites/Rock.ogg");
+            
+            BGMInfo bgm = new BGMInfo()
+            {
+                name = "PvP",
+                fallback = BGMTrackType.Original,
+                message = "Do you want to hear the Council's sick beats?",
+                messageConfirm = "Fuck yes",
+                messageCancel = "Fuck no",
+                soundtrack = clipDict
+            };
+
+            LegendAPI.Music.Register(bgm);
+            
+            // Boss, Hub, TitleScreen
+
+
             /* No Longer Necessary
              
             On.Player.Start += (On.Player.orig_Start orig, Player self) =>
