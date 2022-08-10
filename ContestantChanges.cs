@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-
 namespace Mythical
 {
     public static class ContestantChanges
     {
         public static StatData tornadoData;
         public static bool hasLoadedChanges=false;
+        public static int skill = 0;
         public static void Init()
         {
             On.StatManager.LoadEnemySkills += (On.StatManager.orig_LoadEnemySkills orig, string s) =>
@@ -25,11 +25,39 @@ namespace Mythical
                 {
                     hasLoadedChanges = true;
 
-                    /*On.Contestant.Start += (On.Contestant.orig_Start orig2, Contestant self) =>
+                    On.Contestant.Start += (On.Contestant.orig_Start orig2, Contestant self) =>
                     {
                         orig2(self);
-                        self.fsm.ReplaceState("Tornado",new ContestantThunderSpreadState("Tornado",self.fsm,self));
-                    };*/
+                        self.skillCategory = "Enemy";
+                        skill++;
+                        skill = skill % 3;
+                        int[] paletteIDs = new int[3] {24,49,46};
+                        Material m = self.spriteRenderer.material;
+                        m.SetTexture("_Palette", ContentLoader.newPalette);
+                        m.SetFloat("_PaletteCount", 32 + ContentLoader.palettes.Count);
+                        m.SetFloat("_PaletteIndex", paletteIDs[skill]);
+                        
+                        
+                        switch (skill)
+                        {
+                            case 0:
+                                break;
+                            case 1:
+                                self.fsm.ReplaceState("Tornado", new ContestantAirShieldState("Tornado", self.fsm, self));
+                                self.fsm.ReplaceState("Fireball", new ContestantIonSpreadState("Fireball", self.fsm, self));
+                                break;
+                            case 2:
+                                /*self.fsm.ReplaceState("SwordThrow", new ThunderMage.ThunderMageThunderWaveState("SwordThrow", self.fsm, self, 1, 1, 1, 1, 3)
+                                {
+                                    windupTime = 0.25f,
+                                    skillID="ThunderMageThunderWave"
+                                });*/ 
+                                self.fsm.ReplaceState("Fireball", new ContestantAquaBeamState("Fireball", self.fsm, self));
+                                //self.fsm.ReplaceState("Tornado", new ContestantDrillAttackState("Tornado", self.fsm, self));
+                                break;
+                        }
+
+                    };
 
 
                     On.Contestant.TornadoState.OnEnter += (On.Contestant.TornadoState.orig_OnEnter orig2, Contestant.TornadoState self) =>

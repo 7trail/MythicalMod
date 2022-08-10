@@ -29,7 +29,7 @@ namespace Mythical {
     //         You don't have to, but you'll just look silly in front of everyone. It's ok. I won't make fun of you.
     #endregion
     [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "1.8.0")]
-    public class ContentLoader : BaseUnityPlugin { 
+    public class ContentLoader : BaseUnityPlugin {
         #region BaseUnityPlugin Notes
         // BaseUnityPlugin is the main class that gets loaded by bepin.
         // It inherits from MonoBehaviour, so it gains all the familiar Unity callback functions you can use: 
@@ -41,6 +41,9 @@ namespace Mythical {
 
         // now, close these two Notes regions so the script looks little nicer to work with 
         #endregion
+        public static BepInEx.Configuration.ConfigEntry<int> configContestantCount;
+
+        //----------------
         public static List<Texture2D> palettes = new List<Texture2D>();
         public List<Sprite> titleScreens = new List<Sprite>();
         public bool hasAddedTitleCards;
@@ -50,6 +53,16 @@ namespace Mythical {
         public Sprite cherrySprite;
         public Sprite basePalette;
         public Sprite orangeSprite;
+
+        void CreateConfig()
+        {
+            configContestantCount =
+                Config.Bind<int>("Tournament Edition",
+                                 "Contestants",
+                                 6,
+                                 "How many Contestants you want to spawn. Defaults to 6.");
+        }
+
         void Awake() {
 
             //Skills.Awake();
@@ -616,6 +629,13 @@ namespace Mythical {
                     Debug.Log("Spawn Bosses");
                     SpawnMiniBoss = true;
                 }
+                if (self.name.Contains("SaveArcana") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Arcana Will Be Saved", 3f);
+                    Debug.Log("Save Arcana");
+                    SaveArcana = true;
+                }
+
                 if (self.name.Contains("NoBuffs") && inPVPScene)
                 {
                     GameUI.BroadcastNoticeMessage("Robe Effects Disabled", 3f);
@@ -961,6 +981,7 @@ namespace Mythical {
                 orig(self, b&&(RobeBuffs), b2 && (RobeBuffs));
             };
 
+
             //Adjustments
             /*On.PlatWallet.ctor += (On.PlatWallet.orig_ctor orig, PlatWallet self, int i) =>
             {
@@ -1030,7 +1051,6 @@ namespace Mythical {
         public static AssetBundle playerBundle;
         public static Texture2D newPlayerSprite;
 
-        public static Dictionary<int, string> pvpItems = new Dictionary<int, string>();
         public bool hasSwappedAudioClips = false;
         public bool hasAddedPalettes = false;
         public static bool SpawnPickups = true;
@@ -1115,7 +1135,8 @@ namespace Mythical {
                     ChaosArenaChanges.AddCustomArenaPortals();
 
                     GameObject mimi = MimicNpc.Prefab;
-                    pvpItems = new Dictionary<int, string>();
+                    pvpItems = new Dictionary<int, List<string>>();
+                    arcana = new Dictionary<int, List<string>>();
                     Instantiate(mimi, new Vector3(0, 8, 0), Quaternion.identity);
 
                     SpawnPickups = true;
@@ -1125,7 +1146,7 @@ namespace Mythical {
                     Depletion = false;
                     BestTo3 = false;
                     SpawnMiniBoss = false;
-
+                    SaveArcana = false;
                     
 
                     GameObject noPickups = Instantiate(Tree.Prefab, new Vector3(-11, -3, 0), Quaternion.identity);
@@ -1136,37 +1157,33 @@ namespace Mythical {
                     noEffects.name = "NoEffects";
                     announcementPairs[noEffects] = "Disable the arenas' special effects!";
 
-                    GameObject noHazards = Instantiate(Tree.Prefab, new Vector3(23, 3, 0), Quaternion.identity);
+                    GameObject noHazards = Instantiate(MetalBarrelDeco.Prefab, new Vector3(23, 5, 0), Quaternion.identity);
                     noHazards.name = "NoHazards";
                     announcementPairs[noHazards] = "Disable the arenas' dangerous hazards!";
 
-                    GameObject monoDrops = Instantiate(Tree.Prefab, new Vector3(-23, 3, 0), Quaternion.identity);
+                    GameObject monoDrops = Instantiate(MetalBarrelDeco.Prefab, new Vector3(-23, 5, 0), Quaternion.identity);
                     monoDrops.name = "MonoDrops";
                     announcementPairs[monoDrops] = "Only drops spells of types already held! (Currently basics only for performance sake)";
 
-                    GameObject bestTo3 = Instantiate(Tree.Prefab, new Vector3(8, 3, 0), Quaternion.identity);
+                    GameObject bestTo3 = Instantiate(MetalBarrelDeco.Prefab, new Vector3(8, 3, 0), Quaternion.identity);
                     bestTo3.name = "BestTo3";
                     announcementPairs[bestTo3] = "Makes matches first to 3 instead of first to 2!";
 
-                    GameObject spawnMB = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
+                    GameObject spawnMB = Instantiate(MetalBarrelDeco.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
                     spawnMB.name = "SpawnMB";
                     announcementPairs[spawnMB] = "Spawn strong foes at the start of each round!";
 
-                    GameObject noBuffs = Instantiate(Tree.Prefab, new Vector3(-16, 2, 0), Quaternion.identity);
+                    GameObject noBuffs = Instantiate(MetalBarrelDeco.Prefab, new Vector3(-16, 3, 0), Quaternion.identity);
                     noBuffs.name = "NoBuffs";
                     announcementPairs[noBuffs] = "Disable robe buffs for the match!";
+
+                    GameObject saveArcana = Instantiate(MetalBarrelDeco.Prefab, new Vector3(16, 3, 0), Quaternion.identity);
+                    saveArcana.name = "SaveArcana";
+                    announcementPairs[saveArcana] = "Save arcana picked up between rounds!";
 
                     //GameObject depletion = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
                     //depletion.name = "Depletion";
                     //announcementPairs[depletion] = "Player health will slowly decay!";
-
-                    foreach (Tree tree in FindObjectsOfType<Tree>())
-                    {
-                        tree.health.healthStat.BaseValue = 100;
-                        tree.health.CurrentHealthValue = 100;
-                    }
-
-
 
                     foreach (GameObject obj in GameObject.FindObjectsOfType<GameObject>())
                     {
@@ -1175,6 +1192,27 @@ namespace Mythical {
                             Destroy(obj);
                         }
                     }
+
+                    foreach (GameObject t in announcementPairs.Keys)
+                    {
+                        if (t != null)
+                        {
+                            Destructible tree = t.GetComponentInChildren<Destructible>();
+                            if (tree != null)
+                            {
+                                //tree.l
+                                tree.destroyOnContact = false;
+                                tree.health.healthStat.BaseValue = 100;
+                                tree.health.CurrentHealthValue = 100;
+                                tree.health.healthStat.ModifiedValue = 100;
+                                tree.health.healthStat.CurrentValue = 100;
+                            }
+                        }
+                    }
+
+
+
+                    
 
                 }
 
@@ -1238,7 +1276,6 @@ namespace Mythical {
                             }
 
                             p.AssignSkillSlot(1, "Dash", false, false);
-
                         } else if (relic == "TokenBanker")
                         {
                             string id = LootManager.GetSkillID(false, false);
@@ -1249,6 +1286,7 @@ namespace Mythical {
                         {
                             UpgradePlayer.Upgrade(p);
                         }
+                        p.lowerHUD.cooldownUI.RefreshEntries();
                     }
                 }
             }
@@ -1323,6 +1361,7 @@ namespace Mythical {
             //orig(self, mod, givenStatus);
             
         }
+        public static bool SaveArcana = false;
         public static Texture2D FillColorAlpha(Texture2D tex2D, Color32? fillColor = null)
         {
             if (fillColor == null)
@@ -1337,6 +1376,10 @@ namespace Mythical {
             tex2D.SetPixels32(fillPixels);
             return tex2D;
         }
+
+        public static Dictionary<int, List<string>> pvpItems = new Dictionary<int, List<string>>();
+        public static Dictionary<int, List<string>> arcana = new Dictionary<int, List<string>>();
+        public static Dictionary<int, List<bool>> arcanaEnhance = new Dictionary<int, List<bool>>();
         public void PvpController_ResetPlayers(On.PvpController.orig_ResetPlayers orig, PvpController self, bool b)
         {
             orig(self, b);
@@ -1347,9 +1390,25 @@ namespace Mythical {
                 {
 
                     //p.inventory.AddItem(p.inventory.GetItem(pvpItems[i]));
-                    p.GiveDesignatedItem(pvpItems[i]);
+                    foreach (string s in pvpItems[i])
+                    {
+                        p.GiveDesignatedItem(s);
+                    }
                     
                 }
+
+                if (SaveArcana && arcana.ContainsKey(i))
+                {
+                    int a = 0;
+                    foreach(string s in arcana[i])
+                    {
+                        p.AssignSkillSlot(a+4, s, false,false);
+                        p.assignedSkills[a + 4].SetEmpowered(arcanaEnhance[i][a], EmpowerStatMods.DefaultEmpowerMod);
+                        a++;
+                    }
+                    p.lowerHUD.cooldownUI.RefreshEntries();
+                }
+
                 i++;
             }
 
@@ -1358,7 +1417,9 @@ namespace Mythical {
 
         public void PvpController_ResetStage(On.PvpController.orig_ResetStage orig, PvpController self, bool b)
         {
-            pvpItems = new Dictionary<int, string>();
+            pvpItems = new Dictionary<int, List<string>>();
+            arcana = new Dictionary<int, List<string>>();
+            arcanaEnhance = new Dictionary<int, List<bool>>();
             int i = 0;
             try
             {
@@ -1370,9 +1431,36 @@ namespace Mythical {
                         {
                             if (p.inventory.itemDict.Count > 0)
                             {
-                                pvpItems[i] = p.inventory.itemDict.ElementAt(0).Key;
+                                List<string> str = new List<string>();
+                                foreach(string s in p.inventory.itemDict.Keys)
+                                {
+                                    str.Add(s);
+                                }
+                                pvpItems[i] = str;
                             }
                         }
+
+                        List<string> a = new List<string>();
+                        List<bool> bo = new List<bool>();
+                        if (p.assignedSkills[4] != null)
+                        {
+                            a.Add(p.assignedSkills[4].skillID);
+                            bo.Add(p.assignedSkills[4].IsEmpowered);
+                        }
+                        if (p.assignedSkills[5] != null)
+                        {
+                            a.Add(p.assignedSkills[5].skillID);
+                            bo.Add(p.assignedSkills[5].IsEmpowered);
+                        }
+                        if (a.Count>0 && !b)
+                        {
+                            arcana[i] = a;
+                            arcanaEnhance[i] = bo;
+                        }
+
+                        
+                        
+
                         i++;
                     }
                 }
