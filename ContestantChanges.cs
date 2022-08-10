@@ -31,7 +31,7 @@ namespace Mythical
                         self.skillCategory = "Enemy";
                         skill++;
                         skill = skill % 3;
-                        int[] paletteIDs = new int[3] {24,49,46};
+                        int[] paletteIDs = new int[3] {24,49,65};
                         Material m = self.spriteRenderer.material;
                         m.SetTexture("_Palette", ContentLoader.newPalette);
                         m.SetFloat("_PaletteCount", 32 + ContentLoader.palettes.Count);

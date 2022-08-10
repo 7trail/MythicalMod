@@ -72,7 +72,7 @@ namespace Mythical {
             //Screen.SetResolution(1200, 675, false);
 
             // LETS FUCKING GO
-
+            CreateConfig();
             ContestantChanges.Init();
             UltraCouncilChallenge.Init();
             

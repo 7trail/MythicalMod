@@ -189,13 +189,14 @@ namespace Mythical
             SoundManager.PlayAudio("MetalBell", 1f, false, -1f, -1f);
             GameController.stageTitleUI.AnnounceFight("GO!");
             self.TogglePlayerInvulnerable(false);
-            for(int i = 0; i < 6; i++)
+            int ct = ContentLoader.configContestantCount.Value;
+            for (int i = 0; i < ct; i++)
             {
                 Enemy boss = null;
                 try
                 {
                     float a = i;
-                    Vector3 position = ChaosArenaChanges.offset+ new Vector3(Mathf.Cos(a),Mathf.Sin(a),0)*6;
+                    Vector3 position = ChaosArenaChanges.offset+ new Vector3(Mathf.Cos(a),Mathf.Sin(a),0)* 6;
                     boss = Enemy.Spawn(Enemy.EName.Contestant,position);
 
                     //boss.fsm.ChangeState(boss.bossReadyState.name, false);
