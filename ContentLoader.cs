@@ -459,6 +459,78 @@ namespace Mythical {
             Outfits.Register(outfitInfo2);
 
             outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Patina";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Patina", 66, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Aged Like Wine");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Pigmented";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Pigmented", 67, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "A Colorful Embrace");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Cerberus";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Cerberus", 68, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Trash Taste, Loser");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Abysmal";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Abysmal", 69, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "i feel like desperately trying to beg for more matches with covetous");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Verde";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Verde", 70, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Better Call Saul!");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Lunes";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Lunes", 71, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Feliz Jueves");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+
+            outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Icarus";
             outfitInfo2.outfit = new global::Outfit("Mythical::Icarus2", 64, new List<global::OutfitModStat>
             {
@@ -527,7 +599,7 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
-            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona","jade","thunder","frost","earth","goddess","challenger","academic","camo","cope","intangible","jupiter","malachite","opal","roar","icarus","gaia" };
+            List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona","jade","thunder","frost","earth","goddess","challenger","academic","camo","cope","intangible","jupiter","malachite","opal","roar","icarus","gaia","patina","pigmented","cerberus","abysmal","verde","lunes" };
             foreach(string robeName in robeNames)
             {
                 palettes.Add(ImgHandler.LoadTex2D(robeName));
