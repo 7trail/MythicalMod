@@ -51,6 +51,7 @@ namespace Mythical {
         public bool hasAddedTitleCards;
         public static bool ChaosDrops = false;
         public static bool UseBanlist = false;
+        public static bool FreezeStartPositions = false;
         // This Awake() function will run at the very start when the mod is initialized
 
         public Sprite cherrySprite;
@@ -869,6 +870,14 @@ namespace Mythical {
                     UseBanlist = true;
                 }
 
+                if (self.name.Contains("Freeze") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Freeze Position Enabled", 3f);
+                    Debug.Log("Freeze Enabled");
+
+                    UseBanlist = true;
+                }
+
                 orig(self);
             };
 
@@ -931,6 +940,28 @@ namespace Mythical {
                 {
                     self.maxRoundCount += 2;
                 }
+            };
+
+            On.PvpController.TogglePlayerInvulnerable += (On.PvpController.orig_TogglePlayerInvulnerable orig, PvpController self, bool b) =>
+            {
+                for (int i = 0; i < GameController.players.Count; i++)
+                {
+                    Player p = GameController.players[i].GetComponent<Player>();
+                    if (FreezeStartPositions)
+                    {
+                        if (b)
+                        {
+                            valueIndex[i] = p.movement.moveSpeedStat.CurrentValue;
+                            p.movement.moveSpeedStat.CurrentValue = 0;
+                        } else
+                        {
+                            p.movement.moveSpeedStat.CurrentValue = valueIndex[i];
+                        }
+                        
+                        
+                    }
+                }
+                orig(self,b);
             };
 
 
@@ -1185,6 +1216,7 @@ namespace Mythical {
                         orig3(v, a, id, l, s, set, life, emp);
                     };
 
+                    
 
                     addedGMHooks = true;
                     ChaosArenaChanges.Init();
@@ -1224,8 +1256,10 @@ namespace Mythical {
 
 
         }
+        public static float[] valueIndex = new float[2] {0,0};
         public static bool RobeBuffs = true;
         public static bool SpawnMiniBoss = false;
+        public static bool FreezeEnabled = false;
         public void Update()
         {
 
@@ -1380,6 +1414,7 @@ namespace Mythical {
                     SpawnMiniBoss = false;
                     SaveArcana = false;
                     UseBanlist=false;
+                    FreezeStartPositions = false;
 
                     GameObject noPickups = Instantiate(Tree.Prefab, new Vector3(-11, -3, 0), Quaternion.identity);
                     noPickups.name = "NoPickups";
@@ -1416,6 +1451,10 @@ namespace Mythical {
                     GameObject banBarrel = Instantiate(MetalBarrelDeco.Prefab, new Vector3(23, 15, 0), Quaternion.identity);
                     banBarrel.name = "UseBanList";
                     announcementPairs[banBarrel] = "Use the banlist in the plugins folder!";
+
+                    GameObject freezeBarrel = Instantiate(MetalBarrelDeco.Prefab, new Vector3(23, 15, 0), Quaternion.identity);
+                    freezeBarrel.name = "Freeze";
+                    announcementPairs[banBarrel] = "Disable movement and attacks until round begins!";
 
                     //GameObject depletion = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
                     //depletion.name = "Depletion";
