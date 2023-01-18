@@ -1168,7 +1168,7 @@ namespace Mythical {
                                 finalResult = orig2(l, s);
                             }
 
-                            if (!UseBanList||!bannedArcana.Contains(finalResult)){
+                            if (!ContentLoader.UseBanlist||!bannedArcana.Contains(finalResult)){
                                 break;
                             }
 
