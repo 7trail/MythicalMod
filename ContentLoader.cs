@@ -50,6 +50,7 @@ namespace Mythical {
         public List<Sprite> titleScreens = new List<Sprite>();
         public bool hasAddedTitleCards;
         public static bool ChaosDrops = false;
+        public static bool UseBanlist = false;
         // This Awake() function will run at the very start when the mod is initialized
 
         public Sprite cherrySprite;
@@ -859,6 +860,15 @@ namespace Mythical {
 
                     RobeBuffs = false;
                 }
+
+                if (self.name.Contains("UseBanList") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Arcana Banlist Enabled", 3f);
+                    Debug.Log("Arcana Banlist Enabled");
+
+                    UseBanlist = true;
+                }
+
                 orig(self);
             };
 
@@ -1158,7 +1168,9 @@ namespace Mythical {
                                 finalResult = orig2(l, s);
                             }
 
-
+                            if (!UseBanList||!bannedArcana.Contains(finalResult)){
+                                break;
+                            }
 
                         }
                         return finalResult;
@@ -1367,7 +1379,7 @@ namespace Mythical {
                     BestTo3 = false;
                     SpawnMiniBoss = false;
                     SaveArcana = false;
-                    
+                    UseBanlist=false;
 
                     GameObject noPickups = Instantiate(Tree.Prefab, new Vector3(-11, -3, 0), Quaternion.identity);
                     noPickups.name = "NoPickups";
@@ -1400,6 +1412,10 @@ namespace Mythical {
                     GameObject saveArcana = Instantiate(MetalBarrelDeco.Prefab, new Vector3(16, 3, 0), Quaternion.identity);
                     saveArcana.name = "SaveArcana";
                     announcementPairs[saveArcana] = "Save arcana picked up between rounds!";
+
+                    GameObject banBarrel = Instantiate(MetalBarrelDeco.Prefab, new Vector3(23, 0, 0), Quaternion.identity);
+                    banBarrel.name = "UseBanList";
+                    announcementPairs[banBarrel] = "Use the banlist in the plugins folder!";
 
                     //GameObject depletion = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
                     //depletion.name = "Depletion";
