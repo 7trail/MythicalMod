@@ -1413,7 +1413,7 @@ namespace Mythical {
                     saveArcana.name = "SaveArcana";
                     announcementPairs[saveArcana] = "Save arcana picked up between rounds!";
 
-                    GameObject banBarrel = Instantiate(MetalBarrelDeco.Prefab, new Vector3(20, 6, 0), Quaternion.identity);
+                    GameObject banBarrel = Instantiate(MetalBarrelDeco.Prefab, new Vector3(23, 15, 0), Quaternion.identity);
                     banBarrel.name = "UseBanList";
                     announcementPairs[banBarrel] = "Use the banlist in the plugins folder!";
 
