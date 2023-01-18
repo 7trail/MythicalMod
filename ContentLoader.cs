@@ -46,6 +46,7 @@ namespace Mythical {
 
         //----------------
         public static List<Texture2D> palettes = new List<Texture2D>();
+        public static List<string> bannedArcana = new List<string>();
         public List<Sprite> titleScreens = new List<Sprite>();
         public bool hasAddedTitleCards;
         public static bool ChaosDrops = false;
@@ -299,8 +300,6 @@ namespace Mythical {
             {
             };
             Outfits.Register(outfitInfo2);
-
-
 
             outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Empress";
@@ -742,6 +741,8 @@ namespace Mythical {
                     Outfits.Register(outfitInfo2);
                 }
             }
+            text = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Banlist.txt");
+            bannedArcana = File.ReadAllLines(text).ToList();
 
             // Title screen additions
 
@@ -1088,6 +1089,8 @@ namespace Mythical {
             };
 
             LegendAPI.Music.Register(bgm);
+
+            
             
             // Boss, Hub, TitleScreen
 
@@ -1122,36 +1125,43 @@ namespace Mythical {
                 {
                     On.LootManager.GetSkillID += (On.LootManager.orig_GetSkillID orig2, bool l, bool s) =>
                     {
-                        if (ChaosDrops && inAPVPScene && UnityEngine.Random.value < 0.25f)
-                        {
-                            return LootManager.chaosSkillList[UnityEngine.Random.Range(0, LootManager.chaosSkillList.Count)];
-                        }
-                        else if (MonoElementDrops && inAPVPScene)
-                        {
-
-                            List<ElementType> usableElements = new List<ElementType>();
-                            if (monoskills.Count == 0)
+                        string finalResult = "";
+                        while(true) {
+                            if (ChaosDrops && inAPVPScene && UnityEngine.Random.value < 0.25f)
                             {
-                                for (int i = 0; i < GameController.players.Count; i++)
-                                {
-                                    usableElements.Add(GameController.players[i].GetComponent<Player>().assignedSkills[0].element);
-                                }
+                                finalResult= LootManager.chaosSkillList[UnityEngine.Random.Range(0, LootManager.chaosSkillList.Count)];
+                            }
+                            else if (MonoElementDrops && inAPVPScene)
+                            {
 
-                                for (int i = 0; i < LootManager.completeSkillList.Count; i++)
+                                List<ElementType> usableElements = new List<ElementType>();
+                                if (monoskills.Count == 0)
                                 {
-                                    if (usableElements.Contains(GameController.players[0].GetComponent<Player>().GetSkill(LootManager.completeSkillList[i]).element))
+                                    for (int i = 0; i < GameController.players.Count; i++)
                                     {
-                                        // Debug.Log("Added " + LootManager.completeSkillList[i]);
-                                        monoskills.Add(LootManager.completeSkillList[i]);
+                                        usableElements.Add(GameController.players[i].GetComponent<Player>().assignedSkills[0].element);
+                                    }
+
+                                    for (int i = 0; i < LootManager.completeSkillList.Count; i++)
+                                    {
+                                        if (usableElements.Contains(GameController.players[0].GetComponent<Player>().GetSkill(LootManager.completeSkillList[i]).element))
+                                        {
+                                            // Debug.Log("Added " + LootManager.completeSkillList[i]);
+                                            monoskills.Add(LootManager.completeSkillList[i]);
+                                        }
                                     }
                                 }
+                                finalResult= monoskills[UnityEngine.Random.Range(0, monoskills.Count)];
                             }
-                            return monoskills[UnityEngine.Random.Range(0, monoskills.Count)];
+                            else
+                            {
+                                finalResult = orig2(l, s);
+                            }
+
+
+
                         }
-                        else
-                        {
-                            return orig2(l, s);
-                        }
+                        return finalResult;
                     };
 
                     On.LootManager.DropSkill += (On.LootManager.orig_DropSkill orig3, Vector3 v, int a, string id, float l, float s, HashSet<ElementType> set, bool life, bool emp) =>
