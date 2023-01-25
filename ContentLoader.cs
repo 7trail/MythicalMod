@@ -47,6 +47,7 @@ namespace Mythical {
         //----------------
         public static List<Texture2D> palettes = new List<Texture2D>();
         public static List<string> bannedArcana = new List<string>();
+        public static Dictionary<string, Texture2D> particles = new Dictionary<string, Texture2D>();
         public List<Sprite> titleScreens = new List<Sprite>();
         public bool hasAddedTitleCards;
         public static bool ChaosDrops = false;
@@ -132,6 +133,7 @@ namespace Mythical {
             outfitInfo.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
+            particles.Add("Mythical::Walter", ImgHandler.LoadTex2D("walterParticle"));
             Outfits.Register(outfitInfo);
 
             OutfitInfo outfitInfo2 = new OutfitInfo();
@@ -194,6 +196,7 @@ namespace Mythical {
             outfitInfo4.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
+            particles.Add("Mythical::Tycoon", ImgHandler.LoadTex2D("tycoonParticle"));
             Outfits.Register(outfitInfo4);
 
             OutfitInfo outfitInfo3 = new OutfitInfo();
@@ -265,6 +268,7 @@ namespace Mythical {
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
+            particles.Add("Mythical::Nemesis", ImgHandler.LoadTex2D("nemParticle"));
             Outfits.Register(outfitInfo2);
 
             outfitInfo2 = new OutfitInfo();
@@ -1456,9 +1460,9 @@ namespace Mythical {
                     banBarrel.name = "UseBanList";
                     announcementPairs[banBarrel] = "Use the banlist in the plugins folder!";
 
-                    GameObject freezeBarrel = Instantiate(MetalBarrelDeco.Prefab, new Vector3(23, 15, 0), Quaternion.identity);
-                    freezeBarrel.name = "Freeze";
-                    announcementPairs[banBarrel] = "Disable movement and attacks until round begins!";
+                    //GameObject freezeBarrel = Instantiate(MetalBarrelDeco.Prefab, new Vector3(23, 15, 0), Quaternion.identity);
+                    //freezeBarrel.name = "Freeze";
+                    //announcementPairs[banBarrel] = "Disable movement and attacks until round begins!";
 
                     //GameObject depletion = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
                     //depletion.name = "Depletion";
