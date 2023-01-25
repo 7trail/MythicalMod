@@ -48,6 +48,7 @@ namespace Mythical {
         public static List<Texture2D> palettes = new List<Texture2D>();
         public static List<string> bannedArcana = new List<string>();
         public static Dictionary<string, Texture2D> particles = new Dictionary<string, Texture2D>();
+        public static Dictionary<string, UnityEngine.Color> trails = new Dictionary<string, UnityEngine.Color>();
         public List<Sprite> titleScreens = new List<Sprite>();
         public bool hasAddedTitleCards;
         public static bool ChaosDrops = false;
@@ -286,6 +287,7 @@ namespace Mythical {
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
+            
             //Outfits.Register(outfitInfo2);
 
             outfitInfo2 = new OutfitInfo();
@@ -587,6 +589,7 @@ namespace Mythical {
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
+            trails.Add("Mythical::Rumor", UnityEngine.Color.red);
             Outfits.Register(outfitInfo2);
 
             outfitInfo2 = new OutfitInfo();
@@ -1160,6 +1163,7 @@ namespace Mythical {
             {
                 orig(self);
                 self.gameObject.AddComponent<TrailTEDManager>();
+                self.gameObject.AddComponent<TEDLineManager>();
             };
 
             // Boss, Hub, TitleScreen
@@ -1610,10 +1614,11 @@ namespace Mythical {
                             //UpgradePlayer.Upgrade(p); //Chaos reaper, chaotic rift, twin turbines, distortion beam, lightning dragons, mark of discord.
                             p.AssignSkillSlot(0, "UseChaosScytheBasic", false, false);
                             p.AssignSkillSlot(1, "ChaosDash", false, false);
-                            p.AssignSkillSlot(2, "UseShockBoomerang", false, false);
-                            p.AssignSkillSlot(3, "UseChaosBeam", false, false);
-                            p.AssignSkillSlot(4, "UseShockDragon", false, false);
-                            p.AssignSkillSlot(5, "UseChaosSwordSummon", false, false);
+                            p.AssignSkillSlot(2, "UseShockBoomerang", false, true);
+                            p.AssignSkillSlot(3, "UseIceBoomerang", false, true);
+                            p.AssignSkillSlot(4, "UseChaosBeam", false, false);
+                            p.AssignSkillSlot(5, "UseShockDragon", false, false);
+                            //p.AssignSkillSlot(5, "UseChaosSwordSummon", false, false);
                         }
                         p.lowerHUD.cooldownUI.RefreshEntries();
                     }

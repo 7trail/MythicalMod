@@ -48,30 +48,42 @@ namespace Mythical
             shape.shapeType = ParticleSystemShapeType.Circle;
             shape.radius = 0.25f;
 
-            
+            Search();
 
             //PoolManager.GetPoolItem<SectionedTrailEmitter>().emitParams.
-            foreach(Renderer r in FindObjectsOfType<Renderer>())
+            
+
+            pl = GetComponentInParent<Player>();
+        }
+        public Player pl;
+        public static Material m;
+        public Texture2D s;
+
+        void Search()
+        {
+            foreach (Renderer r in FindObjectsOfType<Renderer>())
             {
-                if (r.transform.root!=transform.root && r.material.shader!=null && !r.material.shader.name.ToLower().Contains("palette"))
+                if (r.transform.root != transform.root && r.material.shader != null && !r.material.shader.name.ToLower().Contains("palette"))
                 {
                     m = r.material;
                     break;
                 }
             }
-
-            pl = GetComponentInParent<Player>();
         }
-        public Player pl;
-        public Material m;
-        public Texture2D s;
+
         public void Update()
         {
             if (ContentLoader.particles.ContainsKey(pl.outfitID))
             {
                 g.SetActive(true);
-                (g.GetComponent<Renderer>()).material = m;
-                (g.GetComponent<Renderer>()).material.mainTexture = ContentLoader.particles[pl.outfitID];
+                if (m != null)
+                {
+                    (g.GetComponent<Renderer>()).material = m;
+                    (g.GetComponent<Renderer>()).material.mainTexture = ContentLoader.particles[pl.outfitID];
+                } else
+                {
+                    Search();
+                }
             } else
             {
                 g.SetActive(false);
