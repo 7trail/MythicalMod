@@ -1131,8 +1131,12 @@ namespace Mythical {
 
             LegendAPI.Music.Register(bgm);
 
-            
-            
+            On.Player.Start += (On.Player.orig_Start orig, Player self) =>
+            {
+                orig(self);
+                self.gameObject.AddComponent<TrailTEDManager>();
+            };
+
             // Boss, Hub, TitleScreen
 
 

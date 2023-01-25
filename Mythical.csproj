@@ -61,6 +61,7 @@
     <Compile Include="ModAccess.cs" />
     <Compile Include="StatusBarMod.cs" />
     <Compile Include="ContestantAssault.cs" />
+    <Compile Include="TrailTEDManager.cs" />
     <Compile Include="UltraCouncilChallenge.cs" />
     <Compile Include="UnEnhanceRelic.cs" />
     <Compile Include="UpgradePlayer.cs" />
