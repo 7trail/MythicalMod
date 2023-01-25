@@ -29,7 +29,7 @@ namespace Mythical {
     //     Customary to follow Semantic Versioning (major.minor.patch). 
     //         You don't have to, but you'll just look silly in front of everyone. It's ok. I won't make fun of you.
     #endregion
-    [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "1.8.0")]
+    [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "2.1.0")]
     public class ContentLoader : BaseUnityPlugin {
         #region BaseUnityPlugin Notes
         // BaseUnityPlugin is the main class that gets loaded by bepin.
@@ -43,7 +43,7 @@ namespace Mythical {
         // now, close these two Notes regions so the script looks little nicer to work with 
         #endregion
         public static BepInEx.Configuration.ConfigEntry<int> configContestantCount;
-
+        public static BepInEx.Configuration.ConfigEntry<bool> enableTicket;
         //----------------
         public static List<Texture2D> palettes = new List<Texture2D>();
         public static List<string> bannedArcana = new List<string>();
@@ -66,6 +66,11 @@ namespace Mythical {
                                  "Contestants",
                                  6,
                                  "How many Contestants you want to spawn. Defaults to 6.");
+            enableTicket =
+                Config.Bind<bool>("Tournament Edition",
+                                 "???",
+                                 false,
+                                 "WITH EVERYONE THAT FALLS, A MESSAGE IN THEIR WAKE");
         }
 
         public int nextAssignableID = 32;
@@ -736,7 +741,8 @@ namespace Mythical {
                     string[] split = data.Split(new string[] { "***BREAK***" }, System.StringSplitOptions.RemoveEmptyEntries);
                     outfitInfo2 = new OutfitInfo();
                     outfitInfo2.name = split[0];
-                    outfitInfo2.outfit = new global::Outfit(split[2] + "::" + split[0], AssignNewIDAlt(Convert.FromBase64String(split[3])), new List<global::OutfitModStat>
+                    string id = split[2] + "::" + split[0];
+                    outfitInfo2.outfit = new global::Outfit(id, AssignNewIDAlt(Convert.FromBase64String(split[3])), new List<global::OutfitModStat>
                     {
                         new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
                     }, false, false);
@@ -744,6 +750,21 @@ namespace Mythical {
                     outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
                     {
                     };
+
+                    if (split.Length > 4)
+                    {
+                        for (int i = 4; i < split.Length; i++)
+                        {
+                            if (split[i].StartsWith("particle::"))
+                            {
+                                string s = split[i].Replace("particle::", "");
+                                Texture2D tex = ImgHandler.LoadTex2D(id + " Particle", T2D: ImgHandler.LoadPNGAlt(Convert.FromBase64String(s)));
+                                particles.Add(id, tex);
+                                ;
+                            }
+                        }
+                    }
+
                     Outfits.Register(outfitInfo2);
                 }
             }
@@ -1253,6 +1274,21 @@ namespace Mythical {
                 orig(self, b&&(RobeBuffs), b2 && (RobeBuffs));
             };
 
+            if (enableTicket.Value)
+            {
+                ItemInfo itemInfo2 = new ItemInfo();
+                itemInfo2.name = "PrimeTicket";
+                itemInfo2.item = new PrimeTicket();
+                itemInfo2.tier = 1;
+                TextManager.ItemInfo text2 = default(TextManager.ItemInfo);
+                text2.displayName = "Arcana Ticket";
+                text2.description = "With everyone that falls, a message in their wake.";
+                text2.itemID = PrimeTicket.staticID;
+                Sprite sprite = ImgHandler.LoadSprite("ticket");
+                itemInfo2.text = text2;
+                itemInfo2.icon = ((sprite != null) ? sprite : null);
+                Items.Register(itemInfo2);
+            }
 
             //Adjustments
             /*On.PlatWallet.ctor += (On.PlatWallet.orig_ctor orig, PlatWallet self, int i) =>
@@ -1568,6 +1604,16 @@ namespace Mythical {
                         } else if (relic=="TokenTailor")
                         {
                             UpgradePlayer.Upgrade(p);
+                        }
+                        else if (relic == "PrimeTicket")
+                        {
+                            //UpgradePlayer.Upgrade(p); //Chaos reaper, chaotic rift, twin turbines, distortion beam, lightning dragons, mark of discord.
+                            p.AssignSkillSlot(0, "UseChaosScytheBasic", false, false);
+                            p.AssignSkillSlot(1, "ChaosDash", false, false);
+                            p.AssignSkillSlot(2, "UseShockBoomerang", false, false);
+                            p.AssignSkillSlot(3, "UseChaosBeam", false, false);
+                            p.AssignSkillSlot(4, "UseShockDragon", false, false);
+                            p.AssignSkillSlot(5, "UseChaosSwordSummon", false, false);
                         }
                         p.lowerHUD.cooldownUI.RefreshEntries();
                     }
