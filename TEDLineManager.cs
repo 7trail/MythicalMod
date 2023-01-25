@@ -53,8 +53,7 @@ namespace Mythical
             {
                 g.SetActive(true);
                 p.startColor = ContentLoader.trails[pl.outfitID];
-                p.endColor = ContentLoader.trails[pl.outfitID];
-
+                p.endColor = ContentLoader.trails2[pl.outfitID];
 
             }
             else

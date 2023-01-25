@@ -49,6 +49,18 @@ namespace Mythical {
         public static List<string> bannedArcana = new List<string>();
         public static Dictionary<string, Texture2D> particles = new Dictionary<string, Texture2D>();
         public static Dictionary<string, UnityEngine.Color> trails = new Dictionary<string, UnityEngine.Color>();
+        public static Dictionary<string, UnityEngine.Color> trails2 = new Dictionary<string, UnityEngine.Color>();
+
+        public static void RegisterTrail(string id, UnityEngine.Color clr1, UnityEngine.Color clr2)
+        {
+            trails[id] = clr1;
+            if (clr2 != null)
+            {
+                trails2[id] = clr2;
+            }
+        }
+
+
         public List<Sprite> titleScreens = new List<Sprite>();
         public bool hasAddedTitleCards;
         public static bool ChaosDrops = false;
@@ -216,6 +228,7 @@ namespace Mythical {
             {
             };
             Outfits.Register(outfitInfo3);
+            RegisterTrail("Mythical::Surf", new UnityEngine.Color(0.75f, 1f, 1, 0.8f), new UnityEngine.Color(0.75f, 1f, 1, 0.3f));
 
             OutfitInfo outfitInfo8 = new OutfitInfo();
             outfitInfo8.name = "Terror";
@@ -589,7 +602,6 @@ namespace Mythical {
             outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
             {
             };
-            trails.Add("Mythical::Rumor", UnityEngine.Color.red);
             Outfits.Register(outfitInfo2);
 
             outfitInfo2 = new OutfitInfo();
@@ -627,6 +639,7 @@ namespace Mythical {
             {
             };
             Outfits.Register(outfitInfo2);
+            RegisterTrail("Mythical::Genius", new UnityEngine.Color(1f, 1f, 1, 0.8f), new UnityEngine.Color(0.6f, 0.8f, 0.8f, 0.3f));
 
             outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Shade";
@@ -684,18 +697,18 @@ namespace Mythical {
             outfitInfo2.outfit = new global::Outfit("Mythical::Goddess", AssignNewID("goddess"), new List<global::OutfitModStat>
             {
                 new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false),
-                new OutfitModStat(OutfitModStat.OutfitModType.Health,0,0.65f,0,false),
-                new OutfitModStat(OutfitModStat.OutfitModType.Speed,0,0.65f,0,false),
-                new OutfitModStat(OutfitModStat.OutfitModType.Damage,0,0.25f,0,false),
-                new OutfitModStat(OutfitModStat.OutfitModType.CritChance,0,0.2f,0,false),
-                new OutfitModStat(OutfitModStat.OutfitModType.Armor,0,0.25f,0,false),
-                new OutfitModStat(OutfitModStat.OutfitModType.Evade,0,0.2f,0,false),
-                new OutfitModStat(OutfitModStat.OutfitModType.Cooldown,0,-0.45f,0,false),
-                new OutfitModStat(OutfitModStat.OutfitModType.HealAmount,0,0.3f,0,false),
-                new OutfitModStat(OutfitModStat.OutfitModType.Gold,0,0.1f,0,false),
-                new OutfitModStat(OutfitModStat.OutfitModType.HealCrit,0,0.1f,0,false),
-                new OutfitModStat(OutfitModStat.OutfitModType.ODRate,0,0.2f,0,false),
-                new OutfitModStat(OutfitModStat.OutfitModType.ODDamage,0,0.25f,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.Health,0f,0.65f,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.Speed,0f,0.65f,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.Damage,0f,0.25f,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.CritChance,0.2f,0,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.Armor,0.25f,0f,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.Evade,0.2f,0f,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.Cooldown,-0f,-0.45f,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.HealAmount,0.3f,0f,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.Gold,0.1f,0f,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.HealCrit,0.1f,0f,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.ODRate,0.2f,0f,0,false),
+                new OutfitModStat(OutfitModStat.OutfitModType.ODDamage,0.25f,0,0,false),
                 //new OutfitModStat(OutfitModStat.OutfitModType.Health,-200,0,0,false),
                 //new OutfitModStat(OutfitModStat.OutfitModType.Damage,0,0.2f,0,false)
             }, false, false);
@@ -756,6 +769,9 @@ namespace Mythical {
 
                     if (split.Length > 4)
                     {
+                        UnityEngine.Color color1 = UnityEngine.Color.black;
+                        UnityEngine.Color color2 = UnityEngine.Color.black;
+                        int clr = 0;
                         for (int i = 4; i < split.Length; i++)
                         {
                             if (split[i].StartsWith("particle::"))
@@ -765,7 +781,27 @@ namespace Mythical {
                                 particles.Add(id, tex);
                                 ;
                             }
+                            if (split[i].StartsWith("color1::"))
+                            {
+                                clr = 1;
+                                string s = split[i].Replace("color1::", "");
+                                string[] spl = s.Split('-');
+                                float[] values = new float[] { float.Parse(spl[0]), float.Parse(spl[01]), float.Parse(spl[02]), float.Parse(spl[03]) };
+                                color1 = new UnityEngine.Color(values[0], values[1], values[2], values[3]);
+                            }
+                            if (split[i].StartsWith("color2::"))
+                            {
+                                clr = 2;
+                                string s = split[i].Replace("color2::", "");
+                                string[] spl = s.Split('-');
+                                float[] values = new float[] { float.Parse(spl[0]), float.Parse(spl[01]), float.Parse(spl[02]), float.Parse(spl[03]) };
+                                color2 = new UnityEngine.Color(values[0], values[1], values[2], values[3]);
+                            }
                         }
+                        if (clr==1) { RegisterTrail(id, color1, color1); }
+                        else if (clr == 2) { RegisterTrail(id, color1, color2); }
+
+
                     }
 
                     Outfits.Register(outfitInfo2);
@@ -1614,10 +1650,10 @@ namespace Mythical {
                             //UpgradePlayer.Upgrade(p); //Chaos reaper, chaotic rift, twin turbines, distortion beam, lightning dragons, mark of discord.
                             p.AssignSkillSlot(0, "UseChaosScytheBasic", false, false);
                             p.AssignSkillSlot(1, "ChaosDash", false, false);
-                            p.AssignSkillSlot(2, "UseShockBoomerang", false, true);
-                            p.AssignSkillSlot(3, "UseIceBoomerang", false, true);
+                            p.AssignSkillSlot(2, "UseShockBoomerang", true, true);
+                            p.AssignSkillSlot(3, "UseIceBoomerang", true, true);
                             p.AssignSkillSlot(4, "UseChaosBeam", false, false);
-                            p.AssignSkillSlot(5, "UseShockDragon", false, false);
+                            p.AssignSkillSlot(5, "UseShockDragon", true, true);
                             //p.AssignSkillSlot(5, "UseChaosSwordSummon", false, false);
                         }
                         p.lowerHUD.cooldownUI.RefreshEntries();
