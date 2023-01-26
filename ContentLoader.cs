@@ -1455,17 +1455,19 @@ namespace Mythical {
                 Destroy(p.Key);
             }
 
-            if (inAPVPScene && SceneManager.GetActiveScene().name.ToLower().Contains("arena"))
+            if (SceneManager.GetActiveScene().name.ToLower()!="pvp")
             {
-                if (Depletion)
+                if (true)
                 {
                     if (Time.time > nextTime)
                     {
                         nextTime = Time.time + 1f;
                         foreach (GameObject player in GameController.players)
                         {
-                            SoundManager.PlayAudio("ImpactPhysicalHeavy",1,false,0.25f);
-                            player.GetComponent<Player>().health.CurrentHealthValue-=10;
+                            if (player.GetComponent<Player>().inventory.ContainsItem("Mythical::SevenFlushChaos")) { 
+                                SoundManager.PlayAudio("ImpactPhysicalHeavy",1,false,0.25f);
+                                player.GetComponent<Player>().health.CurrentHealthValue-=5;
+                            }
                         }
                     }
                 }
