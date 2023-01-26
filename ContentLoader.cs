@@ -30,6 +30,7 @@ namespace Mythical {
     //         You don't have to, but you'll just look silly in front of everyone. It's ok. I won't make fun of you.
     #endregion
     [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "2.1.0")]
+    
     public class ContentLoader : BaseUnityPlugin {
         #region BaseUnityPlugin Notes
         // BaseUnityPlugin is the main class that gets loaded by bepin.
@@ -48,6 +49,7 @@ namespace Mythical {
         public static List<Texture2D> palettes = new List<Texture2D>();
         public static List<string> bannedArcana = new List<string>();
         public static Dictionary<string, Texture2D> particles = new Dictionary<string, Texture2D>();
+        public static Dictionary<string, HeadgearDef> headgears = new Dictionary<string, HeadgearDef>();
         public static Dictionary<string, UnityEngine.Color> trails = new Dictionary<string, UnityEngine.Color>();
         public static Dictionary<string, UnityEngine.Color> trails2 = new Dictionary<string, UnityEngine.Color>();
 
@@ -652,10 +654,54 @@ namespace Mythical {
             {
             };
             Outfits.Register(outfitInfo2);
-
             
 
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Lover";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Lover", AssignNewID("lover"), new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Happy Valentines Day!");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+            headgears.Add("Mythical::Lover", new HeadgearDef()
+            {
+                sprites = new Sprite[]
+                {
+                    ImgHandler.LoadSprite("headgear/heart1"),
+                    ImgHandler.LoadSprite("headgear/heart2"),
+                    ImgHandler.LoadSprite("headgear/heart3"),
+                    ImgHandler.LoadSprite("headgear/heart4"),
+                    ImgHandler.LoadSprite("headgear/heart5")
+                }
+            });
+            RegisterTrail("Mythical::Lover", new UnityEngine.Color(1, 0.8f, 0.8f, 0.5f), new UnityEngine.Color(1, 0.8f, 0.8f, 0.2f));
 
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "Genesis";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Genesis", AssignNewID("genesis"), new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((bool b) => "Hood is off!");
+            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
+            {
+            };
+            Outfits.Register(outfitInfo2);
+            headgears.Add("Mythical::Genesis", new HeadgearDef()
+            {
+                sprites = new Sprite[]
+                {
+                    ImgHandler.LoadSprite("headgear/girl1"),
+                    ImgHandler.LoadSprite("headgear/girl2"),
+                    ImgHandler.LoadSprite("headgear/girl3"),
+                    ImgHandler.LoadSprite("headgear/girl4"),
+                    ImgHandler.LoadSprite("headgear/girl5")
+                }
+            });
 
             outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Icarus";
@@ -796,6 +842,24 @@ namespace Mythical {
                                 string[] spl = s.Split('-');
                                 float[] values = new float[] { float.Parse(spl[0]), float.Parse(spl[01]), float.Parse(spl[02]), float.Parse(spl[03]) };
                                 color2 = new UnityEngine.Color(values[0], values[1], values[2], values[3]);
+                            }
+                            if (split[i].StartsWith("headgear::"))
+                            {
+                                string s = split[i].Replace("headgear::", "");
+                                string[] spl = s.Split(new string[] { "**HEADGEAR**" }, System.StringSplitOptions.RemoveEmptyEntries);
+                                HeadgearDef def = new HeadgearDef()
+                                {
+                                    sprites = new Sprite[] {
+                                        ImgHandler.LoadSprite(id + " Gear 1", T2D: ImgHandler.LoadPNGAlt(Convert.FromBase64String(spl[0]))),
+                                        ImgHandler.LoadSprite(id + " Gear 2", T2D: ImgHandler.LoadPNGAlt(Convert.FromBase64String(spl[1]))),
+                                        ImgHandler.LoadSprite(id + " Gear 3", T2D: ImgHandler.LoadPNGAlt(Convert.FromBase64String(spl[2]))),
+                                        ImgHandler.LoadSprite(id + " Gear 4", T2D: ImgHandler.LoadPNGAlt(Convert.FromBase64String(spl[3]))),
+                                        ImgHandler.LoadSprite(id + " Gear 5", T2D: ImgHandler.LoadPNGAlt(Convert.FromBase64String(spl[4])))
+                                    }
+                                };
+
+                                headgears.Add(id, def);
+
                             }
                         }
                         if (clr==1) { RegisterTrail(id, color1, color1); }
@@ -1200,6 +1264,19 @@ namespace Mythical {
                 orig(self);
                 self.gameObject.AddComponent<TrailTEDManager>();
                 self.gameObject.AddComponent<TEDLineManager>();
+                Headgear gear = Globals.ChaosInst<Headgear>(HorseMaskItem.Prefab, 
+                    (!self.headPosition) ? self.transform : self.headPosition.transform, null, null);
+                /*gear.spriteVariations = new Sprite[] //Up,Right,Down,UR,DR
+                {
+                    ImgHandler.LoadSprite("headgear/heart1"),
+                    ImgHandler.LoadSprite("headgear/heart2"),
+                    ImgHandler.LoadSprite("headgear/heart3"),
+                    ImgHandler.LoadSprite("headgear/heart4"),
+                    ImgHandler.LoadSprite("headgear/heart5")
+                };*/
+                gear.gameObject.AddComponent<TEDHeadgear>();
+                gear.Initialize(self, "TournamentEditionHeadgear", null);
+
             };
 
             // Boss, Hub, TitleScreen
@@ -1972,4 +2049,9 @@ public static class Extensions
         Sprite spr = Mythical.ImgHandler.LoadSprite(name);
         return (spr != null ? spr : null);
     }
+}
+
+public class HeadgearDef
+{
+    public Sprite[] sprites = new Sprite[0];
 }

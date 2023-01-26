@@ -45,6 +45,8 @@ namespace Mythical
 			}
 			return texture2D;
 		}
+
+
 		
 		public static byte[] LoadByteArray(string path)
         {
@@ -72,6 +74,19 @@ namespace Mythical
 			sprite.name = path;
 			return sprite;
 		}
+
+		public static Sprite LoadSprite(string path, Texture2D T2D = null)
+		{
+			Texture2D texture2D = T2D;
+			texture2D.name = path;
+			texture2D.filterMode = FilterMode.Point;
+			texture2D.Apply();
+			Rect rect = new Rect(0f, 0f, (float)texture2D.width, (float)texture2D.height);
+			Sprite sprite = Sprite.Create(texture2D, rect, new Vector2(0.5f, 0.5f), 16f);
+			sprite.name = path;
+			return sprite;
+		}
+
 		public static Sprite LoadSprite(string path, Vector2 pivot)
 		{
 			Texture2D texture2D = LoadTex2D(path);

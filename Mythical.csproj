@@ -62,6 +62,7 @@
     <Compile Include="ModAccess.cs" />
     <Compile Include="StatusBarMod.cs" />
     <Compile Include="ContestantAssault.cs" />
+    <Compile Include="TEDHeadgear.cs" />
     <Compile Include="TEDLineManager.cs" />
     <Compile Include="TrailTEDManager.cs" />
     <Compile Include="UltraCouncilChallenge.cs" />
