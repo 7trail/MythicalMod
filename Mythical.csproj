@@ -47,6 +47,11 @@
     <Compile Include="ContestantStates.cs" />
     <Compile Include="CursedRelics.cs" />
     <Compile Include="DialogueCreator.cs" />
+    <Compile Include="EnhanceAir.cs" />
+    <Compile Include="EnhanceEarth.cs" />
+    <Compile Include="EnhanceFire.cs" />
+    <Compile Include="EnhanceLightning.cs" />
+    <Compile Include="EnhanceWater.cs" />
     <Compile Include="FrostCrit.cs" />
     <Compile Include="GemChestRelic.cs" />
     <Compile Include="InvisibleOnLowHealth.cs" />

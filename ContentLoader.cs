@@ -1057,7 +1057,36 @@ namespace Mythical {
             {
                 if (SpawnPickups)
                 {
-                    orig(self);
+                    if (!self.resetSkillStopwatch.IsRunning)
+                    {
+                        self.resetSkillStopwatch.IsRunning = true;
+                        LootManager.ResetAvailableSkills();
+                    }
+                    if (ChaosStopwatch.Check(self.skillSpawnStopwatchID))
+                    {
+                        self.skillSpawnStopwatchID = ChaosStopwatch.Begin(self.skillSpawnTime + UnityEngine.Random.Range(-1f, 1f), false, 0f, 0, 0);
+                        self.droppedSkillID = LootManager.GetSkillID(false, false);
+                        if (self.droppedSkillID == string.Empty)
+                        {
+                            return;
+                        }
+                        self.skillSpawnLocIndex = (self.skillSpawnLocIndex + UnityEngine.Random.Range(1, self.skillSpawnLocCount)) % self.skillSpawnLocCount;
+                        Vector3 vector = self.skillSpawnLocations[self.skillSpawnLocIndex];
+                        Vector3 spawnLocation = vector;
+                        foreach(GameObject p in GameController.players)
+                        {
+                            if (p.GetComponent<Player>().inventory.ContainsItem("Mythical::Horseshoe"))
+                            {
+                                spawnLocation = Vector3.Lerp(spawnLocation, p.transform.position, 0.4f);
+                            }
+                        }
+                        int amount = 1;
+                        string skillID = self.droppedSkillID;
+                        bool droppedEmpowered = self.DroppedEmpowered;
+                        LootManager.DropSkill(spawnLocation, amount, skillID, 0f, 0f, null, true, droppedEmpowered);
+                        vector.y -= 0.5f;
+                        Player.SpawnAllyPortal(vector, 0.5f, true);
+                    }
                 }
             };
 
@@ -1397,15 +1426,98 @@ namespace Mythical {
                 itemInfo2.name = "PrimeTicket";
                 itemInfo2.item = new PrimeTicket();
                 itemInfo2.tier = 1;
-                TextManager.ItemInfo text2 = default(TextManager.ItemInfo);
-                text2.displayName = "Arcana Ticket";
-                text2.description = "With everyone that falls, a message in their wake.";
-                text2.itemID = PrimeTicket.staticID;
-                Sprite sprite = ImgHandler.LoadSprite("ticket");
-                itemInfo2.text = text2;
-                itemInfo2.icon = ((sprite != null) ? sprite : null);
+                TextManager.ItemInfo txt = default(TextManager.ItemInfo);
+                txt.displayName = "Arcana Ticket";
+                txt.description = "With everyone that falls, a message in their wake.";
+                txt.itemID = PrimeTicket.staticID;
+                Sprite spr = ImgHandler.LoadSprite("ticket");
+                itemInfo2.text = txt;
+                itemInfo2.icon = ((spr != null) ? spr : null);
                 Items.Register(itemInfo2);
             }
+
+            ItemInfo itemInfo = new ItemInfo();
+            itemInfo.name = "Mythical::SevenFlushChaos";
+            itemInfo.item = new SevenFlushChaos();
+            itemInfo.tier = 1;
+            TextManager.ItemInfo text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Neve's Onyx";
+            text2.description = "Holding seven chaos arcana greatly increases damage! You slowly take damage when this is active!";
+            text2.itemID = SevenFlushChaos.staticID;
+            Sprite itemsprite = ImgHandler.LoadSprite("neveschaos");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
+            NevesChaosPalette = AssignNewID("chaosrobe");
+
+
+
+            itemInfo = new ItemInfo();
+            itemInfo.name = "Mythical::EnhanceFire";
+            itemInfo.item = new EnhanceFire();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Malignant Garnet";
+            text2.description = "Enhance all Fire arcana! Unenhance and weaken all other arcana!";
+            text2.itemID = EnhanceFire.staticID;
+            itemsprite = ImgHandler.LoadSprite("enhancefire");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
+            itemInfo = new ItemInfo();
+            itemInfo.name = "Mythical::EnhanceWater";
+            itemInfo.item = new EnhanceWater();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Malignant Sapphire";
+            text2.description = "Enhance all Water arcana! Unenhance and weaken all other arcana!";
+            text2.itemID = EnhanceWater.staticID;
+            itemsprite = ImgHandler.LoadSprite("enhancewater");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
+            itemInfo = new ItemInfo();
+            itemInfo.name = "Mythical::EnhanceEarth";
+            itemInfo.item = new EnhanceEarth();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Malignant Jade";
+            text2.description = "Enhance all Earth arcana! Unenhance and weaken all other arcana!";
+            text2.itemID = EnhanceEarth.staticID;
+            itemsprite = ImgHandler.LoadSprite("enhanceearth");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
+            itemInfo = new ItemInfo();
+            itemInfo.name = "Mythical::EnhanceAir";
+            itemInfo.item = new EnhanceAir();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Malignant Opal";
+            text2.description = "Enhance all Air arcana! Unenhance and weaken all other arcana!";
+            text2.itemID = EnhanceAir.staticID;
+            itemsprite = ImgHandler.LoadSprite("enhanceair");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
+            itemInfo = new ItemInfo();
+            itemInfo.name = "Mythical::EnhanceLightning";
+            itemInfo.item = new EnhanceLightning();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Malignant Topaz";
+            text2.description = "Enhance all Lightning arcana! Unenhance and weaken all other arcana!";
+            text2.itemID = EnhanceLightning.staticID;
+            itemsprite = ImgHandler.LoadSprite("enhancelightning");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
 
             //Adjustments
             /*On.PlatWallet.ctor += (On.PlatWallet.orig_ctor orig, PlatWallet self, int i) =>
@@ -1421,6 +1533,7 @@ namespace Mythical {
         public static bool RobeBuffs = true;
         public static bool SpawnMiniBoss = false;
         public static bool FreezeEnabled = false;
+        public static int NevesChaosPalette = 0;
         public void Update()
         {
 
@@ -1464,9 +1577,13 @@ namespace Mythical {
                         nextTime = Time.time + 1f;
                         foreach (GameObject player in GameController.players)
                         {
-                            if (player.GetComponent<Player>().inventory.ContainsItem("Mythical::SevenFlushChaos")) { 
-                                SoundManager.PlayAudio("ImpactPhysicalHeavy",1,false,0.25f);
-                                player.GetComponent<Player>().health.CurrentHealthValue-=5;
+                            if (player.GetComponent<Player>().inventory.ContainsItem("Mythical::SevenFlushChaos")) {
+                                SevenFlush flush= (SevenFlush) player.GetComponent<Player>().inventory.GetItem("Mythical::SevenFlushChaos");
+                                if (flush.isActive)
+                                {
+                                    SoundManager.PlayAudio("ImpactPhysicalHeavy", 1, false, 0.25f);
+                                    player.GetComponent<Player>().health.CurrentHealthValue -= 5;
+                                }
                             }
                         }
                     }
