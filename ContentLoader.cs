@@ -1353,12 +1353,49 @@ namespace Mythical {
                 ChaosDrops = b;
             };
 
+            On.DialogManager.InitDialogDictionary += (On.DialogManager.orig_InitDialogDictionary orig, DialogManager self, string path) =>
+            {
+                orig(self, path);
+
+                DialogEntries dialogEntries = JsonUtility.FromJson<DialogEntries>(File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Sprites/newDialogue.txt")));
+                foreach (DialogEntry dialogEntry in dialogEntries.entries)
+                {
+                    dialogEntry.Initialize();
+                    Debug.Log("Adding " + dialogEntry.ID);
+                    MaliceAdditions.maliceDialog.Add(dialogEntry.ID, dialogEntry);
+                }
+            };
+
+            On.DialogManager.InitSpeakerDictionary += (On.DialogManager.orig_InitSpeakerDictionary orig, DialogManager self, string path) => {
+                orig(self, path);
+                DialogSpeakers dialogSpeakers = JsonUtility.FromJson<DialogSpeakers>(File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Sprites/newSpeakers.txt")));
+                for (int i = 0; i < dialogSpeakers.speakers.Length; i++)
+                {
+                    Debug.Log("Adding " + dialogSpeakers.speakers[i].speakerID);
+                    DialogManager.speakerDict.Add(dialogSpeakers.speakers[i].speakerID, dialogSpeakers.speakers[i]);
+                }
+            };
+
             On.GameController.Start += (On.GameController.orig_Start orig, GameController self) =>
             {
                 orig(self);
                 // Chaos arena changes
                 if (!addedGMHooks)
                 {
+                    On.TextManager.GetUIText += (On.TextManager.orig_GetUIText orig2, string t) =>
+                    {
+                        if (MaliceAdditions.MaliceActive)
+                        {
+                            if (t == "enemyName-bossFire") { return "Malignant Zeal"; }
+                            if (t == "enemyName-bossChaos") { return "Malignant Sura"; }
+                            if (t == "enemyName-bossIce") { return "Malignant Freiya"; }
+                            if (t == "enemyName-bossEarth") { return "Malignant Atlas"; }
+                            if (t == "enemyName-bossAir") { return "Malignant Shuu"; }
+                            if (t == "enemyName-bossLightning") { return "Twins of the New Moon"; }
+                        }
+
+                        return orig2(t);
+                    };
                     On.LootManager.GetSkillID += (On.LootManager.orig_GetSkillID orig2, bool l, bool s) =>
                     {
                         string finalResult = "";
@@ -1453,7 +1490,7 @@ namespace Mythical {
                 {
                     if (((Player)self.entityScript).inventory.ContainsItem("Mythical::StunDown"))
                     {
-                        self.entityScript.hitStunDurationModifier *= 0.75f;
+                        self.entityScript.hitStunDurationModifier *= 0.5f;
                     }
                 }
                 
@@ -1572,7 +1609,7 @@ namespace Mythical {
             itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
             Items.Register(itemInfo);
 
-
+            MaliceAdditions.Init();
 
             //Adjustments
             /*On.PlatWallet.ctor += (On.PlatWallet.orig_ctor orig, PlatWallet self, int i) =>

@@ -1,0 +1,425 @@
+{
+    "entries" : [
+		{
+            "ID": "HumanKnight0-Hub",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "HumanKnight",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "... What's that?"
+                },
+                {
+                    "message": "I wouldn't take that in there if I were you."
+                }
+            ]
+        },
+        {
+            "ID": "IceBoss-Intro",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "IceBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "You shouldn't have brought that here."
+                },
+                {
+                    "message": "Now perish, or be subject to the will of Sura!"
+                }
+            ]
+        },
+        {
+            "ID": "IceBoss-Win",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "IceBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "... Please don't do this."
+                },
+                {
+                    "message": "You won't like what comes next."
+                }
+            ]
+        },
+        {
+            "ID": "IceBoss-Ending",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "IceBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "..."
+                },
+                {
+                    "message": "You... monster..."
+                }
+            ]
+        },
+        {
+            "ID": "EarthBoss-Intro",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "EarthBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "Why must I see that again? Are you here to torture me?"
+                },
+                {
+                    "message": "You will not make it out alive. Prepare!"
+                }
+            ]
+        },
+        {
+            "ID": "EarthBoss-Win",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "EarthBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "Out of the ground, comes the precious diamond."
+                },
+                {
+                    "message": "Perhaps it is time for his reckoning..."
+                }
+            ]
+        },
+        {
+            "ID": "EarthBoss-Ending",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "EarthBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "..."
+                },
+                {
+                    "message": "..."
+                }
+            ]
+        },
+        {
+            "ID": "FireBoss-Intro",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FireBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "You will not be allowed to continue. I will not ALLOW you to continue!"
+                },
+                {
+                    "message": "You will not progress until I have been reduced to embers!"
+                }
+            ]
+        },
+        {
+            "ID": "FireBoss-Win",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FireBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "The fire within me will burn until I die..."
+                },
+                {
+                    "message": "but I worry that you will quash his."
+                }
+            ]
+        },
+        {
+            "ID": "FireBoss-Ending",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FireBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "..."
+                },
+                {
+                    "message": "..."
+                }
+            ]
+        },
+        {
+            "ID": "FinalBoss-Intro",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FinalBossHoodlessMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "Congratulations on getting to this point, but no wizard-"
+                },
+                {
+                    "message": "What's that doing here?"
+                },
+                {
+                    "message": "HOW DID YOU GET THAT?"
+                }
+            ]
+        },
+        {
+            "ID": "FinalBoss-IntroChaos",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FinalBossHoodlessMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "HOW DARE YOU BRING THAT IN HERE?"
+                },
+                {
+                    "message": "YOU WILL NOT DEFILE THIS TRIAL WITH YOUR HERESY!"
+                }
+            ]
+        },
+		{
+            "ID": "FinalBoss-IntroSuper",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FinalBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "YOU! WILL NOT! ESCAPE!"
+                },
+                {
+                    "message": "NEVE, LEND ME YOUR ETERNAL POWER TO DEFEAT THIS BLASPHEME!"
+                }
+            ]
+        },
+        {
+            "ID": "FinalBoss-Win",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FinalBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "..."
+                },
+                {
+                    "message": "Are you just here to torture me? Is that what you want? To see me suffer?"
+                },
+                {
+                    "message": "No more. I am done fighting you... monster."
+                }
+            ]
+        },
+        {
+            "ID": "FinalBoss-Ending",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FinalBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "You will never know what happened."
+                },
+                {
+                    "message": "I despise you, wholeheartedly."
+                }
+            ]
+        },
+        {
+            "ID": "FinalBoss-Ending0",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FinalBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "Let us forget this ever happened."
+                }
+            ]
+        },
+        {
+            "ID": "FinalBoss-Ending1",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FinalBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "This is the Insignia of Legend."
+                },
+                {
+                    "message": "It is a mark of distinction awarded to those who have cleared the Chaos Trials."
+                },
+                {
+                    "message": "For you, though, this is the spoils of war. Take care of it for me."
+                }
+            ]
+        },
+        {
+            "ID": "FinalBoss-Ending2",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FinalBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "Is this what you want? Do you want my secret powers?"
+                },
+                {
+                    "message": "Take it! Take it, and leave me alone!"
+                }
+            ]
+        },
+        {
+            "ID": "FinalBoss-Ending3",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "FinalBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "The insignia is also your key to returning home."
+                },
+                {
+                    "message": "Your interaction with the insignia from your time appears to have linked our two worlds."
+                },
+                {
+                    "message": "I have prepared a special teleportation altar up ahead."
+                },
+                {
+                    "message": "You will be able to use the insignia there to return to your time once you are ready."
+                },
+                {
+                    "message": "I will entertain you no more."
+                }
+            ]
+        },
+
+
+
+
+        {
+            "ID": "CursedMerchant",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "CursedMerchantMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "I am a merchant of demonic treasures, and even I refuse to touch that."
+                },
+                {
+                    "message": "Now, take your pick, and be gone!"
+                }
+            ]
+        },
+        {
+            "ID": "AirBoss-Intro",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "AirBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "I can feel the pain you are in..."
+                },
+                {
+                    "message": "Let me cleanse you of every last bit!"
+                }
+            ]
+        },
+        {
+            "ID": "AirBoss-Win",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "AirBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "You must love the pain, huh?"
+                },
+                {
+                    "message": "I weep for what comes next."
+                }
+            ]
+        },
+        {
+            "ID": "AirBoss-Ending",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "AirBossMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+					"message": "..."
+                },
+                {
+                    "message": "..."
+                }
+            ]
+        },
+
+	{
+            "ID": "LightningBoss-Intro",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "LightningBossAMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "We do not fear you!"
+                },
+                {
+					"leftSpeakerID": "LightningBossB",
+                    "message": "Our bretheren may have fled their arcana, but we will not! Let us duel!"
+                }
+            ]
+        },
+        {
+            "ID": "LightningBoss-Win",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "LightningBossAMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "Wow..."
+                },
+                {
+					"leftSpeakerID": "LightningBossB",
+                    "message": "You are stronger than we thought."
+                }
+            ]
+        },
+        {
+            "ID": "LightningBossA-Ending",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "LightningBossAMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+					"message": "LIGHTNING BOLTS SHOOT FROM MY FINGERTIPS!"
+                }
+            ]
+        },
+		{
+            "ID": "LightningBossB-Ending",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "LightningBossBMalice",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": "..."
+                }
+            ]
+        }
+    ]
+}

@@ -253,8 +253,82 @@ namespace Mythical
 
                     }
                 }
-                return orig(self, dialogID, overrideIndex, playerIDOverride, leftIDOverride, rightIDOverride, isSign, skipGhostWriter);
+                DialogMessage dialogMessage = null;
+                if (MaliceAdditions.MaliceActive && MaliceAdditions.maliceDialog.ContainsKey(dialogID))
+
+                {
+                    if (!MaliceAdditions.maliceDialog.ContainsKey(dialogID))
+                    {
+                        return false;
+                    }
+                    MaliceAdditions.maliceDialog[dialogID].CurrentIndex = overrideIndex;
+                    if (MaliceAdditions.maliceDialog[dialogID].ScriptEnd)
+                    {
+                        MaliceAdditions.maliceDialog[dialogID].Reset();
+                        return false;
+                    }
+                    dialogMessage = new DialogMessage(MaliceAdditions.maliceDialog[dialogID].GetMessage());
+                }
+                else {
+                    if (!DialogManager.dialogDict.ContainsKey(dialogID))
+                    {
+                        return false;
+                    }
+                    DialogManager.dialogDict[dialogID].CurrentIndex = overrideIndex;
+                    if (DialogManager.dialogDict[dialogID].ScriptEnd)
+                    {
+                        DialogManager.dialogDict[dialogID].Reset();
+                        return false;
+                    }
+                    dialogMessage = new DialogMessage(DialogManager.dialogDict[dialogID].GetMessage());
+                }
+                
+                if (DialogManager.speakerDict.ContainsKey(leftIDOverride))
+                {
+                    dialogMessage.OverwriteSpeaker(leftIDOverride, true);
+                }
+                if (DialogManager.speakerDict.ContainsKey(rightIDOverride))
+                {
+                    dialogMessage.OverwriteSpeaker(leftIDOverride, false);
+                }
+                if (dialogMessage.leftSpeakerID != null && dialogMessage.leftSpeakerID.Contains("Player"))
+                {
+                    if (DialogManager.speakerDict.ContainsKey(playerIDOverride))
+                    {
+                        dialogMessage.OverwriteSpeaker(playerIDOverride, true);
+                    }
+                    else
+                    {
+                        if (GameController.activePlayers == null || !(GameController.activePlayers[0] != null))
+                        {
+                            return false;
+                        }
+                        dialogMessage.OverwriteSpeaker(dialogMessage.leftSpeakerID = DialogManager.speakerDict[GameController.activePlayers[0].skillCategory].speakerID, true);
+                    }
+                }
+                if (dialogMessage.rightSpeakerID != null && dialogMessage.rightSpeakerID.Contains("Player"))
+                {
+                    if (DialogManager.speakerDict.ContainsKey(playerIDOverride))
+                    {
+                        dialogMessage.rightSpeakerID = playerIDOverride;
+                    }
+                    else
+                    {
+                        if (GameController.activePlayers == null || GameController.activePlayers.Length <= 0 || !(GameController.activePlayers[0] != null))
+                        {
+                            return false;
+                        }
+                        dialogMessage.rightSpeakerID = DialogManager.speakerDict[GameController.activePlayers[0].skillCategory].speakerID;
+                    }
+                }
+                dialogMessage.message = self.ParseMessage(dialogMessage);
+                self.Activate(dialogMessage, isSign, skipGhostWriter);
+                DialogManager.dialogInProgress = true;
+                DialogManager.currentDialogID = dialogID;
+                return true;
             };
+
+            
         }
 
         public static void ResetTileSet()

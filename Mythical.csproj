@@ -55,6 +55,7 @@
     <Compile Include="FrostCrit.cs" />
     <Compile Include="GemChestRelic.cs" />
     <Compile Include="InvisibleOnLowHealth.cs" />
+    <Compile Include="MaliceAdditions.cs" />
     <Compile Include="MidasRage.cs" />
     <Compile Include="NewBubbleBarrage.cs" />
     <Compile Include="PrimeTicket.cs" />

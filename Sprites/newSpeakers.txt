@@ -1,0 +1,69 @@
+{
+    "speakers": [
+    
+
+
+    {
+        "speakerID": "IceBossMalice",
+        "displayName": "Malignant Freiya",
+        "nameColorHex": "#00E1D7",
+        "portraitSpriteID": "IceQueen",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "EarthBossMalice",
+        "displayName": "Malignant Atlas",
+        "nameColorHex": "#b8d678",
+        "portraitSpriteID": "EarthLord",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "FireBossMalice",
+        "displayName": "Malignant Zeal",
+        "nameColorHex": "#AA0000",
+        "portraitSpriteID": "FireBoss",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "AirBossMalice",
+        "displayName": "Malignant Shuu",
+        "nameColorHex": "#DFFFFE",
+        "portraitSpriteID": "AirBossPortrait",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+	{
+        "speakerID": "LightningBossAMalice",
+        "displayName": "Malignant Juno",
+        "nameColorHex": "#FFFA62",
+        "portraitSpriteID": "LightningGirlPortrait",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+	{
+        "speakerID": "LightningBossBMalice",
+        "displayName": "Malignant Suman",
+        "nameColorHex": "#D2D2D2",
+        "portraitSpriteID": "LightningBossPortrait",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "FinalBossMalice",
+        "displayName": "Malignant Sura",
+        "nameColorHex": "#FEFEFE",
+        "portraitSpriteID": "FinalBoss",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "FinalBossHoodlessMalice",
+        "displayName": "Terminal Sura",
+        "nameColorHex": "#FEFEFE",
+        "portraitSpriteID": "FinalBossHoodless",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "CursedMerchantMalice",
+        "displayName": "Nox the Fearful",
+        "portraitSpriteID": "CursedMerchant",
+        "borderSprite": "GrayPanelUnfilled"
+    }
+    ]
+}
