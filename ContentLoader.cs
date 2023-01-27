@@ -67,6 +67,7 @@ namespace Mythical {
         public bool hasAddedTitleCards;
         public static bool ChaosDrops = false;
         public static bool UseBanlist = false;
+        public static bool SpawnChests = false;
         public static bool FreezeStartPositions = false;
         // This Awake() function will run at the very start when the mod is initialized
 
@@ -131,6 +132,8 @@ namespace Mythical {
             orangeSprite = ImgHandler.LoadSprite("tree2", new Vector2(0.5f, 0.2f));
             Debug.Log("Cherry Blossom Tree sprite from https://opengameart.org/content/lpc-plant-repack. Cropped to one singular tree.");
             Debug.Log("Cherry Orange Tree sprite from https://opengameart.org/content/lpc-orange-trees. Cropped to one singular tree.");
+
+            
 
             OutfitInfo sev = new OutfitInfo();
             sev.name = "Replica";
@@ -784,6 +787,9 @@ namespace Mythical {
             };
             Outfits.Register(outfitInfo2);
 
+
+            NevesChaosPalette = AssignNewID("chaosrobe");
+
             //List<string> robeNames = new List<string>() { "sovereign", "crimson", "vision","terror","scholar","fear","conquest","tycoon","surf","walter","guardian","relic","empress","Despair","nemesis","lotus","psion","ayona","jade","thunder","frost","earth","goddess","challenger","academic","camo","cope","intangible","jupiter","malachite","opal","roar","icarus","gaia","patina","pigmented","cerberus","abysmal","verde","lunes" };
             foreach (string robeName in robeNames)
             {
@@ -998,6 +1004,14 @@ namespace Mythical {
                     UseBanlist = true;
                 }
 
+                if (self.name.Contains("Chest") && inPVPScene)
+                {
+                    GameUI.BroadcastNoticeMessage("Chests spawn instead of Arcana", 3f);
+                    Debug.Log("Chest Spawns");
+
+                    SpawnChests = true;
+                }
+
                 if (self.name.Contains("Freeze") && inPVPScene)
                 {
                     GameUI.BroadcastNoticeMessage("Freeze Position Enabled", 3f);
@@ -1083,7 +1097,13 @@ namespace Mythical {
                         int amount = 1;
                         string skillID = self.droppedSkillID;
                         bool droppedEmpowered = self.DroppedEmpowered;
-                        LootManager.DropSkill(spawnLocation, amount, skillID, 0f, 0f, null, true, droppedEmpowered);
+                        if (!SpawnChests)
+                        {
+                            LootManager.DropSkill(spawnLocation, amount, skillID, 0f, 0f, null, true, droppedEmpowered);
+                        } else
+                        {
+                            Instantiate(TreasureChest.prefab, spawnLocation, Quaternion.identity);
+                        }
                         vector.y -= 0.5f;
                         Player.SpawnAllyPortal(vector, 0.5f, true);
                     }
@@ -1367,7 +1387,13 @@ namespace Mythical {
                                         }
                                     }
                                 }
-                                finalResult= monoskills[UnityEngine.Random.Range(0, monoskills.Count)];
+                                if (monoskills.Count > 0)
+                                {
+                                    finalResult = monoskills[UnityEngine.Random.Range(0, monoskills.Count)];
+                                } else
+                                {
+                                    return orig2(l,s);
+                                }
                             }
                             else
                             {
@@ -1420,6 +1446,21 @@ namespace Mythical {
                 orig(self, b&&(RobeBuffs), b2 && (RobeBuffs));
             };
 
+            On.Health.TakeDamage += (On.Health.orig_TakeDamage orig, Health self, AttackInfo givenAttackInfo, Entity attackEntity, bool critPreCalculated) =>
+            {
+                bool b = orig(self,givenAttackInfo,attackEntity,critPreCalculated);
+                if (self.entityScript is Player)
+                {
+                    if (((Player)self.entityScript).inventory.ContainsItem("Mythical::StunDown"))
+                    {
+                        self.entityScript.hitStunDurationModifier *= 0.75f;
+                    }
+                }
+                
+
+                return b;
+            };
+
             if (enableTicket.Value)
             {
                 ItemInfo itemInfo2 = new ItemInfo();
@@ -1449,7 +1490,7 @@ namespace Mythical {
             itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
             Items.Register(itemInfo);
 
-            NevesChaosPalette = AssignNewID("chaosrobe");
+            
 
 
 
@@ -1471,7 +1512,7 @@ namespace Mythical {
             itemInfo.item = new EnhanceWater();
             itemInfo.tier = 1;
             text2 = default(TextManager.ItemInfo);
-            text2.displayName = "Malignant Sapphire";
+            text2.displayName = "Malignant Diamond";
             text2.description = "Enhance all Water arcana! Unenhance and weaken all other arcana!";
             text2.itemID = EnhanceWater.staticID;
             itemsprite = ImgHandler.LoadSprite("enhancewater");
@@ -1517,6 +1558,20 @@ namespace Mythical {
             itemInfo.text = text2;
             itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
             Items.Register(itemInfo);
+
+            itemInfo = new ItemInfo();
+            itemInfo.name = "Mythical::StunDown";
+            itemInfo.item = new StunDown();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Amber's Jewelry";
+            text2.description = "You are stunned for less time, but you take more damage!";
+            text2.itemID = StunDown.staticID;
+            itemsprite = ImgHandler.LoadSprite("stunDown");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
 
 
             //Adjustments
@@ -1582,7 +1637,7 @@ namespace Mythical {
                                 if (flush.isActive)
                                 {
                                     SoundManager.PlayAudio("ImpactPhysicalHeavy", 1, false, 0.25f);
-                                    player.GetComponent<Player>().health.CurrentHealthValue -= 5;
+                                    player.GetComponent<Player>().health.CurrentHealthValue = (int)Mathf.Clamp(player.GetComponent<Player>().health.CurrentHealthValue - 5, 1, 100000);
                                 }
                             }
                         }
@@ -1695,6 +1750,7 @@ namespace Mythical {
                     SaveArcana = false;
                     UseBanlist=false;
                     FreezeStartPositions = false;
+                    SpawnChests = false;
 
                     GameObject noPickups = Instantiate(Tree.Prefab, new Vector3(-11, -3, 0), Quaternion.identity);
                     noPickups.name = "NoPickups";
@@ -1735,6 +1791,10 @@ namespace Mythical {
                     //GameObject freezeBarrel = Instantiate(MetalBarrelDeco.Prefab, new Vector3(23, 15, 0), Quaternion.identity);
                     //freezeBarrel.name = "Freeze";
                     //announcementPairs[banBarrel] = "Disable movement and attacks until round begins!";
+
+                    GameObject chests = Instantiate(MetalBarrelDeco.Prefab, new Vector3(-23, 15, 0), Quaternion.identity);
+                    chests.name = "Chests";
+                    announcementPairs[chests] = "Spawn Chests instead of arcana!";
 
                     //GameObject depletion = Instantiate(Tree.Prefab, new Vector3(-8, 3, 0), Quaternion.identity);
                     //depletion.name = "Depletion";

@@ -121,9 +121,11 @@ namespace Mythical
 		// Token: 0x0600232E RID: 9006 RVA: 0x00104CC0 File Offset: 0x001030C0
 		private void OnPickUpOrEmpower(Player.SkillState givenSkill)
 		{
-			if (givenSkill.element == element && givenSkill.element!=ElementType.Chaos) 
+			if (givenSkill.element == element && givenSkill.element != ElementType.Chaos)
 			{
 				givenSkill.skillData.RemoveMod(dmgStr, this.dmgDecMod.ID);
+
+				
 			}
 			else
 			{
@@ -158,16 +160,11 @@ namespace Mythical
 
 			if (givenSkill.element == element && givenStatus)
 			{
-
-				givenSkill.SetEmpowered(false, this.empMod2);
 				givenSkill.SetEmpowered(true, this.empMod);
 				GameUI.RefreshCDUI();
 				return true;
 			}
 			givenSkill.SetEmpowered(false, this.empMod);
-			givenSkill.SetEmpowered(true, this.empMod2);
-
-			givenSkill.SetEmpowered(true, this.empMod2);
 			GameUI.RefreshCDUI();
 
 			return false;
