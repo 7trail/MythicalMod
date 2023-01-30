@@ -31,11 +31,11 @@ namespace Mythical
             Items.Register(itemInfo);
 
             //Sprites
-            newBossTextures["FireBoss"] = ImgHandler.LoadTex2D("Bosses/altFire");
-            newBossTextures["FinalBoss"] = ImgHandler.LoadTex2D("Bosses/altFinal");
-            newBossTextures["EarthBoss"] = ImgHandler.LoadTex2D("Bosses/altEarth");
-            newBossTextures["IceBoss"] = ImgHandler.LoadTex2D("Bosses/altIce");
-            newBossTextures["AirBoss"] = ImgHandler.LoadTex2D("Bosses/altAir");
+            newBossTextures["FireBoss"] = ImgHandler.LoadTex2D("Bosses/altFire",true);
+            newBossTextures["FinalBoss"] = ImgHandler.LoadTex2D("Bosses/altFinal", true);
+            newBossTextures["EarthBoss"] = ImgHandler.LoadTex2D("Bosses/altEarth", true);
+            newBossTextures["IceBoss"] = ImgHandler.LoadTex2D("Bosses/altIce", true);
+            newBossTextures["AirBoss"] = ImgHandler.LoadTex2D("Bosses/altAir", true);
 
             originalBossTextures["FireBoss"] = ImgHandler.LoadTex2D("Bosses/FireBoss");
             originalBossTextures["FinalBoss"] = ImgHandler.LoadTex2D("Bosses/FinalBoss");
