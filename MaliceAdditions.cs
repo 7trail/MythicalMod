@@ -31,19 +31,23 @@ namespace Mythical
             Items.Register(itemInfo);
 
             //Sprites
-            newBossTextures["FireBoss"] = ImgHandler.LoadTex2D("Bosses/altFire");
-            newBossTextures["FinalBoss"] = ImgHandler.LoadTex2D("Bosses/altFinal");
-            newBossTextures["EarthBoss"] = ImgHandler.LoadTex2D("Bosses/altEarth");
-            newBossTextures["IceBoss"] = ImgHandler.LoadTex2D("Bosses/altIce");
-            newBossTextures["AirBoss"] = ImgHandler.LoadTex2D("Bosses/altAir");
+            newBossTextures["FireBoss"] = ImgHandler.LoadTex2D("Bosses/altFire",true);
+            newBossTextures["FinalBoss"] = ImgHandler.LoadTex2D("Bosses/altFinal",true);
+            newBossTextures["EarthBoss"] = ImgHandler.LoadTex2D("Bosses/altEarth",true);
+            newBossTextures["IceBoss"] = ImgHandler.LoadTex2D("Bosses/altIce",true);
+            newBossTextures["AirBoss"] = ImgHandler.LoadTex2D("Bosses/altAir",true);
+            newBossTextures["LightningBoss"] = ImgHandler.LoadTex2D("Bosses/altLightning", true);
+            newBossTextures["LightningBoss2"] = ImgHandler.LoadTex2D("Bosses/altLightning2", true);
 
             originalBossTextures["FireBoss"] = ImgHandler.LoadTex2D("Bosses/FireBoss");
             originalBossTextures["FinalBoss"] = ImgHandler.LoadTex2D("Bosses/FinalBoss");
             originalBossTextures["EarthBoss"] = ImgHandler.LoadTex2D("Bosses/EarthBoss");
             originalBossTextures["IceBoss"] = ImgHandler.LoadTex2D("Bosses/IceBoss");
             originalBossTextures["AirBoss"] = ImgHandler.LoadTex2D("Bosses/AirBoss");
+            originalBossTextures["LightningBoss"] = ImgHandler.LoadTex2D("Bosses/LightningBoss");
+            originalBossTextures["LightningBoss2"] = ImgHandler.LoadTex2D("Bosses/LightningBoss2");
 
-           
+
 
             On.Boss.Start += (On.Boss.orig_Start orig, Boss self) =>
             {
@@ -64,7 +68,7 @@ namespace Mythical
                     ((Boss.BossIdleState)self.fsm.states["Idle"]).maxTime /= 2f;
                     ((Boss.BossIdleState)self.fsm.states["Idle"]).minTime /= 2f;
                     //Debug.Log("2.25");
-                    self.element = ElementType.Lightning;
+                    
                     self.health.healthStat.Modify(healthMod, true);
                     //Debug.Log("2.5");
                     
@@ -206,7 +210,7 @@ namespace Mythical
                     ((Boss.BossIdleState)self.fsm.states["Idle"]).maxTime /= 2f;
                     ((Boss.BossIdleState)self.fsm.states["Idle"]).minTime /= 2f;
                     //Debug.Log("2.25");
-                    //self.element = ElementType.Air;
+                    self.element = ElementType.Air;
                     self.health.healthStat.Modify(healthMod, true);
                     //Debug.Log("2.5");
 
@@ -242,8 +246,7 @@ namespace Mythical
                     //Debug.Log("2.25");
                     //self.element = ElementType.Air;
                     self.health.healthStat.Modify(healthMod, true);
-                    //Debug.Log("2.5");
-
+                    
                     //Debug.Log("2.75");
                 }
             };
@@ -295,30 +298,49 @@ namespace Mythical
                 MaterialPropertyBlock block = new MaterialPropertyBlock();
                 block.SetTexture("_MainTex", MaliceAdditions.newBossTextures["AirBoss"]);
                 b.spriteRenderer.SetPropertyBlock(block);
+                b.element = ElementType.Earth;
             }
             if (b is FireBoss && MaliceAdditions.MaliceActive)
             {
                 MaterialPropertyBlock block = new MaterialPropertyBlock();
                 block.SetTexture("_MainTex", MaliceAdditions.newBossTextures["FireBoss"]);
                 b.spriteRenderer.SetPropertyBlock(block);
+                b.element = ElementType.Lightning;
             }
             if (b is EarthBoss && MaliceAdditions.MaliceActive)
             {
                 MaterialPropertyBlock block = new MaterialPropertyBlock();
                 block.SetTexture("_MainTex", MaliceAdditions.newBossTextures["EarthBoss"]);
                 b.spriteRenderer.SetPropertyBlock(block);
+                b.element = ElementType.Water;
             }
             if (b is IceBoss && MaliceAdditions.MaliceActive)
             {
                 MaterialPropertyBlock block = new MaterialPropertyBlock();
                 block.SetTexture("_MainTex", MaliceAdditions.newBossTextures["IceBoss"]);
                 b.spriteRenderer.SetPropertyBlock(block);
+                b.element = ElementType.Fire;
+
             }
             if (b is FinalBoss && MaliceAdditions.MaliceActive)
             {
                 MaterialPropertyBlock block = new MaterialPropertyBlock();
                 block.SetTexture("_MainTex", MaliceAdditions.newBossTextures["FinalBoss"]);
                 b.spriteRenderer.SetPropertyBlock(block);
+
+            }
+
+            if (b is LightningBoss && MaliceAdditions.MaliceActive)
+            {
+                MaterialPropertyBlock block = new MaterialPropertyBlock();
+                if (b.spriteRenderer.sprite.texture.name.Contains("2")) {
+                    block.SetTexture("_MainTex", MaliceAdditions.newBossTextures["LightningBoss2"]);
+                }
+                else {
+                    block.SetTexture("_MainTex", MaliceAdditions.newBossTextures["LightningBoss"]);
+                } 
+                b.spriteRenderer.SetPropertyBlock(block);
+                b.element = ElementType.Air;
             }
 
         }

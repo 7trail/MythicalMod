@@ -377,7 +377,7 @@
                 },
                 {
 					"leftSpeakerID": "LightningBossB",
-                    "message": "Our bretheren may have fled their arcana, but we will not! Let us duel!"
+                    "message": "Now, let us duel, for the fate of the Trials!"
                 }
             ]
         },
@@ -420,6 +420,60 @@
                     "message": "..."
                 }
             ]
+        },
+	{
+            "ID": "CursedMerchant-Hub",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "CursedMerchant",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+					"message": "What is wrong with you? Are you seriously trying to double down?"
+                },
+                {
+                    "message": "Just take something and get away from me."
+                }
+            ]
+        },
+	{
+            "ID": "TownNPC2-Hub",
+            "messages": [
+                {
+                    "leftActive": false,
+                    "leftSpeakerID": "TownNPC2",
+                    "rightActive": false,
+                    "rightSpeakerID": "Player",
+                    "message": "Why are you just standing around? You'll ruin the mood."
+                }
+            ]
+        },
+	{
+            "ID": "CardShuffler-RandomBuild",
+            "messages": [
+                {
+                    "leftActive": true,
+                    "leftSpeakerID": "CardShuffler",
+                    "rightActive": true,
+                    "rightSpeakerID": "Player",
+                    "message": " I can't rearrange your build and keep the token."
+                },
+                {
+                    "showOptions": 1,
+                    "confirmText": "Yes",
+                    "cancelText": "No",
+                    "message": "Do you still want me to randomize?"
+                },
+                {
+                    "showOptions": 0,
+                    "message": "I'm sorry, but it seems you don't have enough gems to venture into the unknown."
+                },
+                {
+                    "showOptions": 0,
+                    "message": "Thanks! I'll have everything shuffled up when you enter the Chaos Trails. The mystery is half the fun!"
+                }
+            ]
         }
+
     ]
 }

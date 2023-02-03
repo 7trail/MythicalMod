@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
+using System.Security.Policy;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -1364,6 +1365,19 @@ namespace Mythical {
                     Debug.Log("Adding " + dialogEntry.ID);
                     MaliceAdditions.maliceDialog.Add(dialogEntry.ID, dialogEntry);
                 }
+            };
+
+            On.DialogManager.InitPortraitSprites += (On.DialogManager.orig_InitPortraitSprites orig, DialogManager self) =>
+            {
+                orig(self);
+                DialogManager.portraitSprites["IceQueenMalice"] = ImgHandler.LoadSprite("Bosses/IceQueenMalice");
+                DialogManager.portraitSprites["EarthLordMalice"] = ImgHandler.LoadSprite("Bosses/EarthLordMalice");
+                DialogManager.portraitSprites["FireBossMalice"] = ImgHandler.LoadSprite("Bosses/FireBossMalice");
+                DialogManager.portraitSprites["AirBossMalice"] = ImgHandler.LoadSprite("Bosses/AirBossMalice");
+                DialogManager.portraitSprites["LightningGirlMalice"] = ImgHandler.LoadSprite("Bosses/LightningGirlMalice");
+                DialogManager.portraitSprites["LightningBossMalice"] = ImgHandler.LoadSprite("Bosses/LightningBossMalice");
+                DialogManager.portraitSprites["FinalBossMalice"] = ImgHandler.LoadSprite("Bosses/FinalBossMalice");
+                DialogManager.portraitSprites["FinalBossMalice2"] = ImgHandler.LoadSprite("Bosses/FinalBossMalice2");
             };
 
             On.DialogManager.InitSpeakerDictionary += (On.DialogManager.orig_InitSpeakerDictionary orig, DialogManager self, string path) => {
