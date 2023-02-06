@@ -1,0 +1,69 @@
+{
+    "speakers": [
+    
+
+
+    {
+        "speakerID": "IceBossMalice",
+        "displayName": "Malignant Freiya",
+        "nameColorHex": "#00E1D7",
+        "portraitSpriteID": "IceQueenMalice",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "EarthBossMalice",
+        "displayName": "Malignant Atlas",
+        "nameColorHex": "#b8d678",
+        "portraitSpriteID": "EarthLordMalice",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "FireBossMalice",
+        "displayName": "Malignant Zeal",
+        "nameColorHex": "#AA0000",
+        "portraitSpriteID": "FireBossMalice",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "AirBossMalice",
+        "displayName": "Malignant Shuu",
+        "nameColorHex": "#DFFFFE",
+        "portraitSpriteID": "AirBossMalice",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+	{
+        "speakerID": "LightningBossAMalice",
+        "displayName": "Malignant Juno",
+        "nameColorHex": "#FFFA62",
+        "portraitSpriteID": "LightningGirlMalice",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+	{
+        "speakerID": "LightningBossBMalice",
+        "displayName": "Malignant Suman",
+        "nameColorHex": "#D2D2D2",
+        "portraitSpriteID": "LightningBossMalice",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "FinalBossMalice",
+        "displayName": "Malignant Sura",
+        "nameColorHex": "#FEFEFE",
+        "portraitSpriteID": "FinalBossMalice",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "FinalBossHoodlessMalice",
+        "displayName": "Terminal Sura",
+        "nameColorHex": "#FEFEFE",
+        "portraitSpriteID": "FinalBossMalice2",
+        "borderSprite": "GoldPanelUnfilled"
+    },
+    {
+        "speakerID": "CursedMerchantMalice",
+        "displayName": "Nox the Fearful",
+        "portraitSpriteID": "CursedMerchant",
+        "borderSprite": "GrayPanelUnfilled"
+    }
+    ]
+}

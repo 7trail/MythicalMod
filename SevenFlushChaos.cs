@@ -15,6 +15,7 @@ namespace Mythical
             this.category = Item.Category.Offense;
             this.dmgMod = new NumVarStatMod(SevenFlushChaos.staticID, 0.5f, this.modPriority, VarStatModType.Multiplicative, false);
             this.paletteDict.Add(ElementType.Chaos, ContentLoader.NevesChaosPalette);
+            this.outlineDict.Add(ElementType.Chaos, new UnityEngine.Color(0.5f, 0, 0.5f, 0.3f));
         }
 
         // Token: 0x170005AD RID: 1453

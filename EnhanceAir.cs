@@ -118,64 +118,61 @@ namespace Mythical
 			}
 		}
 
-		// Token: 0x0600232E RID: 9006 RVA: 0x00104CC0 File Offset: 0x001030C0
-		private void OnPickUpOrEmpower(Player.SkillState givenSkill)
-		{
-			if (givenSkill.element == element && givenSkill.element != ElementType.Chaos)
-			{
-				givenSkill.skillData.RemoveMod(dmgStr, this.dmgDecMod.ID);
-			}
-			else
-			{
-				givenSkill.skillData.AddMod(dmgStr, this.dmgDecMod);
-			}
-		}
+        // Token: 0x0600232E RID: 9006 RVA: 0x00104CC0 File Offset: 0x001030C0
+        private void OnPickUpOrEmpower(Player.SkillState givenSkill)
+        {
+            if (givenSkill.element == element && givenSkill.element != ElementType.Chaos)
+            {
+                givenSkill.skillData.RemoveMod(dmgStr, this.dmgDecMod.ID);
 
-		private void OnSkillGain(Player.SkillState givenSkill)
-		{
-			this.SetEmpStatus(givenSkill, true);
-		}
 
-		// Token: 0x06002325 RID: 8997 RVA: 0x001049B8 File Offset: 0x00102DB8
-		private void OnSkillLose(Player.SkillState givenSkill)
-		{
-			this.SetEmpStatus(givenSkill, false);
-		}
+            }
+            else
+            {
+                givenSkill.skillData.AddMod(dmgStr, this.dmgDecMod);
+            }
+        }
 
-		// Token: 0x06002326 RID: 8998 RVA: 0x001049C3 File Offset: 0x00102DC3
-		private void OnSkillAssign(Player.SkillState givenSkill, int givenSlot)
-		{
-			this.SetEmpStatus(givenSkill, true);
-		}
+        private void OnSkillGain(Player.SkillState givenSkill)
+        {
+            this.SetEmpStatus(givenSkill, true);
+        }
 
-		// Token: 0x06002327 RID: 8999 RVA: 0x001049D0 File Offset: 0x00102DD0
-		private bool SetEmpStatus(Player.SkillState givenSkill, bool givenStatus)
-		{
-			if (givenSkill == null)
-			{
-				return false;
-			}
+        // Token: 0x06002325 RID: 8997 RVA: 0x001049B8 File Offset: 0x00102DB8
+        private void OnSkillLose(Player.SkillState givenSkill)
+        {
+            this.SetEmpStatus(givenSkill, false);
+        }
 
-			if (givenSkill.element == element && givenStatus)
-			{
+        // Token: 0x06002326 RID: 8998 RVA: 0x001049C3 File Offset: 0x00102DC3
+        private void OnSkillAssign(Player.SkillState givenSkill, int givenSlot)
+        {
+            this.SetEmpStatus(givenSkill, true);
+        }
 
-				givenSkill.SetEmpowered(false, this.empMod2);
-				givenSkill.SetEmpowered(true, this.empMod);
-				GameUI.RefreshCDUI();
-				return true;
-			}
-			givenSkill.SetEmpowered(false, this.empMod);
-			givenSkill.SetEmpowered(true, this.empMod2);
+        // Token: 0x06002327 RID: 8999 RVA: 0x001049D0 File Offset: 0x00102DD0
+        private bool SetEmpStatus(Player.SkillState givenSkill, bool givenStatus)
+        {
+            if (givenSkill == null)
+            {
+                return false;
+            }
 
-			givenSkill.SetEmpowered(true, this.empMod2);
-			GameUI.RefreshCDUI();
+            if (givenSkill.element == element && givenStatus)
+            {
+                givenSkill.SetEmpowered(true, this.empMod);
+                GameUI.RefreshCDUI();
+                return true;
+            }
+            givenSkill.SetEmpowered(false, this.empMod);
+            GameUI.RefreshCDUI();
 
-			return false;
+            return false;
 
-		}
+        }
 
-		// Token: 0x0600232F RID: 9007 RVA: 0x00104D3F File Offset: 0x0010313F
-		private void OnDrop(Player.SkillState givenSkill)
+        // Token: 0x0600232F RID: 9007 RVA: 0x00104D3F File Offset: 0x0010313F
+        private void OnDrop(Player.SkillState givenSkill)
 		{
 			givenSkill.skillData.RemoveMod(dmgStr, this.dmgDecMod.ID);
 		}

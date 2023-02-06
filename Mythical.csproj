@@ -55,6 +55,7 @@
     <Compile Include="FrostCrit.cs" />
     <Compile Include="GemChestRelic.cs" />
     <Compile Include="InvisibleOnLowHealth.cs" />
+    <Compile Include="MaliceAdditions.cs" />
     <Compile Include="MidasRage.cs" />
     <Compile Include="NewBubbleBarrage.cs" />
     <Compile Include="PrimeTicket.cs" />
@@ -68,6 +69,8 @@
     <Compile Include="ModAccess.cs" />
     <Compile Include="StatusBarMod.cs" />
     <Compile Include="ContestantAssault.cs" />
+    <Compile Include="StunDown.cs" />
+    <Compile Include="SurfsGambit.cs" />
     <Compile Include="TEDHeadgear.cs" />
     <Compile Include="TEDLineManager.cs" />
     <Compile Include="TrailTEDManager.cs" />
