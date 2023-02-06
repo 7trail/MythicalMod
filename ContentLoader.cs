@@ -70,6 +70,7 @@ namespace Mythical {
         public static bool UseBanlist = false;
         public static bool SpawnChests = false;
         public static bool FreezeStartPositions = false;
+        public static bool Malice = false;
         // This Awake() function will run at the very start when the mod is initialized
 
         public Sprite cherrySprite;
@@ -88,6 +89,11 @@ namespace Mythical {
                                  "???",
                                  false,
                                  "WITH EVERYONE THAT FALLS, A MESSAGE IN THEIR WAKE");
+            Malice =
+                Config.Bind<bool>("Tournament Edition",
+                                 "TOKEN OF MALICE",
+                                 false,
+                                 "SURA'S REPENTANCE IS UPON HIM").Value;
         }
 
         public int nextAssignableID = 32;
@@ -1623,7 +1629,10 @@ namespace Mythical {
             itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
             Items.Register(itemInfo);
 
-            MaliceAdditions.Init();
+            if (Malice)
+            {
+                MaliceAdditions.Init();
+            }
 
             //Adjustments
             /*On.PlatWallet.ctor += (On.PlatWallet.orig_ctor orig, PlatWallet self, int i) =>
@@ -1962,6 +1971,9 @@ namespace Mythical {
                             p.AssignSkillSlot(4, "UseChaosBeam", false, false);
                             p.AssignSkillSlot(5, "UseShockDragon", true, true);
                             //p.AssignSkillSlot(5, "UseChaosSwordSummon", false, false);
+                        } else if (relic == "SurfsGambit")
+                        {
+                            p.RemoveSkill(p.assignedSkills[0]);
                         }
                         p.lowerHUD.cooldownUI.RefreshEntries();
                     }
