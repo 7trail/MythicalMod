@@ -25,7 +25,6 @@ namespace Mythical
                 return base.PercentToStr(this.damageMod, "+");
             }
         }
-
         // Token: 0x06002185 RID: 8581 RVA: 0x000FE2D0 File Offset: 0x000FC6D0
         public override void Activate()
         {
@@ -40,6 +39,8 @@ namespace Mythical
         public override void Deactivate()
         {
             this.SetModStatus(false);
+            this.SetParentAsPlayer();
+            Player p = this.parentPlayer;
         }
 
         // Token: 0x06002187 RID: 8583 RVA: 0x000FE2E2 File Offset: 0x000FC6E2
