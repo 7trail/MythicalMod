@@ -40,22 +40,6 @@ C:/Users/t1239901_s/Downloads/Plugin-Example-Guide-main/Plugin-Example-Guide-mai
 C:/Users/t1239901_s/Downloads/Plugin-Example-Guide-main/Plugin-Example-Guide-main/WolModExample/MythicalMod/obj/Debug/Mythical.dll
 C:/Users/t1239901_s/Downloads/Plugin-Example-Guide-main/Plugin-Example-Guide-main/WolModExample/MythicalMod/obj/Debug/Mythical.pdb
 C:/Users/t1239901_s/Downloads/Plugin-Example-Guide-main/Plugin-Example-Guide-main/WolModExample/MythicalMod/obj/Debug/Mythical.csproj.AssemblyReference.cache
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/0Harmony.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/0Harmony20.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/Assembly-CSharp.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/BepInEx.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/BepInEx.Harmony.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/BepInEx.Preloader.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/HarmonyXInterop.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/MMHOOK_Assembly-CSharp.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/UnityEngine.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/UnityEngine.Networking.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/UnityEngine.UI.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/Mono.Cecil.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/obj/Debug/Mythical.csproj.AssemblyReference.cache
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/obj/Debug/Mythical.csproj.CoreCompileInputs.cache
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/obj/Debug/Mythical.csproj.CopyComplete
-C:/Users/t1239901_s/Source/Repos/7trail/MythicalMod/bin/Debug/LegendApi.dll
 C:/Users/t1239901_s/Source/Repos/MythicalMod/bin/Debug/0Harmony.dll
 C:/Users/t1239901_s/Source/Repos/MythicalMod/bin/Debug/0Harmony20.dll
 C:/Users/t1239901_s/Source/Repos/MythicalMod/bin/Debug/Assembly-CSharp.dll
@@ -75,24 +59,40 @@ C:/Users/t1239901_s/Source/Repos/MythicalMod/obj/Debug/Mythical.csproj.CopyCompl
 C:/Users/t1239901_s/source/repos/MythicalMod/bin/Debug/XUnity.Common.dll
 C:/Users/t1239901_s/source/repos/MythicalMod/bin/Debug/XUnity.ResourceRedirector.BepIn-5x.dll
 C:/Users/t1239901_s/source/repos/MythicalMod/bin/Debug/XUnity.ResourceRedirector.dll
-C:/Users/t1239901_s/Source/Repos/7trail/MythicalMod/bin/Debug/XUnity.Common.dll
-C:/Users/t1239901_s/Source/Repos/7trail/MythicalMod/bin/Debug/XUnity.ResourceRedirector.BepIn-5x.dll
-C:/Users/t1239901_s/Source/Repos/7trail/MythicalMod/bin/Debug/XUnity.ResourceRedirector.dll
 C:/Users/t1239901_s/source/repos/MythicalMod/bin/Debug/Tournament Edition.dll
 C:/Users/t1239901_s/source/repos/MythicalMod/bin/Debug/Tournament Edition.pdb
 C:/Users/t1239901_s/source/repos/MythicalMod/obj/Debug/Tournament Edition.dll
 C:/Users/t1239901_s/source/repos/MythicalMod/obj/Debug/Tournament Edition.pdb
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/obj/Debug/Tournament Edition.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/Tournament Edition.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/Tournament Edition.pdb
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/obj/Debug/Tournament Edition.pdb
 C:/Users/t1239901_s/source/repos/MythicalMod/bin/Debug/Rewired_Core.dll
 C:/Users/t1239901_s/source/repos/MythicalMod/bin/Debug/Rewired_Linux.dll
 C:/Users/t1239901_s/source/repos/MythicalMod/bin/Debug/Rewired_OSX.dll
 C:/Users/t1239901_s/source/repos/MythicalMod/bin/Debug/Rewired_Windows.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/Rewired_Core.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/Rewired_Linux.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/Rewired_OSX.dll
-C:/Users/t1239901_s/source/repos/7trail/MythicalMod/bin/Debug/Rewired_Windows.dll
 /workspaces/MythicalMod/obj/Debug/Tournament Edition.dll
 /workspaces/MythicalMod/obj/Debug/Tournament Edition.pdb
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\Tournament Edition.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\Tournament Edition.pdb
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\0Harmony.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\0Harmony20.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\Assembly-CSharp.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\BepInEx.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\BepInEx.Harmony.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\BepInEx.Preloader.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\HarmonyXInterop.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\LegendApi.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\MMHOOK_Assembly-CSharp.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\Rewired_Core.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\Rewired_Linux.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\Rewired_OSX.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\Rewired_Windows.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\UnityEngine.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\UnityEngine.Networking.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\UnityEngine.UI.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\XUnity.Common.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\XUnity.ResourceRedirector.BepIn-5x.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\XUnity.ResourceRedirector.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\Mono.Cecil.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.AssemblyReference.cache
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.CoreCompileInputs.cache
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.CopyComplete
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\obj\Debug\Tournament Edition.dll
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\obj\Debug\Tournament Edition.pdb

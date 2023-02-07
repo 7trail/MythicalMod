@@ -32,20 +32,16 @@ namespace Mythical
 
             //Sprites
             newBossTextures["FireBoss"] = ImgHandler.LoadTex2D("Bosses/altFire",true);
-<<<<<<< HEAD
             newBossTextures["FinalBoss"] = ImgHandler.LoadTex2D("Bosses/altFinal", true);
             newBossTextures["EarthBoss"] = ImgHandler.LoadTex2D("Bosses/altEarth", true);
             newBossTextures["IceBoss"] = ImgHandler.LoadTex2D("Bosses/altIce", true);
             newBossTextures["AirBoss"] = ImgHandler.LoadTex2D("Bosses/altAir", true);
-=======
             newBossTextures["FinalBoss"] = ImgHandler.LoadTex2D("Bosses/altFinal",true);
             newBossTextures["EarthBoss"] = ImgHandler.LoadTex2D("Bosses/altEarth",true);
             newBossTextures["IceBoss"] = ImgHandler.LoadTex2D("Bosses/altIce",true);
             newBossTextures["AirBoss"] = ImgHandler.LoadTex2D("Bosses/altAir",true);
             newBossTextures["LightningBoss"] = ImgHandler.LoadTex2D("Bosses/altLightning", true);
             newBossTextures["LightningBoss2"] = ImgHandler.LoadTex2D("Bosses/altLightning2", true);
->>>>>>> 6ec5b060cbdcbf7d5f04a7b52370fdfeb32ae504
-
             originalBossTextures["FireBoss"] = ImgHandler.LoadTex2D("Bosses/FireBoss");
             originalBossTextures["FinalBoss"] = ImgHandler.LoadTex2D("Bosses/FinalBoss");
             originalBossTextures["EarthBoss"] = ImgHandler.LoadTex2D("Bosses/EarthBoss");

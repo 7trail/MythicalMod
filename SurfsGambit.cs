@@ -73,18 +73,30 @@ namespace Mythical
         {
             this.SetParentAsPlayer();
             this.SetModStatus(true);
-
-            
+            Player parentPlayer5 = this.parentPlayer;
+            parentPlayer5.skillDropEventHandlers = (Player.SkillEventHandler)Delegate.Combine(parentPlayer5.skillDropEventHandlers, new Player.SkillEventHandler(this.OnSkillLose));
+            Player parentPlayer7 = this.parentPlayer;
+            parentPlayer7.skillPickUpEventHandlers = (Player.SkillEventHandler)Delegate.Combine(parentPlayer7.skillPickUpEventHandlers, new Player.SkillEventHandler(this.OnSkillGain));
+            Player parentPlayer8 = this.parentPlayer;
+            parentPlayer8.assignSkillSlotEventHandlers = (Player.AssignSkillSlotEventHandler)Delegate.Combine(parentPlayer8.assignSkillSlotEventHandlers, new Player.AssignSkillSlotEventHandler(this.OnSkillAssign));
 
         }
-
+        
+			
+        
         // Token: 0x06002186 RID: 8582 RVA: 0x000FE2D9 File Offset: 0x000FC6D9
         public override void Deactivate()
         {
             this.SetParentAsPlayer();
             this.SetModStatus(false);
+            Player parentPlayer = this.parentPlayer;
+            parentPlayer.skillDropEventHandlers = (Player.SkillEventHandler)Delegate.Remove(parentPlayer.skillDropEventHandlers, new Player.SkillEventHandler(this.OnSkillLose));
+            Player parentPlayer3 = this.parentPlayer;
+            parentPlayer3.skillPickUpEventHandlers = (Player.SkillEventHandler)Delegate.Remove(parentPlayer3.skillPickUpEventHandlers, new Player.SkillEventHandler(this.OnSkillGain));
+            Player parentPlayer4 = this.parentPlayer;
+            parentPlayer4.assignSkillSlotEventHandlers = (Player.AssignSkillSlotEventHandler)Delegate.Remove(parentPlayer4.assignSkillSlotEventHandlers, new Player.AssignSkillSlotEventHandler(this.OnSkillAssign));
         }
-
+        float v = 1.3f;
         // Token: 0x06002187 RID: 8583 RVA: 0x000FE2E2 File Offset: 0x000FC6E2
         public virtual void SetModStatus(bool givenStatus)
         {
@@ -93,8 +105,34 @@ namespace Mythical
             {
                 if (p.assignedSkills[i] is Player.BaseDashState)
                 {
-                    ((Player.BaseDashState)p.assignedSkills[i]).dashDuration *= givenStatus ? 1.25f : 0.8f;
+                    ((Player.BaseDashState)p.assignedSkills[i]).dashDuration *= givenStatus ? v : (1.0f/v);
                 }
+            }
+        }
+
+        private void OnSkillGain(Player.SkillState givenSkill)
+        {
+            if (givenSkill is Player.BaseDashState)
+            {
+                ((Player.BaseDashState)givenSkill).dashDuration *=v;
+            }
+        }
+
+        private void OnSkillLose(Player.SkillState givenSkill)
+        {
+            if (givenSkill is Player.BaseDashState)
+            {
+                ((Player.BaseDashState)givenSkill).dashDuration /= v;
+            }
+        }
+
+
+        // Token: 0x06002326 RID: 8998 RVA: 0x001049C3 File Offset: 0x00102DC3
+        private void OnSkillAssign(Player.SkillState givenSkill, int givenSlot)
+        {
+            if (givenSkill is Player.BaseDashState)
+            {
+                ((Player.BaseDashState)givenSkill).dashDuration *= v;
             }
         }
 
@@ -118,6 +156,7 @@ namespace Mythical
             SoundManager.PlayWithDistAndSPR("BubblePop", this.spawnPosition, 1f);*/
 
             this.ID = PetSquid.staticID;
+            this.activateOnActual = true;
             this.category = Item.Category.Defense;
             //this.damageMod = new NumVarStatMod(this.ID, 0.3f, 10, VarStatModType.Multiplicative, false);
         }
@@ -132,6 +171,7 @@ namespace Mythical
             base.Activate();
             this.itemHeld = true;
             this.SetItemBarStatus();
+            this.SetHandlers(true);
         }
 
         // Token: 0x06002551 RID: 9553 RVA: 0x0010F708 File Offset: 0x0010DB08
@@ -141,6 +181,7 @@ namespace Mythical
             base.Deactivate();
             this.itemHeld = false;
             this.SetItemBarStatus();
+            this.SetHandlers(false);
         }
 
         // Token: 0x06002552 RID: 9554 RVA: 0x0010F720 File Offset: 0x0010DB20
@@ -188,7 +229,7 @@ namespace Mythical
             //this.parentPlayer.health.SetInvulnerabilityDuration(this.durationStopwatch.Delay, true);
             for(int i = 0; i < 6; i++)
             {
-                this.currentBP = (BubbleProjectile)Projectile.CreateProjectile(this.parentPlayer, BubbleProjectile.Prefab, new Vector3?(this.spawnPosition), null, null);;
+                this.currentBP = (BubbleProjectile)Projectile.CreateProjectile(this.parentPlayer, BubbleProjectile.Prefab, new Vector3?(this.parentPlayer.transform.position), null, null);;
                 this.currentBP.moveVector = new Vector3(UnityEngine.Random.value - 0.5f, UnityEngine.Random.value - 0.5f,0).normalized;
                 this.currentBP.moveSpeed = UnityEngine.Random.Range(3f, 5f);
                 this.currentBP.flyTime = UnityEngine.Random.Range(1f, 1.375f);

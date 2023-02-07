@@ -2036,7 +2036,7 @@ namespace Mythical {
                             //p.AssignSkillSlot(5, "UseChaosSwordSummon", false, false);
                         } else if (relic == "SurfsGambit")
                         {
-                            p.RemoveSkill(p.assignedSkills[0]);
+                            //p.RemoveSkill(p.GetAnyStandardSkill());
                         }
                         p.lowerHUD.cooldownUI.RefreshEntries();
                     }
