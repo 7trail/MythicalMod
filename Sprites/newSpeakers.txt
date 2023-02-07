@@ -7,56 +7,56 @@
         "speakerID": "IceBossMalice",
         "displayName": "Malignant Freiya",
         "nameColorHex": "#00E1D7",
-        "portraitSpriteID": "IceQueen",
+        "portraitSpriteID": "IceQueenMalice",
         "borderSprite": "GoldPanelUnfilled"
     },
     {
         "speakerID": "EarthBossMalice",
         "displayName": "Malignant Atlas",
         "nameColorHex": "#b8d678",
-        "portraitSpriteID": "EarthLord",
+        "portraitSpriteID": "EarthLordMalice",
         "borderSprite": "GoldPanelUnfilled"
     },
     {
         "speakerID": "FireBossMalice",
         "displayName": "Malignant Zeal",
         "nameColorHex": "#AA0000",
-        "portraitSpriteID": "FireBoss",
+        "portraitSpriteID": "FireBossMalice",
         "borderSprite": "GoldPanelUnfilled"
     },
     {
         "speakerID": "AirBossMalice",
         "displayName": "Malignant Shuu",
         "nameColorHex": "#DFFFFE",
-        "portraitSpriteID": "AirBossPortrait",
+        "portraitSpriteID": "AirBossMalice",
         "borderSprite": "GoldPanelUnfilled"
     },
 	{
         "speakerID": "LightningBossAMalice",
         "displayName": "Malignant Juno",
         "nameColorHex": "#FFFA62",
-        "portraitSpriteID": "LightningGirlPortrait",
+        "portraitSpriteID": "LightningGirlMalice",
         "borderSprite": "GoldPanelUnfilled"
     },
 	{
         "speakerID": "LightningBossBMalice",
         "displayName": "Malignant Suman",
         "nameColorHex": "#D2D2D2",
-        "portraitSpriteID": "LightningBossPortrait",
+        "portraitSpriteID": "LightningBossMalice",
         "borderSprite": "GoldPanelUnfilled"
     },
     {
         "speakerID": "FinalBossMalice",
         "displayName": "Malignant Sura",
         "nameColorHex": "#FEFEFE",
-        "portraitSpriteID": "FinalBoss",
+        "portraitSpriteID": "FinalBossMalice",
         "borderSprite": "GoldPanelUnfilled"
     },
     {
         "speakerID": "FinalBossHoodlessMalice",
         "displayName": "Terminal Sura",
         "nameColorHex": "#FEFEFE",
-        "portraitSpriteID": "FinalBossHoodless",
+        "portraitSpriteID": "FinalBossMalice2",
         "borderSprite": "GoldPanelUnfilled"
     },
     {

@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
+using System.Security.Policy;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -69,6 +70,7 @@ namespace Mythical {
         public static bool UseBanlist = false;
         public static bool SpawnChests = false;
         public static bool FreezeStartPositions = false;
+        public static bool Malice = false;
         // This Awake() function will run at the very start when the mod is initialized
 
         public Sprite cherrySprite;
@@ -87,6 +89,11 @@ namespace Mythical {
                                  "???",
                                  false,
                                  "WITH EVERYONE THAT FALLS, A MESSAGE IN THEIR WAKE");
+            Malice =
+                Config.Bind<bool>("Tournament Edition",
+                                 "TOKEN OF MALICE",
+                                 false,
+                                 "SURA'S REPENTANCE IS UPON HIM").Value;
         }
 
         public int nextAssignableID = 32;
@@ -1366,6 +1373,19 @@ namespace Mythical {
                 }
             };
 
+            On.DialogManager.InitPortraitSprites += (On.DialogManager.orig_InitPortraitSprites orig, DialogManager self) =>
+            {
+                orig(self);
+                DialogManager.portraitSprites["IceQueenMalice"] = ImgHandler.LoadSprite("Bosses/IceQueenMalice");
+                DialogManager.portraitSprites["EarthLordMalice"] = ImgHandler.LoadSprite("Bosses/EarthLordMalice");
+                DialogManager.portraitSprites["FireBossMalice"] = ImgHandler.LoadSprite("Bosses/FireBossMalice");
+                DialogManager.portraitSprites["AirBossMalice"] = ImgHandler.LoadSprite("Bosses/AirBossMalice");
+                DialogManager.portraitSprites["LightningGirlMalice"] = ImgHandler.LoadSprite("Bosses/LightningGirlMalice");
+                DialogManager.portraitSprites["LightningBossMalice"] = ImgHandler.LoadSprite("Bosses/LightningBossMalice");
+                DialogManager.portraitSprites["FinalBossMalice"] = ImgHandler.LoadSprite("Bosses/FinalBossMalice");
+                DialogManager.portraitSprites["FinalBossMalice2"] = ImgHandler.LoadSprite("Bosses/FinalBossMalice2");
+            };
+
             On.DialogManager.InitSpeakerDictionary += (On.DialogManager.orig_InitSpeakerDictionary orig, DialogManager self, string path) => {
                 orig(self, path);
                 DialogSpeakers dialogSpeakers = JsonUtility.FromJson<DialogSpeakers>(File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Sprites/newSpeakers.txt")));
@@ -1382,6 +1402,30 @@ namespace Mythical {
                 // Chaos arena changes
                 if (!addedGMHooks)
                 {
+                    On.SBPlayerPageUI.Load += (On.SBPlayerPageUI.orig_Load orig2, SBPlayerPageUI self2, Player p, Dictionary<SpellBookUI.SkillEquipType, int> playerSkillSlots) =>
+                    {
+                        try
+                        {
+                            orig2(self2, p, playerSkillSlots);
+                        } catch
+                        {
+                            try {
+                                self2.spellIconArray[0].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Basic]].skillID);
+                            } catch{}
+                            try {
+                                self2.spellIconArray[1].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Dash]].skillID);
+                            }catch{}
+                            try {
+                                self2.spellIconArray[2].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Optional]].skillID);
+                            }catch{}
+                            try {
+                                self2.spellIconArray[3].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Signature]].skillID);
+                            }catch{}
+                            self2.selectPrompt.sprite = GameUI.GetInputSprite(p.inputDevice.inputScheme, "Confirm");
+                            self2.cancelPrompt.sprite = GameUI.GetInputSprite(p.inputDevice.inputScheme, "Cancel");
+                        }
+                    };
+
                     On.TextManager.GetUIText += (On.TextManager.orig_GetUIText orig2, string t) =>
                     {
                         if (MaliceAdditions.MaliceActive)
@@ -1609,7 +1653,49 @@ namespace Mythical {
             itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
             Items.Register(itemInfo);
 
-            MaliceAdditions.Init();
+            itemInfo = new ItemInfo();
+            itemInfo.name = "SurfsGambit";
+            itemInfo.item = new SurfsGambit();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Surf's Gambit";
+            text2.description = "You gain 30% more damage, at the cost of losing your basic arcana!";
+            text2.itemID = SurfsGambit.staticID;
+            itemsprite = ImgHandler.LoadSprite("stunDown");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
+            itemInfo = new ItemInfo();
+            itemInfo.name = "BlinkModule";
+            itemInfo.item = new BlinkModule();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Blink Module";
+            text2.description = "Your dashes are longer and have more endlag!";
+            text2.itemID = BlinkModule.staticID;
+            itemsprite = ImgHandler.LoadSprite("stunDown");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
+            itemInfo = new ItemInfo();
+            itemInfo.name = "PetSquid";
+            itemInfo.item = new PetSquid();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Amber's Pet Squid";
+            text2.description = "Taking damage in rapid succession releases a burst of bubbles!";
+            text2.itemID = BlinkModule.staticID;
+            itemsprite = ImgHandler.LoadSprite("stunDown");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
+            if (Malice)
+            {
+                MaliceAdditions.Init();
+            }
 
             //Adjustments
             /*On.PlatWallet.ctor += (On.PlatWallet.orig_ctor orig, PlatWallet self, int i) =>
@@ -1948,6 +2034,9 @@ namespace Mythical {
                             p.AssignSkillSlot(4, "UseChaosBeam", false, false);
                             p.AssignSkillSlot(5, "UseShockDragon", true, true);
                             //p.AssignSkillSlot(5, "UseChaosSwordSummon", false, false);
+                        } else if (relic == "SurfsGambit")
+                        {
+                            p.RemoveSkill(p.assignedSkills[0]);
                         }
                         p.lowerHUD.cooldownUI.RefreshEntries();
                     }
