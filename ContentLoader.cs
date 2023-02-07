@@ -1402,6 +1402,21 @@ namespace Mythical {
                 // Chaos arena changes
                 if (!addedGMHooks)
                 {
+                    On.SBPlayerPageUI.Load += (On.SBPlayerPageUI.orig_Load orig2, SBPlayerPageUI self2, Player p, Dictionary<SpellBookUI.SkillEquipType, int> playerSkillSlots) =>
+                    {
+                        try
+                        {
+                            orig2(self2, p, playerSkillSlots);
+                        } catch
+                        {
+                            self2.spellIconArray[1].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Dash]].skillID);
+                            self2.spellIconArray[2].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Optional]].skillID);
+                            self2.spellIconArray[3].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Signature]].skillID);
+                            self2.selectPrompt.sprite = GameUI.GetInputSprite(p.inputDevice.inputScheme, "Confirm");
+                            self2.cancelPrompt.sprite = GameUI.GetInputSprite(p.inputDevice.inputScheme, "Cancel");
+                        }
+                    };
+
                     On.TextManager.GetUIText += (On.TextManager.orig_GetUIText orig2, string t) =>
                     {
                         if (MaliceAdditions.MaliceActive)
@@ -1624,6 +1639,45 @@ namespace Mythical {
             text2.displayName = "Amber's Jewelry";
             text2.description = "You are stunned for less time, but you take more damage!";
             text2.itemID = StunDown.staticID;
+            itemsprite = ImgHandler.LoadSprite("stunDown");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
+            itemInfo = new ItemInfo();
+            itemInfo.name = "SurfsGambit";
+            itemInfo.item = new SurfsGambit();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Surf's Gambit";
+            text2.description = "You gain 30% more damage, at the cost of losing your basic arcana!";
+            text2.itemID = SurfsGambit.staticID;
+            itemsprite = ImgHandler.LoadSprite("stunDown");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
+            itemInfo = new ItemInfo();
+            itemInfo.name = "BlinkModule";
+            itemInfo.item = new BlinkModule();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Blink Module";
+            text2.description = "Your dashes are longer and have more endlag!";
+            text2.itemID = BlinkModule.staticID;
+            itemsprite = ImgHandler.LoadSprite("stunDown");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
+
+            itemInfo = new ItemInfo();
+            itemInfo.name = "PetSquid";
+            itemInfo.item = new PetSquid();
+            itemInfo.tier = 1;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Amber's Pet Squid";
+            text2.description = "Taking damage in rapid succession releases a burst of bubbles!";
+            text2.itemID = BlinkModule.staticID;
             itemsprite = ImgHandler.LoadSprite("stunDown");
             itemInfo.text = text2;
             itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
