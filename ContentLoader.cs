@@ -1409,9 +1409,18 @@ namespace Mythical {
                             orig2(self2, p, playerSkillSlots);
                         } catch
                         {
-                            self2.spellIconArray[1].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Dash]].skillID);
-                            self2.spellIconArray[2].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Optional]].skillID);
-                            self2.spellIconArray[3].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Signature]].skillID);
+                            try {
+                                self2.spellIconArray[0].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Basic]].skillID);
+                            } catch{}
+                            try {
+                                self2.spellIconArray[1].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Dash]].skillID);
+                            }catch{}
+                            try {
+                                self2.spellIconArray[2].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Optional]].skillID);
+                            }catch{}
+                            try {
+                                self2.spellIconArray[3].sprite = IconManager.GetSkillIcon(p.assignedSkills[playerSkillSlots[SpellBookUI.SkillEquipType.Signature]].skillID);
+                            }catch{}
                             self2.selectPrompt.sprite = GameUI.GetInputSprite(p.inputDevice.inputScheme, "Confirm");
                             self2.cancelPrompt.sprite = GameUI.GetInputSprite(p.inputDevice.inputScheme, "Cancel");
                         }

@@ -32,7 +32,8 @@ namespace Mythical
             this.SetModStatus(true);
             this.SetParentAsPlayer();
             Player p = this.parentPlayer;
-            p.RemoveSkill(p.assignedSkills[0]);
+            
+            p.RemoveSkill(p.GetAnyStandardSkill());
         }
 
         // Token: 0x06002186 RID: 8582 RVA: 0x000FE2D9 File Offset: 0x000FC6D9
