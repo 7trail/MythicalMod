@@ -1659,9 +1659,9 @@ namespace Mythical {
             itemInfo.tier = 1;
             text2 = default(TextManager.ItemInfo);
             text2.displayName = "Surf's Gambit";
-            text2.description = "You gain 30% more damage, at the cost of losing your basic arcana!";
+            text2.description = "You gain 30% more damage, at the cost of losing your standard arcana!";
             text2.itemID = SurfsGambit.staticID;
-            itemsprite = ImgHandler.LoadSprite("stunDown");
+            itemsprite = ImgHandler.LoadSprite("gambit");
             itemInfo.text = text2;
             itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
             Items.Register(itemInfo);
@@ -1674,7 +1674,7 @@ namespace Mythical {
             text2.displayName = "Blink Module";
             text2.description = "Your dashes are longer and have more endlag!";
             text2.itemID = BlinkModule.staticID;
-            itemsprite = ImgHandler.LoadSprite("stunDown");
+            itemsprite = ImgHandler.LoadSprite("blink");
             itemInfo.text = text2;
             itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
             Items.Register(itemInfo);
@@ -1687,7 +1687,7 @@ namespace Mythical {
             text2.displayName = "Amber's Pet Squid";
             text2.description = "Taking damage in rapid succession releases a burst of bubbles!";
             text2.itemID = BlinkModule.staticID;
-            itemsprite = ImgHandler.LoadSprite("stunDown");
+            itemsprite = ImgHandler.LoadSprite("squid");
             itemInfo.text = text2;
             itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
             Items.Register(itemInfo);

@@ -227,11 +227,12 @@ namespace Mythical
             this.hurtCounter = 0;
             this.hurtStopwatch.IsRunning = false;
             //this.parentPlayer.health.SetInvulnerabilityDuration(this.durationStopwatch.Delay, true);
-            for(int i = 0; i < 6; i++)
+            for(int i = 0; i < 10; i++)
             {
                 this.currentBP = (BubbleProjectile)Projectile.CreateProjectile(this.parentPlayer, BubbleProjectile.Prefab, new Vector3?(this.parentPlayer.transform.position), null, null);;
                 this.currentBP.moveVector = new Vector3(UnityEngine.Random.value - 0.5f, UnityEngine.Random.value - 0.5f,0).normalized;
                 this.currentBP.targetGroup = GameController.players;
+                this.currentBP.isLarge = UnityEngine.Random.value<0.3f;
                 this.currentBP.attackBox.SetAttackInfo(this.parentPlayer.skillCategory, OnBasicWaterShotItem.staticID, 1, false);
                 this.currentBP.moveSpeed = UnityEngine.Random.Range(3f, 5f);
                 this.currentBP.flyTime = UnityEngine.Random.Range(1f, 1.375f);
