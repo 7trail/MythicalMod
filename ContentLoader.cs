@@ -122,8 +122,8 @@ namespace Mythical {
 
         void Awake() {
 
-            //Skills.Awake();
-            //SampleSkillLoader.Awake();
+            Skills.Awake();
+            SampleSkillLoader.Awake();
             //UnityEngine.Texture2D img = ImgHandler.LoadTex2D("icon");
             //WindowIconTools.SetIcon(img.GetRawTextureData(), img.width, img.height, WindowIconKind.Big);
             //Screen.SetResolution(1200, 675, false);
