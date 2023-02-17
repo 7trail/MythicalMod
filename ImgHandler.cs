@@ -33,9 +33,13 @@ namespace Mythical
 			return texture2D;
 		}
 
-		public static Texture2D LoadTex2D(string path,bool pointFilter=false, Texture2D T2D = null)
+		public static Texture2D LoadTex2D(string path,bool pointFilter=false, Texture2D T2D = null, bool fullPath=false)
         {
 			string path2 = "Sprites/" + path + ".png";
+			if (fullPath)
+            {
+				path2 = path;
+            }
 			string text = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path2);
 			Texture2D texture2D = T2D==null? ImgHandler.LoadPNG(text,pointFilter):T2D;
 			if (pointFilter)
@@ -66,6 +70,18 @@ namespace Mythical
 		public static Sprite LoadSprite(string path)
 		{
 			Texture2D texture2D = LoadTex2D(path,true);
+			texture2D.name = path;
+			texture2D.filterMode = FilterMode.Point;
+			texture2D.Apply();
+			Rect rect = new Rect(0f, 0f, (float)texture2D.width, (float)texture2D.height);
+			Sprite sprite = Sprite.Create(texture2D, rect, new Vector2(0.5f, 0.5f), 16f);
+			sprite.name = path;
+			return sprite;
+		}
+
+		public static Sprite LoadSpriteFull(string path)
+		{
+			Texture2D texture2D = LoadTex2D(path, true, fullPath: true);
 			texture2D.name = path;
 			texture2D.filterMode = FilterMode.Point;
 			texture2D.Apply();
