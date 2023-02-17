@@ -49,6 +49,53 @@ namespace Mythical
                     }
                     return orig2(cat, id);
                 };
+                On.GameController.TogglePvpMode += (On.GameController.orig_TogglePvpMode orig2, bool pvpStatus) =>
+                {
+                    //orig2(pvpStatus);
+                    Debug.Log("Begun PVP toggle: " + pvpStatus);
+                    GameController.pvp = pvpStatus;
+                    int maxSkillLevel = SkillStats.maxSkillLevel;
+                    if (GameController.pvp)
+                    {
+                        foreach (global::Player player in GameController.activePlayers)
+                        {
+                            foreach (KeyValuePair<string, StatData> keyValuePair in StatManager.data["Skills"][player.skillCategory])
+                            {
+                                if (skillsDict.ContainsKey(keyValuePair.Key))
+                                {
+                                    Debug.Log("Applying to " + keyValuePair.Key);
+                                }
+                                for (int j = 0; j <= maxSkillLevel; j++)
+                                {
+                                    List<string> value = keyValuePair.Value.GetValue<List<string>>("targetNames", j);
+                                    if (value.Contains(Globals.enemyHBStr) && !value.Contains(Globals.allyHBStr))
+                                    {
+                                        value.Add(Globals.allyHBStr);
+                                    }
+                                    if (value.Contains(Globals.enemyFCStr) && !value.Contains(Globals.allyFCStr))
+                                    {
+                                        value.Add(Globals.allyFCStr);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (global::Player player2 in GameController.activePlayers)
+                        {
+                            foreach (KeyValuePair<string, StatData> keyValuePair2 in StatManager.data["Skills"][player2.skillCategory])
+                            {
+                                for (int l = 0; l <= maxSkillLevel; l++)
+                                {
+                                    List<string> value = keyValuePair2.Value.GetValue<List<string>>("targetNames", l);
+                                    value.Remove(Globals.allyHBStr);
+                                    value.Remove(Globals.allyFCStr);
+                                }
+                            }
+                        }
+                    }
+                };
             };
             On.CooldownManager.Add += CooldownManager_Add;
 
@@ -107,14 +154,26 @@ namespace Mythical
                     {
                         info.data.Initialize();
                         StatData data = new StatData(info.data, text);
+                        List<string> value = data.GetValue<List<string>>("targetNames", -1);
+                        if (value.Contains(Globals.allyHBStr) || value.Contains(Globals.enemyHBStr))
+                        {
+                            value.Add(Globals.ffaHBStr);
+                        }
+                        if (value.Contains(Globals.allyFCStr) || value.Contains(Globals.enemyFCStr))
+                        {
+                            value.Add(Globals.ffaFCStr);
+                        }
                         customDataDict[info.ID] = data;
                         info.finalData = data;
                         if (data == null) { Debug.Log("Uh oh, it's null!"); }
-                        Debug.Log("1");
+                        //Debug.Log("1");
                         dictionary[data.GetValue<string>("ID", -1)] = data;
-                        Debug.Log("2");
+                        Debug.Log(info.ID + " added to " + text);
+                        //Debug.Log("2");
                         StatManager.globalSkillData[data.GetValue<string>("ID", -1)] = data;
-                        Debug.Log("3");
+                        //StatManager.data["Skills"]["Player0"][data.GetValue<string>("ID", -1)] = data;
+                        //StatManager.data["Skills"]["Player1"][data.GetValue<string>("ID", -1)] = data;
+                        //Debug.Log("3");
                     }
                 }
             }
@@ -406,15 +465,15 @@ namespace Mythical
         {
             if (!IconManager.skillIcons.ContainsKey(info.ID))
             {
-                Debug.Log("2");
+                //Debug.Log("2");
                 IconManager.skillIcons.Add(info.ID, info.skillIcon);
-                Debug.Log("2.5");
+                //Debug.Log("2.5");
             }
             else
             {
-                Debug.Log("3");
+                //Debug.Log("3");
                 IconManager.skillIcons[info.ID] = info.skillIcon;
-                Debug.Log("3.5");
+                //Debug.Log("3.5");
             }
         }
 
