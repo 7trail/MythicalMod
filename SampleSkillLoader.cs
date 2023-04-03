@@ -26,7 +26,7 @@ namespace Mythical
             ElementType element = Elements.Register(newElement);
 
 
-            Skills.SkillInfo skillInfo = new Skills.SkillInfo("Retribution Storm");
+            Skills.SkillInfo skillInfo = new Skills.SkillInfo("Zeal's Retribution");
             skillInfo.ID = "Mythical::RadiantStorm";
             skillInfo.description = "Create an explosion where you dash!";
             skillInfo.empowered = "Create an explosion where you land as well!";
@@ -42,9 +42,9 @@ namespace Mythical
 
             Skills.Register(skillInfo);
 
-            skillInfo = new Skills.SkillInfo("Cloud of God");
+            skillInfo = new Skills.SkillInfo("Atlas's Magnus Opus");
             skillInfo.ID = "Mythical::UseRadiantBlast";
-            skillInfo.description = "Create a burst of poison!";
+            skillInfo.description = "A god's best work should never go unused.";
             skillInfo.empowered = "Poison is more powerful!";
             skillInfo.cooldown = 7;
             skillInfo.chargeCooldown = 0.25f;
@@ -61,8 +61,8 @@ namespace Mythical
             
             skillInfo = new Skills.SkillInfo("Poison Beam");
             skillInfo.ID = "Mythical::UseRadiantBeam";
-            skillInfo.description = "Hello! This is the part where I kill you!";
-            skillInfo.empowered = "Kill you faster";
+            skillInfo.description = "Terrarias, is that you?";
+            skillInfo.empowered = "Poison is more powerful!";
             skillInfo.cooldown = 0.5f;
             skillInfo.chargeCooldown = 0;
             skillInfo.startingCharges = 5;
@@ -72,6 +72,23 @@ namespace Mythical
             skillInfo.skillIcon = Extensions.loadSprite("poisonBeam");
             //skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
             skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("StatData3.json");
+            skillInfo.elementType = element;
+
+            Skills.Register(skillInfo);
+
+            skillInfo = new Skills.SkillInfo("Radiant Dash");
+            skillInfo.ID = "RadiantDash";
+            skillInfo.description = "Sura would kill for a dash like this.";
+            skillInfo.empowered = "Go even farther!";
+            skillInfo.cooldown = 0;
+            skillInfo.chargeCooldown = 0;
+            skillInfo.startingCharges = 1;
+            skillInfo.newState = typeof(RadiantDashState);
+            skillInfo.isNewSkill = true;
+            skillInfo.atkChanges = true;
+            skillInfo.skillIcon = Extensions.loadSprite("radiantDash");
+            //skillInfo.attackInfo = Utils.LoadFromEmbeddedJson<AttackInfo>("AttackInfo1.json");
+            skillInfo.data = Utils.LoadFromEmbeddedJson<SkillStats>("RadiantDash.json");
             skillInfo.elementType = element;
 
             Skills.Register(skillInfo);

@@ -58,6 +58,7 @@
     <Compile Include="MaliceAdditions.cs" />
     <Compile Include="MidasRage.cs" />
     <Compile Include="NewBubbleBarrage.cs" />
+    <Compile Include="NewSpells.cs" />
     <Compile Include="PrimeTicket.cs" />
     <Compile Include="RootChanceUp.cs" />
     <Compile Include="SampleSkillLoader.cs" />
@@ -176,6 +177,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="StatData3.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RadiantDash.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
