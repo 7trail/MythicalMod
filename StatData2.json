@@ -1,6 +1,6 @@
 {
 	"ID": [ "Mythical::UseRadiantBlast" ],
-	"elementType": [ "Radiant" ],
+	"elementType": [ "Earth" ],
 	"targetNames": [ "EnemyHurtBox", "DestructibleHurtBox" ],
 	"sameAttackImmunityTime": [ 0, 0, 0.125 ],
 	"hitStunDurationModifier": [ 1.5, 1.5, 2 ],

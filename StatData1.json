@@ -1,5 +1,5 @@
 {
   "ID": [ "Mythical::RadiantStorm" ],
   "cooldown": [ 3,3,3 ],
-  "elementType":  ["Radiant"]
+  "elementType":  ["Fire"]
 }

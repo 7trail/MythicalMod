@@ -121,6 +121,7 @@ namespace Mythical
 					this.ultBeamArray[i].StopBeam();
 				}
 			}
+
 		}
 
 		// Token: 0x040033EA RID: 13290

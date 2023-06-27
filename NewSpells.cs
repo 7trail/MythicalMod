@@ -26,7 +26,7 @@ namespace Mythical
 		{
 			base.OnEnter();
 			this.startPosition = this.parent.transform.position;
-			this.endPosition = this.startPosition + this.inputVector * RadiantDashState.teleportRange * (IsEmpowered ? 1.5f:1) ;
+			this.endPosition = this.startPosition + this.inputVector * RadiantDashState.teleportRange * (IsEmpowered ? 1.5f:1) *(UnityEngine.Random.value<0.07f?0.1f:1f);
 			if (!Globals.CheckCircle(this.endPosition, 0.25f, ChaosCollisions.layerAllWallAndObst) || Pathfinder.GetPath(Pathfinder.connectedNodeMap, this.startPosition, this.endPosition, ChaosCollisions.layerAllWallAndObst) == null)
 			{
 				this.endPosition = Globals.GetLinecastVector(this.startPosition, this.endPosition, ChaosCollisions.layerAllWallAndObst) - this.inputVector * 0.3f;

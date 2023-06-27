@@ -12,8 +12,11 @@ using System.Resources;
 using System.Security.Policy;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using XUnity.ResourceRedirector;
+using MonoMod.Cil;
+
 namespace Mythical {
 
     #region BepInPlugin Notes
@@ -46,6 +49,7 @@ namespace Mythical {
         #endregion
         public static BepInEx.Configuration.ConfigEntry<int> configContestantCount;
         public static BepInEx.Configuration.ConfigEntry<bool> enableTicket;
+        public static BepInEx.Configuration.ConfigEntry<bool> lockGemCount;
         //----------------
         public static List<Texture2D> palettes = new List<Texture2D>();
         public static List<string> bannedArcana = new List<string>();
@@ -88,7 +92,12 @@ namespace Mythical {
                 Config.Bind<bool>("Tournament Edition",
                                  "???",
                                  false,
-                                 "WITH EVERYONE THAT FALLS, A MESSAGE IN THEIR WAKE");
+                                 "Enable a special item for a special event?");
+            lockGemCount =
+                Config.Bind<bool>("Tournament Edition",
+                                 "Lock Gem Count",
+                                 true,
+                                 "Do you want the gem count to reset to 999 on stage load?");
             Malice =
                 Config.Bind<bool>("Tournament Edition",
                                  "TOKEN OF MALICE",
@@ -128,19 +137,12 @@ namespace Mythical {
             //WindowIconTools.SetIcon(img.GetRawTextureData(), img.width, img.height, WindowIconKind.Big);
             //Screen.SetResolution(1200, 675, false);
 
-            // LETS FUCKING GO
             CreateConfig();
             ContestantChanges.Init();
             UltraCouncilChallenge.Init();
             
             basePalette = ImgHandler.LoadSprite("Base");
             newPlayerSprite = ImgHandler.LoadTex2D("Walter2");
-            cherrySprite = ImgHandler.LoadSprite("tree1", new Vector2(0.5f,0.2f));
-            orangeSprite = ImgHandler.LoadSprite("tree2", new Vector2(0.5f, 0.2f));
-            Debug.Log("Cherry Blossom Tree sprite from https://opengameart.org/content/lpc-plant-repack. Cropped to one singular tree.");
-            Debug.Log("Cherry Orange Tree sprite from https://opengameart.org/content/lpc-orange-trees. Cropped to one singular tree.");
-
-            
 
             OutfitInfo sev = new OutfitInfo();
             sev.name = "Replica";
@@ -242,18 +244,6 @@ namespace Mythical {
             Outfits.Register(outfitInfo3);
             RegisterTrail("Mythical::Surf", new UnityEngine.Color(0.75f, 1f, 1, 0.8f), new UnityEngine.Color(0.75f, 1f, 1, 0.3f));
 
-            OutfitInfo outfitInfo8 = new OutfitInfo();
-            outfitInfo8.name = "Terror";
-            outfitInfo8.outfit = new global::Outfit("Mythical::Terror", AssignNewID("terror"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo8.customDesc = ((bool b) => "The Worst Of The Best");
-            outfitInfo8.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            Outfits.Register(outfitInfo8);
-
             // New ones
             OutfitInfo outfitInfo9 = new OutfitInfo();
             outfitInfo9.name = "Vision";
@@ -303,31 +293,6 @@ namespace Mythical {
             Outfits.Register(outfitInfo2);
 
             outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Ayona";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Ayona", AssignNewID("ayona"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Spirit of Light!");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            
-            //Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Jade";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Jade", AssignNewID("jade"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Green Demon");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            //Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Lotus";
             outfitInfo2.outfit = new global::Outfit("Mythical::Lotus", AssignNewID("lotus"), new List<global::OutfitModStat>
             {
@@ -338,151 +303,6 @@ namespace Mythical {
             {
             };
             Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Empress";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Empress", AssignNewID("empress"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Aspect of Fire");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            //Outfits.Register(outfitInfo2);
-
-
-            outfitInfo = new OutfitInfo();
-            outfitInfo.name = "Sovereign";
-            outfitInfo.outfit = new global::Outfit("Mythical::Sovereign", AssignNewID("sovereign"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, true, false);
-            outfitInfo.customDesc = ((bool b) => "Aspect of Wind");
-            outfitInfo.customMod = ((player, b, b2) => { });
-            //Outfits.Register(outfitInfo);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Atlas";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Earth", AssignNewID("earth"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Aspect of Earth");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            //Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Suman";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Thunder", AssignNewID("thunder"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Aspect of Thunder");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            //Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Freiya";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Frost", AssignNewID("frost"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Aspect of Frost");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            //Outfits.Register(outfitInfo2);
-
-            
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Despair";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Despair", AssignNewID("despair"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "ABANDON ALL HOPE");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            //Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Psion";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Psion", AssignNewID("psion"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Meow You See Me..");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            //Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Academic";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Academic", AssignNewID("academic"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Everyone Starts Somewhere");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            //Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Camo";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Camo", AssignNewID("camo"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Lie In Wait");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            //Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Cope";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Cope", AssignNewID("cope"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Seethe");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-           // Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Intangible";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Intangible", AssignNewID("cope"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "Bespoke Arrogance");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            Outfits.Register(outfitInfo2);
-
-            outfitInfo2 = new OutfitInfo();
-            outfitInfo2.name = "Jupiter";
-            outfitInfo2.outfit = new global::Outfit("Mythical::Jupiter", AssignNewID("jupiter"), new List<global::OutfitModStat>
-            {
-                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
-            }, false, false);
-            outfitInfo2.customDesc = ((bool b) => "To The Stars");
-            outfitInfo2.customMod = delegate (global::Player player, bool b, bool b2)
-            {
-            };
-            //Outfits.Register(outfitInfo2);
 
             outfitInfo2 = new OutfitInfo();
             outfitInfo2.name = "Malachite";
@@ -1274,14 +1094,6 @@ namespace Mythical {
             On.OutfitMenu.LoadMenu += (On.OutfitMenu.orig_LoadMenu orig , OutfitMenu self, Player p) => { orig(self, p); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
             On.OutfitMenu.SwapFocus += (On.OutfitMenu.orig_SwapFocus orig, OutfitMenu self, bool n) => { orig(self, n); if (hasAddedPalettes) { self.outfitImage.material.SetTexture("_Palette", newPalette); } };
 
-            /*On.Player.InitComponents += (On.Player.orig_InitComponents orig, Player self) =>
-            {
-                orig(self);
-                Debug.Log("Old Sprite Name: " + self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite.name);
-                self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite = newPlayerSprite;
-                Debug.Log("Set new palette: "+ self.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().sprite.name);
-            };*/
-
             // Stage effects
 
             On.PvpController.ApplyAirBuffs += (On.PvpController.orig_ApplyAirBuffs orig, PvpController self) =>
@@ -1510,6 +1322,7 @@ namespace Mythical {
             {
                 return true;
             };
+
 
             /*On.Outfit.OutfitIsInUse += (On.Outfit.orig_OutfitIsInUse orig, string id, int playerID) =>
             {

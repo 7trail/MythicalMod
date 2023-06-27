@@ -96,3 +96,5 @@ C:\Users\t1239901_s\source\repos\MythicalMod\obj\Debug\Mythical.csproj.CopyCompl
 C:\Users\t1239901_s\source\repos\MythicalMod\obj\Debug\Tournament Edition.dll
 C:\Users\t1239901_s\source\repos\MythicalMod\obj\Debug\Tournament Edition.pdb
 C:\Users\t1239901_s\source\repos\MythicalMod\obj\Debug\Mythical.csproj.AssemblyReference.cache
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\AirChannelDashGoodSkillStats.json
+C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\bin\Debug\MonoMod.Utils.dll
