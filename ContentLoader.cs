@@ -709,27 +709,23 @@ namespace Mythical {
 
             // Title screen additions
 
-            DateTime date1 = new DateTime(2022, 7, 29, 0, 0, 0);
-            DateTime date3 = new DateTime(2022, 7, 31, 0, 0, 0);
-            DateTime date2 = DateTime.Now;
-            int result = DateTime.Compare(date1, date2);
-            int result2 = DateTime.Compare(date3, date2);
-            if (result<0&&result2>=0)
-            {
-                titleScreens.Add(ImgHandler.LoadSprite("bg4"));
-            }
             titleScreens.Add(ImgHandler.LoadSprite("bg1"));
-            titleScreens.Add(ImgHandler.LoadSprite("bg2"));
+            /*tleScreens.Add(ImgHandler.LoadSprite("bg2"));
             titleScreens.Add(ImgHandler.LoadSprite("bg3"));
-            
-
-            if (result2<0)
-            {
-                titleScreens.Add(ImgHandler.LoadSprite("bg4"));
-            }
+            titleScreens.Add(ImgHandler.LoadSprite("bg4"));
             titleScreens.Add(ImgHandler.LoadSprite("bg5"));
-            titleScreens.Add(ImgHandler.LoadSprite("bg6"));
+            titleScreens.Add(ImgHandler.LoadSprite("bg6"));*/
             titleScreens.Add(ImgHandler.LoadSprite("bg7"));
+
+            string path3 = "Custom Titles";
+            string text21 = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path3);
+            string[] fileEntries2 = Directory.GetFiles(text21);
+
+            foreach(string file in fileEntries2)
+            {
+                titleScreens.Add(ImgHandler.LoadSpriteFull(file));
+            }
+
             /*
             // Item Spawner revisions
 
