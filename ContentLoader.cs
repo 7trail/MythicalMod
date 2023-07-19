@@ -33,7 +33,7 @@ namespace Mythical {
     //     Customary to follow Semantic Versioning (major.minor.patch). 
     //         You don't have to, but you'll just look silly in front of everyone. It's ok. I won't make fun of you.
     #endregion
-    [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "2.1.0")]
+    [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "2.3.0")]
     
     public class ContentLoader : BaseUnityPlugin {
         #region BaseUnityPlugin Notes
@@ -50,6 +50,7 @@ namespace Mythical {
         public static BepInEx.Configuration.ConfigEntry<int> configContestantCount;
         public static BepInEx.Configuration.ConfigEntry<bool> enableTicket;
         public static BepInEx.Configuration.ConfigEntry<bool> lockGemCount;
+        public static BepInEx.Configuration.ConfigEntry<string> OnlineID;
         //----------------
         public static List<Texture2D> palettes = new List<Texture2D>();
         public static List<string> bannedArcana = new List<string>();
@@ -73,6 +74,7 @@ namespace Mythical {
         public static bool ChaosDrops = false;
         public static bool UseBanlist = false;
         public static bool SpawnChests = false;
+        public static bool ResetGems = false;
         public static bool FreezeStartPositions = false;
         public static bool Malice = false;
         // This Awake() function will run at the very start when the mod is initialized
@@ -103,6 +105,16 @@ namespace Mythical {
                                  "TOKEN OF MALICE",
                                  false,
                                  "SURA'S REPENTANCE IS UPON HIM").Value;
+            ResetGems =
+                Config.Bind<bool>("Tournament Edition",
+                                 "Reset Gems",
+                                 false,
+                                 "Reset gems to the maximum value?").Value;
+            OnlineID =
+                Config.Bind<string>("Tournament Edition",
+                                 "Online ID",
+                                 "DefaultID",
+                                 "What your Online ID is for online connections.");
         }
 
         public int nextAssignableID = 32;
@@ -131,13 +143,15 @@ namespace Mythical {
 
         void Awake() {
 
-            Skills.Awake();
+            CreateConfig();
+
+            //Skills.Awake();
             SampleSkillLoader.Awake();
             //UnityEngine.Texture2D img = ImgHandler.LoadTex2D("icon");
             //WindowIconTools.SetIcon(img.GetRawTextureData(), img.width, img.height, WindowIconKind.Big);
             //Screen.SetResolution(1200, 675, false);
 
-            CreateConfig();
+            //OnlineSupport.Hooks();
             ContestantChanges.Init();
             UltraCouncilChallenge.Init();
             
@@ -723,7 +737,10 @@ namespace Mythical {
 
             foreach(string file in fileEntries2)
             {
-                titleScreens.Add(ImgHandler.LoadSpriteFull(file));
+                if (!file.EndsWith(".txt"))
+                {
+                    titleScreens.Add(ImgHandler.LoadSpriteFull(file));
+                }
             }
 
             /*
@@ -889,7 +906,11 @@ namespace Mythical {
                     catch { }*/
                 }
             };
+            //IL.PvpController.ResetStage += PvpController_ResetStage2;
 
+            
+
+            IL.Player.UseDragonGrade.CheckForDragons += tmp;
             On.PvpController.HandleSkillSpawn += (On.PvpController.orig_HandleSkillSpawn orig, PvpController self) =>
             {
                 if (SpawnPickups)
@@ -925,7 +946,7 @@ namespace Mythical {
                             LootManager.DropSkill(spawnLocation, amount, skillID, 0f, 0f, null, true, droppedEmpowered);
                         } else
                         {
-                            Instantiate(TreasureChest.prefab, spawnLocation, Quaternion.identity);
+                            Instantiate(TreasureChest.Prefab, spawnLocation, Quaternion.identity);
                         }
                         vector.y -= 0.5f;
                         Player.SpawnAllyPortal(vector, 0.5f, true);
@@ -1380,9 +1401,19 @@ namespace Mythical {
             itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
             Items.Register(itemInfo);
 
-            
-
-
+            itemInfo = new ItemInfo();
+            itemInfo.name = "Mythical::TokenCringe";
+            itemInfo.item = new TokenCringe();
+            itemInfo.tier = 1;
+            itemInfo.priceMultiplier = 3;
+            text2 = default(TextManager.ItemInfo);
+            text2.displayName = "Token of Cringe";
+            text2.description = "Ooooooh the dashing I can't stand the dashing";
+            text2.itemID = TokenCringe.constID;
+            itemsprite = ImgHandler.LoadSprite("tokenCringe");
+            itemInfo.text = text2;
+            itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
+            Items.Register(itemInfo);
 
             itemInfo = new ItemInfo();
             itemInfo.name = "Mythical::EnhanceFire";
@@ -1524,10 +1555,10 @@ namespace Mythical {
         public void Update()
         {
 
-            /*if (Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.K))
             {
-                Enemy.Spawn("Contestant", GameController.players[0].transform.position);
-            }*/
+                StartCoroutine(OnlineSupport.UploadData(OnlineSupport.url));
+            }
             
             List<KeyValuePair<GameObject, string>> toRemove = new List<KeyValuePair<GameObject, string>>();
             if (GameController.Instance != null)
@@ -1632,7 +1663,10 @@ namespace Mythical {
         {
             try
             {
-                Player.platWallet.balance = Player.platWallet.maxBalance; //Enjoy
+                if (ResetGems)
+                {
+                    Player.platWallet.balance = Player.platWallet.maxBalance; //Enjoy
+                }
                 
             }
             catch { }
@@ -1794,10 +1828,74 @@ namespace Mythical {
 
                 }
             } catch { }
+
+
+            On.TitleScreen.Awake += (orig,self) =>{
+                orig(self);
+                self.extraVersion.text += $" - {BepInEx.Bootstrap.Chainloader.PluginInfos.Count} Mods";
+                var newOption = GameObject.Instantiate(self.transform.Find("TitleMenu/Options").gameObject,self.transform.Find("TitleMenu"));
+                newOption.name = "Mods";
+                var menuopts = self.menuTextOpts.ToList();
+                menuopts.Add(newOption.GetComponent<Text>());
+                newOption.GetComponent<Text>().text = "Mods";
+                var trigger = new UnityEngine.EventSystems.EventTrigger.Entry();
+                newOption.GetComponent<UnityEngine.EventSystems.EventTrigger>().triggers[0] = trigger;
+                trigger.eventID = UnityEngine.EventSystems.EventTriggerType.PointerEnter;
+                trigger.callback.AddListener((data) => self.SelectMenuIndex(6));
+                var delta = menuopts[0].transform.position.y - menuopts[1].transform.position.y;
+                for(int i = 3; i < menuopts.Count - 1 ; i++){
+                   menuopts[i].rectTransform.anchoredPosition3D = new Vector3(0,-1 * delta,0);
+                }
+                self.menuTextOpts = menuopts.ToArray();
+                //menuobj.transform.SetParent(GameUI.Instance.transform);
+            };
+            IL.TitleScreen.HandleNavigation += (il) =>{
+              var c = new ILCursor(il);
+              if(c.TryGotoNext(MoveType.After,x => x.MatchLdfld(typeof(TitleScreen).GetField("currentMenuIndex")))){
+                 c.EmitDelegate<Func<int,int>>((orig) => orig == 2 ? 5 : orig == 6 ? 2 : orig == 5 ? -1 : orig );
+              }
+              if(c.TryGotoNext(x => x.MatchSub()) && c.TryGotoPrev(MoveType.After,x => x.MatchLdfld(out _))){
+                 c.EmitDelegate<Func<int,int>>((orig) => orig == 3 ? 7 : orig == 6 ? 3 : orig == 0 ? 6 : orig);
+              }
+            };
+            On.TitleScreen.ConfirmMenuOption += (orig,self) =>{
+                if(self.currentState == TitleScreen.TitleScreenState.Menu && self.currentMenuIndex == 6 ){
+                    //ModMenuUI.Instance?.Toggle();
+                }
+                orig(self);
+            };
+
         }
 
         public Texture2D EXPOSED;
 
+        private void tmp(MonoMod.Cil.ILContext ilContext)
+        {
+            ILCursor il = new ILCursor(ilContext);
+            UInt64 s = 0;
+            while (il.Next != null)
+            {
+                s += (UInt32)il.Next.OpCode.Code;
+                il.Index++;
+            }
+            if (s != 0x140A)
+            {
+                Debug.LogError("The CheckForDragons is not the same as assumed!\nGot: 0x" + s.ToString("x").ToUpper() + " instead of: 0x140A");
+                return;
+            }
+            il.Index = 2;
+            il.RemoveRange(5);
+            il.Emit(Mono.Cecil.Cil.OpCodes.Ldc_I4_S, (sbyte)19);
+            il.Prev.OpCode = Mono.Cecil.Cil.OpCodes.Brfalse_S;
+            il.Emit(Mono.Cecil.Cil.OpCodes.Ldsfld, typeof(System.String).GetField("Empty", BindingFlags.Static | BindingFlags.Public));
+            il.Emit(Mono.Cecil.Cil.OpCodes.Call, typeof(Globals).GetMethod("InGameScene", BindingFlags.Static | BindingFlags.Public));
+            il.Emit(Mono.Cecil.Cil.OpCodes.Ldc_I4_S, (sbyte)8);
+            il.Prev.OpCode = Mono.Cecil.Cil.OpCodes.Brtrue_S;
+            il.Emit(Mono.Cecil.Cil.OpCodes.Ldsfld, typeof(GameController).GetField("pvp", BindingFlags.Static | BindingFlags.Public));
+            il.Emit(Mono.Cecil.Cil.OpCodes.Ldc_I4_S, (sbyte)1);
+            il.Prev.OpCode = Mono.Cecil.Cil.OpCodes.Brtrue_S;
+            il.Emit(Mono.Cecil.Cil.OpCodes.Ret);
+        }
         public void ApplyPvpTokens()
         {
             for (int i = 0; i < GameController.players.Count; i++)
@@ -1823,13 +1921,28 @@ namespace Mythical {
                             }
 
                             p.AssignSkillSlot(1, "Dash", false, false);
-                        } else if (relic == "TokenBanker")
+                        }
+                        else if (relic == "Mythical::TokenCringe")
+                        {
+                            for (int k = 0; k < 6; k++)
+                            {
+                                if (p.assignedSkills[k] != null)
+                                {
+                                    p.RemoveSkill(p.assignedSkills[k]);
+                                }
+                            }
+
+                            //p.AssignSkillSlot(1, "Dash", false, false);
+                        }
+                        else if (relic == "TokenBanker")
                         {
                             string id = LootManager.GetSkillID(false, false);
                             p.AssignSkillSlot(4, id, false, false);
                             id = LootManager.GetSkillID(false, false);
                             p.AssignSkillSlot(5, id, false, false);
-                        } else if (relic=="TokenTailor")
+                            //Player.goldWallet.balance = 9999;
+                        }
+                        else if (relic == "TokenTailor")
                         {
                             UpgradePlayer.Upgrade(p);
                         }
@@ -1843,7 +1956,8 @@ namespace Mythical {
                             p.AssignSkillSlot(4, "UseChaosBeam", false, false);
                             p.AssignSkillSlot(5, "UseShockDragon", true, true);
                             //p.AssignSkillSlot(5, "UseChaosSwordSummon", false, false);
-                        } else if (relic == "SurfsGambit")
+                        }
+                        else if (relic == "SurfsGambit")
                         {
                             //p.RemoveSkill(p.GetAnyStandardSkill());
                         }
@@ -1947,6 +2061,10 @@ namespace Mythical {
             int i = 0;
             foreach(Player p in GameController.activePlayers)
             {
+                if (p == null)
+                {
+                    continue;
+                }
                 if (pvpItems.ContainsKey(i))
                 {
 
@@ -1969,6 +2087,8 @@ namespace Mythical {
                     }
                     p.lowerHUD.cooldownUI.RefreshEntries();
                 }
+
+                p.health.RestoreHealth(500,false,false,true,false);
 
                 i++;
             }
@@ -2080,6 +2200,26 @@ namespace Mythical {
             //return orig(self, item, show, true);
         }
 
+        private void PvpController_ResetStage2(MonoMod.Cil.ILContext ilContext)
+        {
+            ILCursor il = new ILCursor(ilContext);
+            il.Index = 76;
+            for (int i = 0; i < 25; i++)
+            {
+                if (il.Next == null) break;
+                il.Remove();
+            }
+            il.Index = 75;
+            il.Emit(Mono.Cecil.Cil.OpCodes.Ldarg_1);
+            il.Emit(Mono.Cecil.Cil.OpCodes.Ldc_I4_S, (sbyte)13);
+            il.Emit(Mono.Cecil.Cil.OpCodes.Ldc_I4_0);
+            il.Emit(Mono.Cecil.Cil.OpCodes.Call, typeof(GameController).GetMethod("PauseAllPlayers", BindingFlags.Static | BindingFlags.Public));
+            il.Emit(Mono.Cecil.Cil.OpCodes.Ldarg_0);
+            il.Emit(Mono.Cecil.Cil.OpCodes.Ldc_I4_1);
+            il.Emit(Mono.Cecil.Cil.OpCodes.Stfld, typeof(PvpController).GetField("matchInProgress", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+            il.Index = 76;
+            il.Next.OpCode = Mono.Cecil.Cil.OpCodes.Brfalse_S;
+        }
         public void LoadSong(string title, string path)
         {
             path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path);
@@ -2116,7 +2256,9 @@ namespace Mythical {
         {
             GameUI.BroadcastNoticeMessage("Wizard of Legend: Tournament Edition by only_going_up_fr0m_here", 3f);
             yield return new WaitForSeconds(3);
-            GameUI.BroadcastNoticeMessage("Special Thanks to Rayman, Holy Grind, RandomlyAwesome, and Cerberus", 3f);
+            GameUI.BroadcastNoticeMessage("Code Assistance provided by Rayman, RandomlyAwesome, Kvadratisk, and Timesweeper", 3f);
+            yield return new WaitForSeconds(3);
+            GameUI.BroadcastNoticeMessage("Special Thanks to Holy Grind, Aries13, and Cerberus", 3f);
         }
 
         public static Dictionary<string, AudioClip> clipDict = new Dictionary<string, AudioClip>();

@@ -61,7 +61,7 @@ namespace Mythical
             PoolManager.GetPoolItem<ParticleEffect>("AirVortex").Emit(new int?(1), new Vector3?(this.spawnPosition), this.implosionOverrideLarge, new Vector3?(new Vector3(0f, 0f, UnityEngine.Random.Range(0f, 360f))), 0f, null, null);
             DustEmitter poolItem = PoolManager.GetPoolItem<DustEmitter>();
             int particleCount = 150;
-            float scale = 2f;
+            float scale = 1.5f;
             Vector3? emitPosition = new Vector3?(this.spawnPosition);
             poolItem.EmitCircle(particleCount, scale, -8f, -1f, emitPosition, null);
         }

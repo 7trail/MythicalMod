@@ -59,6 +59,7 @@
     <Compile Include="MidasRage.cs" />
     <Compile Include="NewBubbleBarrage.cs" />
     <Compile Include="NewSpells.cs" />
+    <Compile Include="OnlineSupport.cs" />
     <Compile Include="PrimeTicket.cs" />
     <Compile Include="RootChanceUp.cs" />
     <Compile Include="SampleSkillLoader.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="UltraCouncilChallenge.cs" />
     <Compile Include="UnEnhanceRelic.cs" />
     <Compile Include="UpgradePlayer.cs" />
+    <Compile Include="UseFlamePunchGood.cs" />
     <Compile Include="UsePoisonBeam.cs" />
     <Compile Include="UsePoisonBlast.cs" />
     <Compile Include="WindowIconTools.cs" />

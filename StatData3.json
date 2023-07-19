@@ -1,14 +1,15 @@
 {
-	"ID": [ "Mythical::UseRadiantBeam" ],
+	"ID": [ "Mythical::UsePoisonBeam" ],
 	"elementType": [ "Earth" ],
 	"targetNames": [ "EnemyHurtBox", "DestructibleHurtBox" ],
 	"sameAttackImmunityTime": [ 0.1 ],
 	"knockbackMultiplier": [ -7 ],
 	"knockbackOverwrite": [ true ],
 	"damage": [ 2, 2, 2 ],
-	"cooldown": [ 0.8 ],
+	"cooldown": [ 1.1 ],
 	"spawnCount": [ 5 ],
 	"overdriveProgressMultiplier": [ 2 ],
 	"poisonChance": [ 1, 1, 1 ],
-	"poisonLevel": [ 1, 2, 2 ]
+	"poisonLevel": [ 1, 2, 2 ],
+	"hitStunDurationModifier": [2,2,2]
 }

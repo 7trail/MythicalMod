@@ -286,6 +286,16 @@ namespace Mythical
         public const string constID = "Mythical::TokenMalice";
     }
 
+    public class TokenCringe : NpcTokenItem
+    {
+        // Token: 0x06002687 RID: 9863 RVA: 0x00114E9C File Offset: 0x0011329C
+        public TokenCringe() : base("Mythical::TokenCringe")
+        {
+        }
+        // Token: 0x04002AD1 RID: 10961
+        public const string constID = "Mythical::TokenCringe";
+    }
+
     public class MaliceReskin : MonoBehaviour
     {
         public Boss b;

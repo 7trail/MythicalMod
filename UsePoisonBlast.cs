@@ -40,9 +40,9 @@ namespace Mythical
 			foreach(ParticleSystem system in currentFB.GetComponentsInChildren<ParticleSystem>())
             {
 				ParticleSystem.MainModule main = system.main;
-				main.startColor = Color.yellow;
+				main.startColor = Color.green;
 				ParticleSystem.ColorOverLifetimeModule coL = system.colorOverLifetime;
-				coL.color = Color.yellow;
+				coL.color = Color.green;
             }
 			this.currentFB.attack.SetAttackInfo(this.parent.skillCategory, this.skillID, (!this.isUltimate) ? ((!this.IsEmpowered) ? 1 : 2) : 3, this.isUltimate);
 			this.currentFB.attack.knockbackOverwriteVector = this.inputVector;
