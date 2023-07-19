@@ -1137,8 +1137,8 @@ namespace Mythical {
                 name = "PvP",
                 fallback = BGMTrackType.Original,
                 message = "Do you want to hear the Council's sick beats?",
-                messageConfirm = "Fuck yes",
-                messageCancel = "Fuck no",
+                messageConfirm = "yee",
+                messageCancel = "na",
                 soundtrack = clipDict
             };
 
@@ -1333,6 +1333,41 @@ namespace Mythical {
                     ChaosArenaChanges.Init();
                     CursedRelics.Init();
                 }
+            };
+
+            On.TitleScreen.Awake += (orig,self) =>{
+                orig(self);
+                self.extraVersion.text += $" - {BepInEx.Bootstrap.Chainloader.PluginInfos.Count} Mods";
+                var newOption = GameObject.Instantiate(self.transform.Find("TitleMenu/Options").gameObject,self.transform.Find("TitleMenu"));
+                newOption.name = "Mods";
+                var menuopts = self.menuTextOpts.ToList();
+                menuopts.Add(newOption.GetComponent<Text>());
+                newOption.GetComponent<Text>().text = "Mods";
+                var trigger = new UnityEngine.EventSystems.EventTrigger.Entry();
+                newOption.GetComponent<UnityEngine.EventSystems.EventTrigger>().triggers[0] = trigger;
+                trigger.eventID = UnityEngine.EventSystems.EventTriggerType.PointerEnter;
+                trigger.callback.AddListener((data) => self.SelectMenuIndex(6));
+                var delta = menuopts[0].transform.position.y - menuopts[1].transform.position.y;
+                for(int i = 3; i < menuopts.Count - 1 ; i++){
+                   menuopts[i].rectTransform.anchoredPosition3D = new Vector3(0,-1 * delta,0);
+                }
+                self.menuTextOpts = menuopts.ToArray();
+                //menuobj.transform.SetParent(GameUI.Instance.transform);
+            };
+            IL.TitleScreen.HandleNavigation += (il) =>{
+              var c = new ILCursor(il);
+              if(c.TryGotoNext(MoveType.After,x => x.MatchLdfld(typeof(TitleScreen).GetField("currentMenuIndex")))){
+                 c.EmitDelegate<Func<int,int>>((orig) => orig == 2 ? 5 : orig == 6 ? 2 : orig == 5 ? -1 : orig );
+              }
+              if(c.TryGotoNext(x => x.MatchSub()) && c.TryGotoPrev(MoveType.After,x => x.MatchLdfld(out _))){
+                 c.EmitDelegate<Func<int,int>>((orig) => orig == 3 ? 7 : orig == 6 ? 3 : orig == 0 ? 6 : orig);
+              }
+            };
+            On.TitleScreen.ConfirmMenuOption += (orig,self) =>{
+                if(self.currentState == TitleScreen.TitleScreenState.Menu && self.currentMenuIndex == 6 ){
+                    //ModMenuUI.Instance?.Toggle();
+                }
+                orig(self);
             };
 
             On.TitleScreen.AllowMultiplayer += (On.TitleScreen.orig_AllowMultiplayer orig, TitleScreen self) =>
@@ -1557,7 +1592,7 @@ namespace Mythical {
 
             if (Input.GetKeyDown(KeyCode.K))
             {
-                StartCoroutine(OnlineSupport.UploadData(OnlineSupport.url));
+                //StartCoroutine(OnlineSupport.UploadData(OnlineSupport.url));
             }
             
             List<KeyValuePair<GameObject, string>> toRemove = new List<KeyValuePair<GameObject, string>>();
@@ -1830,40 +1865,7 @@ namespace Mythical {
             } catch { }
 
 
-            On.TitleScreen.Awake += (orig,self) =>{
-                orig(self);
-                self.extraVersion.text += $" - {BepInEx.Bootstrap.Chainloader.PluginInfos.Count} Mods";
-                var newOption = GameObject.Instantiate(self.transform.Find("TitleMenu/Options").gameObject,self.transform.Find("TitleMenu"));
-                newOption.name = "Mods";
-                var menuopts = self.menuTextOpts.ToList();
-                menuopts.Add(newOption.GetComponent<Text>());
-                newOption.GetComponent<Text>().text = "Mods";
-                var trigger = new UnityEngine.EventSystems.EventTrigger.Entry();
-                newOption.GetComponent<UnityEngine.EventSystems.EventTrigger>().triggers[0] = trigger;
-                trigger.eventID = UnityEngine.EventSystems.EventTriggerType.PointerEnter;
-                trigger.callback.AddListener((data) => self.SelectMenuIndex(6));
-                var delta = menuopts[0].transform.position.y - menuopts[1].transform.position.y;
-                for(int i = 3; i < menuopts.Count - 1 ; i++){
-                   menuopts[i].rectTransform.anchoredPosition3D = new Vector3(0,-1 * delta,0);
-                }
-                self.menuTextOpts = menuopts.ToArray();
-                //menuobj.transform.SetParent(GameUI.Instance.transform);
-            };
-            IL.TitleScreen.HandleNavigation += (il) =>{
-              var c = new ILCursor(il);
-              if(c.TryGotoNext(MoveType.After,x => x.MatchLdfld(typeof(TitleScreen).GetField("currentMenuIndex")))){
-                 c.EmitDelegate<Func<int,int>>((orig) => orig == 2 ? 5 : orig == 6 ? 2 : orig == 5 ? -1 : orig );
-              }
-              if(c.TryGotoNext(x => x.MatchSub()) && c.TryGotoPrev(MoveType.After,x => x.MatchLdfld(out _))){
-                 c.EmitDelegate<Func<int,int>>((orig) => orig == 3 ? 7 : orig == 6 ? 3 : orig == 0 ? 6 : orig);
-              }
-            };
-            On.TitleScreen.ConfirmMenuOption += (orig,self) =>{
-                if(self.currentState == TitleScreen.TitleScreenState.Menu && self.currentMenuIndex == 6 ){
-                    //ModMenuUI.Instance?.Toggle();
-                }
-                orig(self);
-            };
+            
 
         }
 
