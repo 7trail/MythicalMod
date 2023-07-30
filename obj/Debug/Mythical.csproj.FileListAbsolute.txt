@@ -98,3 +98,33 @@ C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.Co
 C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\obj\Debug\Mythical.csproj.CopyComplete
 C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\obj\Debug\Tournament Edition.dll
 C:\Users\t1239901_s\Source\Repos\7trail\MythicalMod\obj\Debug\Tournament Edition.pdb
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\AirChannelDashGoodSkillStats.json
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\Tournament Edition.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\Tournament Edition.pdb
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\0Harmony.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\0Harmony20.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\Assembly-CSharp.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\BepInEx.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\BepInEx.Harmony.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\BepInEx.Preloader.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\HarmonyXInterop.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\LegendApi.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\MMHOOK_Assembly-CSharp.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\Mono.Cecil.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\MonoMod.Utils.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\Rewired_Core.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\Rewired_Linux.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\Rewired_OSX.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\Rewired_Windows.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\UnityEngine.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\UnityEngine.Networking.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\UnityEngine.UI.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\XUnity.Common.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\XUnity.ResourceRedirector.BepIn-5x.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\XUnity.ResourceRedirector.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\obj\Debug\Mythical.csproj.AssemblyReference.cache
+C:\Users\Erikbir\mod\wol\MythicalMod\obj\Debug\Mythical.csproj.CoreCompileInputs.cache
+C:\Users\Erikbir\mod\wol\MythicalMod\obj\Debug\Mythical.csproj.CopyComplete
+C:\Users\Erikbir\mod\wol\MythicalMod\obj\Debug\Tournament Edition.dll
+C:\Users\Erikbir\mod\wol\MythicalMod\obj\Debug\Tournament Edition.pdb
+C:\Users\Erikbir\mod\wol\MythicalMod\bin\Debug\CustomPalettes.dll
