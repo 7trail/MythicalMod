@@ -14,7 +14,7 @@ namespace Mythical
         public void Start()
         {
             g = new GameObject("Trail");
-            g.transform.parent = gameObject.transform;
+            g.transform.SetParent(transform);//.parent = gameObject.transform;
             g.transform.position = transform.position + new Vector3(0,0,-1f);
             p = g.AddComponent<ParticleSystem>();
             MainModule main = p.main;
