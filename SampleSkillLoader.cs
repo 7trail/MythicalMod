@@ -662,7 +662,7 @@ namespace Mythical
                     obj.GetComponent<RectTransform>().position = obj.GetComponent<RectTransform>().position + new Vector3(0, 15, 0);
                 }
                 GameObject o = GameObject.Instantiate(self.eleTabDict[ElementType.Chaos], self.eleTabDict[ElementType.Chaos].transform.position, Quaternion.identity);
-                o.transform.parent = self.eleTabs;
+                o.transform.SetParent(self.eleTabs);// .parent = self.eleTabs;
                 o.name = newElement.name;
                 self.eleTabDict[element] = o;
                 self.eleNewTabDict[element] = o.GetComponent<UnityEngine.UI.Image>();
@@ -671,7 +671,7 @@ namespace Mythical
                 o.GetComponent<RectTransform>().position = o.GetComponent<RectTransform>().position + new Vector3(0, -30,0);
 
                 o = GameObject.Instantiate(self.eleTabSelDict[ElementType.Chaos], self.eleTabSelDict[ElementType.Chaos].transform.position, Quaternion.identity);
-                o.transform.parent = self.eleSelTabs;
+                o.transform.SetParent(self.eleSelTabs);//.parent = self.eleSelTabs;
                 o.name = newElement.name;
                 self.eleTabSelDict[element] = o;
                 o.GetComponent<UnityEngine.UI.Image>().sprite = ImgHandler.LoadSprite("radiantSel");

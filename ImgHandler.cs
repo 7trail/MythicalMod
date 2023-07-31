@@ -49,9 +49,9 @@ namespace Mythical
 			}
 			return texture2D;
 		}
-
-
 		
+
+
 		public static byte[] LoadByteArray(string path)
         {
 			string path2 = "Sprites/" + path + ".png";

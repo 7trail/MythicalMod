@@ -31,10 +31,12 @@ namespace Mythical
                         self.skillCategory = "Enemy";
                         skill++;
                         skill = skill % 3;
+                        //idk which palettes these were supposed to be. you'll have to store them in contentloader and add them here
+                        //for now it's a roll of fate!
                         int[] paletteIDs = new int[3] {24,49,65};
                         Material m = self.spriteRenderer.material;
-                        m.SetTexture("_Palette", ContentLoader.newPalette);
-                        m.SetFloat("_PaletteCount", 32 + ContentLoader.palettes.Count);
+                        //m.SetTexture("_Palette", ContentLoader.newPalette);
+                        //m.SetFloat("_PaletteCount", 32 + ContentLoader.palettes.Count);
                         m.SetFloat("_PaletteIndex", paletteIDs[skill]);
                         
                         
