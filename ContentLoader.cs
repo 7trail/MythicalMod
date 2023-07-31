@@ -16,6 +16,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using XUnity.ResourceRedirector;
 using MonoMod.Cil;
+using Mono.Cecil.Cil;
 
 namespace Mythical {
 
@@ -33,8 +34,9 @@ namespace Mythical {
     //     Customary to follow Semantic Versioning (major.minor.patch). 
     //         You don't have to, but you'll just look silly in front of everyone. It's ok. I won't make fun of you.
     #endregion
-    [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "2.3.0")]
-    
+
+    [BepInDependency("TheTimeSweeper.CustomPalettes", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "2.4.1")]
     public class ContentLoader : BaseUnityPlugin {
         #region BaseUnityPlugin Notes
         // BaseUnityPlugin is the main class that gets loaded by bepin.
@@ -47,10 +49,15 @@ namespace Mythical {
 
         // now, close these two Notes regions so the script looks little nicer to work with 
         #endregion
-        public static BepInEx.Configuration.ConfigEntry<int> configContestantCount;
-        public static BepInEx.Configuration.ConfigEntry<bool> enableTicket;
-        public static BepInEx.Configuration.ConfigEntry<bool> lockGemCount;
-        public static BepInEx.Configuration.ConfigEntry<string> OnlineID;
+        public static ConfigEntry<int> configContestantCount;
+        public static ConfigEntry<bool> enableTicket;
+        public static ConfigEntry<bool> lockGemCount;
+        public static ConfigEntry<string> OnlineID;
+        public static ConfigEntry<bool> enableSkills;
+        public static ConfigEntry<bool> enableItems;
+        public static ConfigEntry<bool> enableCursedItems;
+        public static ConfigEntry<bool> enableTedRobes;
+        public static ConfigEntry<bool> enableCustomRobes;
         //----------------
         public static List<string> bannedArcana = new List<string>();
         public static Dictionary<string, Texture2D> particles = new Dictionary<string, Texture2D>();
@@ -79,41 +86,72 @@ namespace Mythical {
         // This Awake() function will run at the very start when the mod is initialized
 
         public Sprite cherrySprite;
-        public Sprite basePalette;
         public Sprite orangeSprite;
-
+        
         void CreateConfig()
         {
+            const string tedSection = "Tournament Edition";
+
             configContestantCount =
-                Config.Bind<int>("Tournament Edition",
+                Config.Bind<int>(tedSection,
                                  "Contestants",
                                  6,
                                  "How many Contestants you want to spawn. Defaults to 6.");
-            enableTicket =
-                Config.Bind<bool>("Tournament Edition",
-                                 "???",
-                                 false,
-                                 "Enable a special item for a special event?");
+            enableCursedItems =
+                Config.Bind<bool>(tedSection,
+                                 "Enable Cursed Relics",
+                                 true,
+                                 "Add cursed relics to Tomi and allow them to be equipped/unequipped at will");
             lockGemCount =
-                Config.Bind<bool>("Tournament Edition",
+                Config.Bind<bool>(tedSection,
                                  "Lock Gem Count",
                                  true,
                                  "Do you want the gem count to reset to 999 on stage load?");
-            Malice =
-                Config.Bind<bool>("Tournament Edition",
-                                 "TOKEN OF MALICE",
-                                 false,
-                                 "SURA'S REPENTANCE IS UPON HIM").Value;
             ResetGems =
-                Config.Bind<bool>("Tournament Edition",
+                Config.Bind<bool>(tedSection,
                                  "Reset Gems",
                                  false,
                                  "Reset gems to the maximum value?").Value;
             OnlineID =
-                Config.Bind<string>("Tournament Edition",
+                Config.Bind<string>(tedSection,
                                  "Online ID",
                                  "DefaultID",
-                                 "What your Online ID is for online connections.");
+                                 "What your Online ID is for online connections. (currently unused)");
+
+            const string contentSection = "Enable/Disable Content";
+
+            enableTedRobes =
+                Config.Bind<bool>(contentSection,
+                                 "Enable TED Robes",
+                                 true,
+                                 "Enables built-in robes from TED");
+            enableCustomRobes =
+                Config.Bind<bool>(contentSection,
+                                 "Enable Custom Robes",
+                                 true,
+                                 "Enables adding custom .robe files from the Custom Robes folder");
+
+            enableSkills =
+                Config.Bind<bool>(contentSection,
+                                 "Enable Arcana",
+                                 true,
+                                 "Set false to disable adding custom arcana from TED");
+
+            enableItems =
+                Config.Bind<bool>(contentSection,
+                                 "Enable Relics",
+                                 true,
+                                 "Set false to disable adding relics from TED");
+            Malice =
+                Config.Bind<bool>(contentSection,
+                                 "TOKEN OF MALICE",
+                                 false,
+                                 "SURA'S REPENTANCE IS UPON HIM (requires enable relics)").Value;
+            enableTicket =
+                Config.Bind<bool>(contentSection,
+                                 "???",
+                                 false,
+                                 "Enable a special item for a special event?");
         }
 
         public int nextAssignableID = 32;
@@ -125,7 +163,9 @@ namespace Mythical {
             CreateConfig();
 
             //Skills.Awake();
-            SampleSkillLoader.Awake();
+            if (enableSkills.Value) {
+                SampleSkillLoader.Awake();
+            }
             //UnityEngine.Texture2D img = ImgHandler.LoadTex2D("icon");
             //WindowIconTools.SetIcon(img.GetRawTextureData(), img.width, img.height, WindowIconKind.Big);
             //Screen.SetResolution(1200, 675, false);
@@ -134,12 +174,13 @@ namespace Mythical {
             ContestantChanges.Init();
             UltraCouncilChallenge.Init();
 
-            basePalette = ImgHandler.LoadSprite("Base");
-            newPlayerSprite = ImgHandler.LoadTex2D("Walter2");
+            if (enableTedRobes.Value) {
+                AddALLTHEROBES();
+            }
 
-            AddALLTHEROBES();
-
-            AddCustomRobes();
+            if (enableCustomRobes.Value) {
+                AddCustomRobes();
+            }
 
             string banListPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Banlist.txt");
             bannedArcana = File.ReadAllLines(banListPath).ToList();
@@ -397,7 +438,7 @@ namespace Mythical {
 
             On.PvpController.ResetStage += PvpController_ResetStage;
             On.PvpController.ResetPlayers += PvpController_ResetPlayers;
-            On.Player.SetPlayerOutfitColor += Us_AddOutfit;
+            On.Player.SetPlayerOutfitColor += Us_PlayCredits;
 
             // Stage effects
 
@@ -593,7 +634,10 @@ namespace Mythical {
 
                     addedGMHooks = true;
                     ChaosArenaChanges.Init();
-                    CursedRelics.Init();
+
+                    if (enableCursedItems.Value) {
+                        CursedRelics.Init();
+                    }
                 }
             };
 
@@ -664,6 +708,21 @@ namespace Mythical {
                 return b;
             };
 
+            if (enableItems.Value) {
+                AddItems();
+            }
+            //Adjustments
+            /*On.PlatWallet.ctor += (On.PlatWallet.orig_ctor orig, PlatWallet self, int i) =>
+            {
+                orig(self,i);
+                self.maxBalance = 9999;
+                self.balance = 9999;
+            };*/
+
+
+        }
+
+        private static void AddItems() {
             if (enableTicket.Value) {
                 ItemInfo itemInfo2 = new ItemInfo();
                 itemInfo2.name = "PrimeTicket";
@@ -826,16 +885,6 @@ namespace Mythical {
             if (Malice) {
                 MaliceAdditions.Init();
             }
-
-            //Adjustments
-            /*On.PlatWallet.ctor += (On.PlatWallet.orig_ctor orig, PlatWallet self, int i) =>
-            {
-                orig(self,i);
-                self.maxBalance = 9999;
-                self.balance = 9999;
-            };*/
-
-
         }
 
         public int AddPalette(string file)
@@ -1360,7 +1409,6 @@ namespace Mythical {
 
         public static Sprite[] playerSprites;
         public static AssetBundle playerBundle;
-        public static Texture2D newPlayerSprite;
 
         public bool hasSwappedAudioClips = false;
         public static bool SpawnPickups = true;
@@ -1679,7 +1727,7 @@ namespace Mythical {
             }
         }
 
-        public void Us_AddOutfit(On.Player.orig_SetPlayerOutfitColor orig, Player self, NumVarStatMod mod, bool givenStatus)
+        public void Us_PlayCredits(On.Player.orig_SetPlayerOutfitColor orig, Player self, NumVarStatMod mod, bool givenStatus)
         {
             orig(self, mod, givenStatus);
 
