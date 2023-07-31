@@ -24,11 +24,8 @@ namespace Mythical
             
             p.widthCurve = new AnimationCurve(new Keyframe[] {new Keyframe(0f,0), new Keyframe(0.2f, 0.7f), new Keyframe(0.8f, 0.3f),new Keyframe(1, 0) });
 
-            Debug.LogWarning("nig");
             m = new Material(ChaosBundle.Get<Material>("Assets/materials/effects/Dust.mat").shader);
-            Debug.LogWarning(m);
             p.material = m;
-            Debug.LogWarning(p);
 
             ////PoolManager.GetPoolItem<SectionedTrailEmitter>().emitParams.
             //foreach (Renderer r in FindObjectsOfType<Renderer>())
@@ -45,7 +42,6 @@ namespace Mythical
             //}
 
             pl = GetComponentInParent<Player>();
-            Debug.LogWarning("nig3");
 
 
         }
