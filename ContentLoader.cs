@@ -182,8 +182,15 @@ namespace Mythical {
                 AddCustomRobes();
             }
 
+            try { 
+
             string banListPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Banlist.txt");
             bannedArcana = File.ReadAllLines(banListPath).ToList();
+
+            } catch
+            {
+                bannedArcana = new List<string>();
+            }
 
             // Title screen additions
 
