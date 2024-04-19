@@ -36,7 +36,7 @@ namespace Mythical {
     #endregion
 
     [BepInDependency("TheTimeSweeper.CustomPalettes", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "2.4.1")]
+    [BepInPlugin("Amber.TournamentEdition", "Tournament Edition", "2.4.6")]
     public class ContentLoader : BaseUnityPlugin {
         #region BaseUnityPlugin Notes
         // BaseUnityPlugin is the main class that gets loaded by bepin.
@@ -58,6 +58,7 @@ namespace Mythical {
         public static ConfigEntry<bool> enableCursedItems;
         public static ConfigEntry<bool> enableTedRobes;
         public static ConfigEntry<bool> enableCustomRobes;
+        public static ConfigEntry<bool> enableDragonFallChanges;
         //----------------
         public static List<string> bannedArcana = new List<string>();
         public static Dictionary<string, Texture2D> particles = new Dictionary<string, Texture2D>();
@@ -83,6 +84,7 @@ namespace Mythical {
         public static bool ResetGems = false;
         public static bool FreezeStartPositions = false;
         public static bool Malice = false;
+        public static int RainbowStartIndex = -1;
         // This Awake() function will run at the very start when the mod is initialized
 
         public Sprite cherrySprite;
@@ -120,6 +122,8 @@ namespace Mythical {
 
             const string contentSection = "Enable/Disable Content";
 
+            const string qolSection = "Enable/Disable QOL changes";
+
             enableTedRobes =
                 Config.Bind<bool>(contentSection,
                                  "Enable TED Robes",
@@ -151,7 +155,12 @@ namespace Mythical {
                 Config.Bind<bool>(contentSection,
                                  "???",
                                  false,
-                                 "Enable a special item for a special event?");
+                                 "Enable a special item for a special event? (too late!)");
+            enableDragonFallChanges =
+                Config.Bind<bool>(qolSection,
+                                 "Dragon Fall Changes",
+                                 true,
+                                 "Should Dragon Fall absorb arcana in PVP?");
         }
 
         public int nextAssignableID = 32;
@@ -358,8 +367,11 @@ namespace Mythical {
             //IL.PvpController.ResetStage += PvpController_ResetStage2;
 
 
+            if (enableDragonFallChanges.Value)
+            {
+                IL.Player.UseDragonGrade.CheckForDragons += tmp;
+            }
 
-            IL.Player.UseDragonGrade.CheckForDragons += tmp;
             On.PvpController.HandleSkillSpawn += (On.PvpController.orig_HandleSkillSpawn orig, PvpController self) => {
                 if (SpawnPickups) {
                     if (!self.resetSkillStopwatch.IsRunning) {
@@ -648,7 +660,7 @@ namespace Mythical {
                 }
             };
 
-            On.TitleScreen.Awake += (orig, self) => {
+            /*On.TitleScreen.Awake += (orig, self) => {
                 orig(self);
                 self.extraVersion.text += $" - {BepInEx.Bootstrap.Chainloader.PluginInfos.Count} Mods";
                 var newOption = GameObject.Instantiate(self.transform.Find("TitleMenu/Options").gameObject, self.transform.Find("TitleMenu"));
@@ -681,7 +693,7 @@ namespace Mythical {
                     //ModMenuUI.Instance?.Toggle();
                 }
                 orig(self);
-            };
+            };*/
 
             On.TitleScreen.AllowMultiplayer += (On.TitleScreen.orig_AllowMultiplayer orig, TitleScreen self) => {
                 return true;
@@ -730,7 +742,7 @@ namespace Mythical {
         }
 
         private static void AddItems() {
-            if (enableTicket.Value) {
+            /*if (enableTicket.Value) {
                 ItemInfo itemInfo2 = new ItemInfo();
                 itemInfo2.name = "PrimeTicket";
                 itemInfo2.item = new PrimeTicket();
@@ -743,7 +755,7 @@ namespace Mythical {
                 itemInfo2.text = txt;
                 itemInfo2.icon = ((spr != null) ? spr : null);
                 Items.Register(itemInfo2);
-            }
+            }*/
 
             ItemInfo itemInfo = new ItemInfo();
             itemInfo.name = "Mythical::SevenFlushChaos";
@@ -1277,7 +1289,28 @@ namespace Mythical {
 
 
             NevesChaosPalette = AddPalette("chaosrobe");
+
+            RainbowStartIndex = AddPalette("prism1");
+
+            for(int i = 0; i < 5; i++)
+            {
+                AddPalette("prism" + (i + 2));
+            } 
+
+            outfitInfo2 = new OutfitInfo();
+            outfitInfo2.name = "P.R.I.S.M";
+            outfitInfo2.outfit = new global::Outfit("Mythical::Prism", RainbowStartIndex, new List<global::OutfitModStat>
+            {
+                new global::OutfitModStat(Outfits.CustomModType, 0f, 0.1f, 0f, false)
+            }, false, false);
+            outfitInfo2.customDesc = ((b, outfitModStat) => "You're gonna love this one!");
+            Outfits.Register(outfitInfo2);
+            rainbowOutfit = Outfits.OutfitCatalog["Mythical::Prism"];
         }
+
+        public static int RainbowIndex = 0;
+        public static OutfitInfo rainbowOutfit = null;
+
 
         private void AddCustomRobes() {
             OutfitInfo outfitInfoCustom;
@@ -1356,8 +1389,20 @@ namespace Mythical {
         public static bool SpawnMiniBoss = false;
         public static bool FreezeEnabled = false;
         public static int NevesChaosPalette = 0;
+        public static float TimeToRainbowCycle = 0;
         public void Update()
         {
+
+            if (rainbowOutfit != null)
+            {
+                TimeToRainbowCycle += Time.deltaTime;
+                if (TimeToRainbowCycle > 0.5f)
+                {
+                    TimeToRainbowCycle = 0;
+                    RainbowIndex = (RainbowIndex + 1) % 6;
+                    rainbowOutfit.outfit.outfitColorIndex = RainbowStartIndex + RainbowIndex;
+                }
+            }
 
             if (Input.GetKeyDown(KeyCode.K))
             {
@@ -1504,7 +1549,7 @@ namespace Mythical {
                     GameObject mimi = MimicNpc.Prefab;
                     pvpItems = new Dictionary<int, List<string>>();
                     arcana = new Dictionary<int, List<string>>();
-                    Instantiate(mimi, new Vector3(0, 8, 0), Quaternion.identity);
+                    Instantiate(mimi, new Vector3(-3, 10, 0), Quaternion.identity);
 
                     SpawnPickups = true;
                     StageEffects = true;
@@ -1570,7 +1615,8 @@ namespace Mythical {
                     {
                         if (obj.name.ToLower() == "loadoutnpc" || obj.name.ToLower().Contains("trainingdummy"))
                         {
-                            Destroy(obj);
+                            //Destroy(obj);
+                            obj.transform.position = new Vector3(3, 10, 0);
                         }
                     }
 
@@ -1965,7 +2011,7 @@ namespace Mythical {
         {
             GameUI.BroadcastNoticeMessage("Wizard of Legend: Tournament Edition by only_going_up_fr0m_here", 3f);
             yield return new WaitForSeconds(3);
-            GameUI.BroadcastNoticeMessage("Code Assistance provided by Rayman, RandomlyAwesome, Kvadratisk, and TheTimesweeper", 3f);
+            GameUI.BroadcastNoticeMessage("Code Assistance provided by RandomlyAwesome and TheTimesweeper", 3f);
             yield return new WaitForSeconds(3);
             GameUI.BroadcastNoticeMessage("Special Thanks to Holy Grind, Aries13, and Cerberus", 3f);
         }

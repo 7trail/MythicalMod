@@ -157,6 +157,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CustomPalettes.dll" />
     <Content Include="tooth.png" />
   </ItemGroup>
   <ItemGroup>
