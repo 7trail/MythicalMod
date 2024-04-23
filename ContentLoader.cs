@@ -1290,11 +1290,15 @@ namespace Mythical {
 
             NevesChaosPalette = AddPalette("chaosrobe");
 
-            RainbowStartIndex = AddPalette("prism1");
+            
 
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < 6; i++)
             {
-                AddPalette("prism" + (i + 2));
+                int ind = AddPalette("prism" + (i + 1).ToString());
+                if ( i == 0)
+                {
+                    RainbowStartIndex = ind;
+                }
             } 
 
             outfitInfo2 = new OutfitInfo();
@@ -1305,7 +1309,7 @@ namespace Mythical {
             }, false, false);
             outfitInfo2.customDesc = ((b, outfitModStat) => "You're gonna love this one!");
             Outfits.Register(outfitInfo2);
-            rainbowOutfit = Outfits.OutfitCatalog["Mythical::Prism"];
+            rainbowOutfit = Outfits.OutfitCatalog[outfitInfo2.outfit.outfitID];
         }
 
         public static int RainbowIndex = 0;
@@ -1398,9 +1402,17 @@ namespace Mythical {
                 TimeToRainbowCycle += Time.deltaTime;
                 if (TimeToRainbowCycle > 0.5f)
                 {
+                    Debug.Log("I am cycling");
                     TimeToRainbowCycle = 0;
                     RainbowIndex = (RainbowIndex + 1) % 6;
                     rainbowOutfit.outfit.outfitColorIndex = RainbowStartIndex + RainbowIndex;
+                    foreach(Player player in GameController.playerScripts)
+                    {
+                        if (player != null && player.outfitID == rainbowOutfit.outfit.outfitID)
+                        {
+                            player.outfitColorIndex = RainbowStartIndex + RainbowIndex;
+                        }
+                    }
                 }
             }
 
@@ -1613,10 +1625,15 @@ namespace Mythical {
 
                     foreach (GameObject obj in GameObject.FindObjectsOfType<GameObject>())
                     {
-                        if (obj.name.ToLower() == "loadoutnpc" || obj.name.ToLower().Contains("trainingdummy"))
+                        if (obj.name.ToLower() == "loadoutnpc")
                         {
                             //Destroy(obj);
                             obj.transform.position = new Vector3(3, 10, 0);
+                        }
+
+                        if (obj.name.ToLower().Contains("trainingdummy"))
+                        {
+                            Destroy(obj);
                         }
                     }
 
