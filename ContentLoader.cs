@@ -81,9 +81,9 @@ namespace Mythical {
         public static bool ChaosDrops = false;
         public static bool UseBanlist = false;
         public static bool SpawnChests = false;
-        public static bool ResetGems = false;
+        public static ConfigEntry<bool> ResetGems;
         public static bool FreezeStartPositions = false;
-        public static bool Malice = false;
+        public static ConfigEntry<bool> Malice;
         public static int RainbowStartIndex = -1;
         // This Awake() function will run at the very start when the mod is initialized
 
@@ -113,51 +113,47 @@ namespace Mythical {
                 Config.Bind<bool>(tedSection,
                                  "Reset Gems",
                                  false,
-                                 "Reset gems to the maximum value?").Value;
+                                 "Reset gems to the maximum value?");
             OnlineID =
                 Config.Bind<string>(tedSection,
                                  "Online ID",
                                  "DefaultID",
                                  "What your Online ID is for online connections. (currently unused)");
 
-            const string contentSection = "Enable/Disable Content";
-
-            const string qolSection = "Enable/Disable QOL changes";
-
             enableTedRobes =
-                Config.Bind<bool>(contentSection,
+                Config.Bind<bool>(tedSection,
                                  "Enable TED Robes",
                                  true,
                                  "Enables built-in robes from TED");
             enableCustomRobes =
-                Config.Bind<bool>(contentSection,
+                Config.Bind<bool>(tedSection,
                                  "Enable Custom Robes",
                                  true,
                                  "Enables adding custom .robe files from the Custom Robes folder");
 
             enableSkills =
-                Config.Bind<bool>(contentSection,
+                Config.Bind<bool>(tedSection,
                                  "Enable Arcana",
                                  true,
                                  "Set false to disable adding custom arcana from TED");
 
             enableItems =
-                Config.Bind<bool>(contentSection,
+                Config.Bind<bool>(tedSection,
                                  "Enable Relics",
                                  true,
                                  "Set false to disable adding relics from TED");
             Malice =
-                Config.Bind<bool>(contentSection,
+                Config.Bind<bool>(tedSection,
                                  "TOKEN OF MALICE",
                                  false,
-                                 "SURA'S REPENTANCE IS UPON HIM (requires enable relics)").Value;
+                                 "SURA'S REPENTANCE IS UPON HIM (requires enable relics)");
             enableTicket =
-                Config.Bind<bool>(contentSection,
+                Config.Bind<bool>(tedSection,
                                  "???",
                                  false,
                                  "Enable a special item for a special event? (too late!)");
             enableDragonFallChanges =
-                Config.Bind<bool>(qolSection,
+                Config.Bind<bool>(tedSection,
                                  "Dragon Fall Changes",
                                  true,
                                  "Should Dragon Fall absorb arcana in PVP?");
@@ -182,6 +178,7 @@ namespace Mythical {
             //OnlineSupport.Hooks();
             ContestantChanges.Init();
             UltraCouncilChallenge.Init();
+            SDI.Init();
 
             if (enableTedRobes.Value) {
                 AddALLTHEROBES();
@@ -901,13 +898,14 @@ namespace Mythical {
             itemInfo.icon = ((itemsprite != null) ? itemsprite : null);
             Items.Register(itemInfo);
 
-            if (Malice) {
+            if (Malice.Value) {
                 MaliceAdditions.Init();
             }
         }
 
         public int AddPalette(string file)
         {
+            Debug.Log(file);
             return CustomPalettes.Palettes.AddPalette(ImgHandler.LoadTex2D(file));
         }
 
@@ -1402,7 +1400,6 @@ namespace Mythical {
                 TimeToRainbowCycle += Time.deltaTime;
                 if (TimeToRainbowCycle > 0.5f)
                 {
-                    Debug.Log("I am cycling");
                     TimeToRainbowCycle = 0;
                     RainbowIndex = (RainbowIndex + 1) % 6;
                     rainbowOutfit.outfit.outfitColorIndex = RainbowStartIndex + RainbowIndex;
@@ -1410,7 +1407,7 @@ namespace Mythical {
                     {
                         if (player != null && player.outfitID == rainbowOutfit.outfit.outfitID)
                         {
-                            player.outfitColorIndex = RainbowStartIndex + RainbowIndex;
+                            player.EquipOutfit("Mythical::Prism");
                         }
                     }
                 }
@@ -1518,15 +1515,10 @@ namespace Mythical {
         Dictionary<GameObject, string> announcementPairs = new Dictionary<GameObject, string>();
         public void OnLevelWasLoaded()
         {
-            try
+            if (ResetGems.Value)
             {
-                if (ResetGems)
-                {
-                    Player.platWallet.balance = Player.platWallet.maxBalance; //Enjoy
-                }
-                
+                Player.platWallet.balance = Player.platWallet.maxBalance; //Enjoy
             }
-            catch { }
             try
             {
                 if (SceneManager.GetActiveScene().name.ToLower()!="pvparena")

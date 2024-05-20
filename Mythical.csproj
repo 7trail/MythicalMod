@@ -63,6 +63,7 @@
     <Compile Include="PrimeTicket.cs" />
     <Compile Include="RootChanceUp.cs" />
     <Compile Include="SampleSkillLoader.cs" />
+    <Compile Include="SDI.cs" />
     <Compile Include="SevenFlushChaos.cs" />
     <Compile Include="Skills.cs" />
     <Compile Include="ImgHandler.cs" />
